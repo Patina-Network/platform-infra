@@ -31,6 +31,6 @@ runs:
         AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
         INSTALL_SOPS: true
 
-    - name: Run tests
+    - name: Test CI scripts
       shell: bash
-      run: bun run test --cwd .github/scripts
+      run: bun run --cwd .github/scripts test
