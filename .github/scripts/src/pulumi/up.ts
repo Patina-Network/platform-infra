@@ -3,7 +3,6 @@ import {
   EnvClientStrategy,
   PulumiClient,
   PulumiClientStrategy,
-  Utils,
 } from "@tahminator/pipeline";
 
 export async function main() {
@@ -22,13 +21,10 @@ export async function main() {
     },
   });
 
-  const res = await pulumiClient.up();
+  const { cliOutput } = await pulumiClient.up();
 
   console.log(`Pulumi has finished reconciling!`);
-  console.log(JSON.stringify(res.summary));
-  if (Utils.Log.isDebug) {
-    console.log(JSON.stringify(res));
-  }
+  console.log(cliOutput);
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {
