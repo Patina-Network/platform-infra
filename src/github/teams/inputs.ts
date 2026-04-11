@@ -20,8 +20,8 @@ export const TEAMS = {
   developers: {
     privacy: "closed",
     members: [
-      { username: "tahminator", role: "member" },
-      { username: "arklian", role: "member" },
+      { username: "tahminator", role: "maintainer" },
+      { username: "arklian", role: "maintainer" },
       { username: "Arshadul-Monir", role: "member" },
       { username: "SelinaZhu26", role: "member" },
       { username: "Allimonae", role: "member" },
@@ -34,7 +34,7 @@ export const TEAMS = {
   codebloom: {
     privacy: "closed",
     members: [
-      { username: "arklian", role: "member" },
+      { username: "arklian", role: "maintainer" },
       { username: "Arshadul-Monir", role: "member" },
       { username: "SelinaZhu26", role: "member" },
       { username: "Allimonae", role: "member" },
@@ -47,8 +47,8 @@ export const TEAMS = {
   infra: {
     privacy: "closed",
     members: [
-      { username: "tahminator", role: "member" },
-      { username: "arklian", role: "member" },
+      { username: "tahminator", role: "maintainer" },
+      { username: "arklian", role: "maintainer" },
     ],
   },
   admin: {
