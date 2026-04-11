@@ -1,3 +1,3 @@
-import "@/github/members/index.ts";
-import "@/github/repositories/index.ts";
-import "@/github/teams/index.ts";
+import "@/github/members";
+import "@/github/repositories";
+import "@/github/teams";
