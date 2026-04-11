@@ -122,7 +122,7 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
         repository: repository.name,
         conditions: {
           refName: {
-            includes: ["*"],
+            includes: ["~ALL"],
             excludes: ["~DEFAULT_BRANCH"],
           },
         },
