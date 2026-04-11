@@ -20,25 +20,34 @@ function getTeamName(teamReference: GithubTeamReference) {
 }
 
 export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
-  Object.entries(REPOSITORIES).map(
-    ([repositoryName, repositoryConfig]) =>
-      [
-        repositoryName,
-        new github.Repository(
-          `${GITHUB_OWNER}-repository-${repositoryName}`,
-          {
-            name: repositoryName,
-            visibility: repositoryConfig.visibility,
-            ...DEFAULT_REPOSITORY_SETTINGS,
-            ...repositoryConfig.repositorySettingOverrides,
-          },
-          {
-            provider,
-            import: repositoryConfig.bootstrap ? repositoryName : undefined,
-          },
-        ),
-      ] as const,
-  ),
+  Object.entries(REPOSITORIES).map(([repositoryName, repositoryConfig]) => {
+    const actualRepositoryName = repositoryConfig.oldName ?? repositoryName;
+
+    return [
+      repositoryName,
+      new github.Repository(
+        `${GITHUB_OWNER}-repository-${repositoryName}`,
+        {
+          name: actualRepositoryName,
+          visibility: repositoryConfig.visibility,
+          ...DEFAULT_REPOSITORY_SETTINGS,
+          ...repositoryConfig.repositorySettingOverrides,
+        },
+        {
+          provider,
+          import: repositoryConfig.bootstrap ? actualRepositoryName : undefined,
+          aliases:
+            repositoryConfig.oldName ?
+              [
+                {
+                  name: `${GITHUB_OWNER}-repository-${repositoryConfig.oldName}`,
+                },
+              ]
+            : undefined,
+        },
+      ),
+    ] as const;
+  }),
 ) as GithubRepositoryMap;
 
 export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
@@ -54,7 +63,7 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
           `${GITHUB_OWNER}-repository-${repositoryName}-team-${teamName}-${permission}`,
           {
             permission,
-            repository: repositoryName,
+            repository: repositoryConfig.oldName ?? repositoryName,
             teamId: githubTeams[teamName].slug,
           },
           { provider },

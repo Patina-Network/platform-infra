@@ -16,6 +16,8 @@ type GithubTeamReference = `@${typeof GITHUB_OWNER}/${GithubTeamName}`;
 type GithubRepository = {
   /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
   bootstrap: boolean;
+  /** The actual GitHub repository name. Defaults to the config key when omitted. You should only use this when renaming a repository without having it being deleted. */
+  oldName?: string;
   /** GitHub's maintain permission: manage settings, labels, and branches without admin-level destructive access. */
   maintain: readonly GithubTeamReference[];
   /** GitHub's push permission: write code and branches, but less access than maintain. */
@@ -39,13 +41,15 @@ export const REPOSITORIES = {
   "example-repository": {
     bootstrap: false,
     statusChecks: [],
+    oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {},
   },
-  "k8s-universe": {
+  "k8s-manifests": {
     bootstrap: false,
+    oldName: "k8s-universe",
     statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
@@ -56,6 +60,7 @@ export const REPOSITORIES = {
     bootstrap: false,
     statusChecks: ["Run Tests", "Preview Pulumi changes"],
     visibility: "public",
+    oldName: undefined,
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {
