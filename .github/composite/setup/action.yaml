@@ -33,4 +33,4 @@ runs:
 
     - name: Run tests
       shell: bash
-      run: bun install --cwd .github/scripts --frozen-lockfile
+      run: bun run test --cwd .github/scripts --frozen-lockfile
