@@ -73,39 +73,64 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
 ).map(([repositoryName, repositoryConfig]) => {
   const repository = githubRepositories[repositoryName];
 
-  return new github.RepositoryRuleset(
-    `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`,
-    {
-      name: "default-branch",
-      enforcement: "active",
-      target: "branch",
-      repository: repository.name,
-      conditions: {
-        refName: {
-          includes: ["~DEFAULT_BRANCH"],
-          excludes: [],
+  return [
+    new github.RepositoryRuleset(
+      `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`,
+      {
+        name: "default-branch",
+        enforcement: "active",
+        target: "branch",
+        repository: repository.name,
+        conditions: {
+          refName: {
+            includes: ["~DEFAULT_BRANCH"],
+            excludes: [],
+          },
+        },
+        rules: {
+          requiredLinearHistory: true,
+          nonFastForward: true,
+          deletion: false,
+          update: false,
+          pullRequest: {
+            // requiredApprovingReviewCount: 1,
+            dismissStaleReviewsOnPush: true,
+            requireCodeOwnerReview: true,
+            requiredReviewThreadResolution: true,
+          },
+          requiredStatusChecks:
+            repositoryConfig.statusChecks.length > 0 ?
+              {
+                requiredChecks: repositoryConfig.statusChecks.map(
+                  (context) => ({
+                    context,
+                  }),
+                ),
+                strictRequiredStatusChecksPolicy: true,
+              }
+            : undefined,
         },
       },
-      rules: {
-        requiredLinearHistory: true,
-        nonFastForward: true,
-        pullRequest: {
-          // requiredApprovingReviewCount: 1,
-          dismissStaleReviewsOnPush: true,
-          requireCodeOwnerReview: true,
-          requiredReviewThreadResolution: true,
+      { provider },
+    ),
+    new github.RepositoryRuleset(
+      `${GITHUB_OWNER}-repository-${repositoryName}-all-other-branch-ruleset`,
+      {
+        name: "all-other-branch",
+        enforcement: "active",
+        target: "branch",
+        repository: repository.name,
+        conditions: {
+          refName: {
+            includes: ["*"],
+            excludes: ["~DEFAULT_BRANCH"],
+          },
         },
-        requiredStatusChecks:
-          repositoryConfig.statusChecks.length > 0 ?
-            {
-              requiredChecks: repositoryConfig.statusChecks.map((context) => ({
-                context,
-              })),
-              strictRequiredStatusChecksPolicy: true,
-            }
-          : undefined,
+        rules: {
+          requiredLinearHistory: true,
+        },
       },
-    },
-    { provider },
-  );
+      { provider },
+    ),
+  ];
 });
