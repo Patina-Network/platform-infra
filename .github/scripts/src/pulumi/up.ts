@@ -21,10 +21,10 @@ export async function main() {
     },
   });
 
-  const { cliOutput } = await pulumiClient.up();
+  const res = await pulumiClient.up();
 
   console.log(`Pulumi has finished reconciling!`);
-  console.log(cliOutput);
+  console.log(res.stdout);
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {
