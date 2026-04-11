@@ -1,10 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-
     // Environment setup & latest features
     "lib": ["ESNext"],
     "target": "ESNext",
@@ -29,7 +24,12 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "baseUrl": "./",
+
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "vitest.config.ts", "eslint.config.ts"]
+  "include": ["src/**/*", "eslint.config.ts"]
 }

@@ -1,0 +1,4 @@
+name: platform-infra
+runtime: bun
+description: Platform infrastructure for Azure and GitHub
+main: src
