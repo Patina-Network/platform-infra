@@ -49,7 +49,7 @@ export const REPOSITORIES = {
   },
   "k8s-manifests": {
     bootstrap: false,
-    oldName: "k8s-universe",
+    oldName: undefined,
     statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
