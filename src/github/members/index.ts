@@ -1,8 +1,8 @@
 import * as github from "@pulumi/github";
 
-import { GITHUB_OWNER } from "../inputs.ts";
-import { provider } from "../provider.ts";
-import { MEMBERS, type GithubUsername } from "./inputs.ts";
+import { GITHUB_OWNER } from "@/github/inputs";
+import { type GithubUsername, MEMBERS } from "@/github/members/inputs";
+import { provider } from "@/github/provider";
 
 type GithubMembershipMap = Record<GithubUsername, github.Membership>;
 

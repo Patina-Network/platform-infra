@@ -1,6 +1,5 @@
-import type { GithubTeamName } from "../teams/inputs.ts";
-
-import { GITHUB_OWNER } from "../inputs.ts";
+import type { GITHUB_OWNER } from "@/github/inputs";
+import type { GithubTeamName } from "@/github/teams/inputs";
 
 /**
  * Can be `public` or `private`.
