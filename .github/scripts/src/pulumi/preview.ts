@@ -22,10 +22,18 @@ const { prId } = await yargs(hideBin(process.argv))
 
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
-  const { azurePulumiLocation, env } = parseCiEnv(
-    await envClient.readFromEnv("secrets.yaml"),
-  );
-  const githubClient = await GitHubClient.createWithDefaultCiToken();
+  const {
+    azurePulumiLocation,
+    githubAppAppId,
+    githubAppInstallationId,
+    githubAppPrivateKey,
+    env,
+  } = parseCiEnv(await envClient.readFromEnv("secrets.yaml"));
+  const githubClient = await GitHubClient.createWithGithubAppToken({
+    appId: githubAppAppId,
+    installationId: githubAppInstallationId,
+    privateKey: githubAppPrivateKey,
+  });
 
   const pulumiClient = await PulumiClient.create({
     strategy: PulumiClientStrategy.AZURE,
@@ -78,8 +86,35 @@ function parseCiEnv(ciEnv: Record<string, string>) {
     return v;
   })();
 
+  const githubAppAppId = (() => {
+    const v = ciEnv["GITHUB_APP_APP_ID"];
+    if (!v) {
+      throw new Error("Missing GITHUB_APP_APP_ID from .env.ci");
+    }
+    return v;
+  })();
+
+  const githubAppInstallationId = (() => {
+    const v = ciEnv["GITHUB_APP_INSTALLATION_ID"];
+    if (!v) {
+      throw new Error("Missing GITHUB_APP_INSTALLATION_ID from .env.ci");
+    }
+    return v;
+  })();
+
+  const githubAppPrivateKey = (() => {
+    const v = ciEnv["GITHUB_APP_PEM_CONTENT"];
+    if (!v) {
+      throw new Error("Missing GITHUB_APP_PRIVATE_KEY from .env.ci");
+    }
+    return v;
+  })();
+
   return {
     azurePulumiLocation,
+    githubAppAppId,
+    githubAppInstallationId,
+    githubAppPrivateKey,
     env: ciEnv,
   };
 }
