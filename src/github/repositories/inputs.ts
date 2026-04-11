@@ -1,3 +1,5 @@
+import type { RepositoryArgs } from "@pulumi/github";
+
 import type { GITHUB_OWNER } from "@/github/inputs";
 import type { GithubTeamName } from "@/github/teams/inputs";
 
@@ -23,6 +25,14 @@ type GithubRepository = {
 };
 
 type RepositoryName = string;
+
+export const DEFAULT_REPOSITORY_SETTINGS: RepositoryArgs = {
+  allowMergeCommit: false,
+  allowRebaseMerge: true,
+  allowSquashMerge: false,
+  deleteBranchOnMerge: true,
+  allowAutoMerge: true,
+} as const;
 
 export const REPOSITORIES = {
   "example-repository": {
