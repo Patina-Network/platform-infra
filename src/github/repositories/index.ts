@@ -3,6 +3,7 @@ import * as github from "@pulumi/github";
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
 import {
+  DEFAULT_REPOSITORY_SETTINGS,
   REPOSITORIES,
   type GithubRepositoryName,
   type GithubTeamReference,
@@ -10,13 +11,6 @@ import {
 import { githubTeams } from "@/github/teams";
 
 type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
-
-const defaultRepositorySettings = {
-  allowMergeCommit: false,
-  allowRebaseMerge: true,
-  allowSquashMerge: false,
-  deleteBranchOnMerge: true,
-} as const;
 
 function getTeamName(teamReference: GithubTeamReference) {
   return teamReference.replace(
@@ -35,7 +29,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           {
             name: repositoryName,
             visibility: repositoryConfig.visibility,
-            ...defaultRepositorySettings,
+            ...DEFAULT_REPOSITORY_SETTINGS,
           },
           {
             provider,
