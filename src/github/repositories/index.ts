@@ -74,33 +74,43 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
 );
 
 export const githubRepositoryDefaultBranchRulesets = Object.entries(
-  githubRepositories,
-).map(
-  ([repositoryName, repository]) =>
-    new github.RepositoryRuleset(
-      `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`,
-      {
-        name: "default-branch",
-        enforcement: "active",
-        target: "branch",
-        repository: repository.name,
-        conditions: {
-          refName: {
-            includes: ["~DEFAULT_BRANCH"],
-            excludes: [],
-          },
-        },
-        rules: {
-          requiredLinearHistory: true,
-          nonFastForward: true,
-          pullRequest: {
-            // requiredApprovingReviewCount: 1,
-            dismissStaleReviewsOnPush: true,
-            requireCodeOwnerReview: true,
-            requiredReviewThreadResolution: true,
-          },
+  REPOSITORIES,
+).map(([repositoryName, repositoryConfig]) => {
+  const repository = githubRepositories[repositoryName];
+
+  return new github.RepositoryRuleset(
+    `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`,
+    {
+      name: "default-branch",
+      enforcement: "active",
+      target: "branch",
+      repository: repository.name,
+      conditions: {
+        refName: {
+          includes: ["~DEFAULT_BRANCH"],
+          excludes: [],
         },
       },
-      { provider },
-    ),
-);
+      rules: {
+        requiredLinearHistory: true,
+        nonFastForward: true,
+        pullRequest: {
+          // requiredApprovingReviewCount: 1,
+          dismissStaleReviewsOnPush: true,
+          requireCodeOwnerReview: true,
+          requiredReviewThreadResolution: true,
+        },
+        requiredStatusChecks:
+          repositoryConfig.statusChecks.length > 0 ?
+            {
+              requiredChecks: repositoryConfig.statusChecks.map((context) => ({
+                context,
+              })),
+              strictRequiredStatusChecksPolicy: true,
+            }
+          : undefined,
+      },
+    },
+    { provider },
+  );
+});
