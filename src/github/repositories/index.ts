@@ -39,7 +39,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           },
           {
             provider,
-            import: repositoryConfig.existing ? repositoryName : undefined,
+            import: repositoryConfig.bootstrap ? repositoryName : undefined,
           },
         ),
       ] as const,

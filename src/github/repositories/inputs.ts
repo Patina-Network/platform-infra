@@ -12,7 +12,8 @@ type RepositoryVisibility = "public" | "private" | "internal";
 type GithubTeamReference = `@${typeof GITHUB_OWNER}/${GithubTeamName}`;
 
 type GithubRepository = {
-  existing: boolean;
+  /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
+  bootstrap: boolean;
   /** GitHub's maintain permission: manage settings, labels, and branches without admin-level destructive access. */
   maintain: readonly GithubTeamReference[];
   /** GitHub's push permission: write code and branches, but less access than maintain. */
@@ -24,19 +25,19 @@ type RepositoryName = string;
 
 export const REPOSITORIES = {
   "example-repository": {
-    existing: false,
+    bootstrap: false,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
   },
   "k8s-universe": {
-    existing: true,
+    bootstrap: false,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers", "@Patina-Network/infra"],
   },
   "platform-infra": {
-    existing: true,
+    bootstrap: false,
     visibility: "public",
     maintain: ["@Patina-Network/admin", "@Patina-Network/infra"],
     push: ["@Patina-Network/developers"],
