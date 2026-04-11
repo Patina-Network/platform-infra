@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
 
     // Environment setup & latest features
@@ -31,5 +30,5 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*.ts", "vitest.config.ts", "eslint.config.ts"]
+  "include": ["./src/**/*.ts", "vitest.config.ts", "eslint.config.ts"]
 }
