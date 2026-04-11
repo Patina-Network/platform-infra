@@ -37,13 +37,13 @@ export const REPOSITORIES = {
     statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    push: ["@Patina-Network/developers"],
   },
   "platform-infra": {
     bootstrap: false,
     statusChecks: ["Run Tests", "Preview Pulumi changes"],
     visibility: "public",
-    maintain: ["@Patina-Network/admin", "@Patina-Network/infra"],
+    maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
