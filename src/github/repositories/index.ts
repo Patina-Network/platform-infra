@@ -1,16 +1,15 @@
 import * as github from "@pulumi/github";
 
-import { GITHUB_OWNER } from "../inputs.ts";
-import { provider } from "../provider.ts";
-import { githubTeams } from "../teams/index.ts";
+import { GITHUB_OWNER } from "@/github/inputs";
+import { provider } from "@/github/provider";
 import {
   REPOSITORIES,
   type GithubRepositoryName,
   type GithubTeamReference,
-} from "./inputs.ts";
+} from "@/github/repositories/inputs";
+import { githubTeams } from "@/github/teams";
 
 type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
-type GithubRepositoryPermission = "maintain" | "push";
 
 const defaultRepositorySettings = {
   allowMergeCommit: false,
@@ -54,7 +53,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
 export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
   ([repositoryName, repositoryConfig]) => {
     const createTeamAccess = (
-      permission: GithubRepositoryPermission,
+      permission: "maintain" | "push",
       teamReferences: readonly GithubTeamReference[],
     ) =>
       teamReferences.map((teamReference) => {

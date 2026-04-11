@@ -1,9 +1,9 @@
 import * as github from "@pulumi/github";
 
-import { GITHUB_OWNER } from "../inputs.ts";
-import { githubMembershipMap } from "../members/index.ts";
-import { provider } from "../provider.ts";
-import { TEAMS, type GithubTeamName } from "./inputs.ts";
+import { GITHUB_OWNER } from "@/github/inputs";
+import { githubMembershipMap } from "@/github/members";
+import { provider } from "@/github/provider";
+import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
 
 type GithubTeamMap = Record<GithubTeamName, github.Team>;
 

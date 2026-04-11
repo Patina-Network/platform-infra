@@ -1,4 +1,4 @@
-import type { GithubUsername } from "../members/inputs.ts";
+import type { GithubUsername } from "@/github/members/inputs";
 
 type GithubTeamRole = "maintainer" | "member";
 type GithubTeamPrivacy = "closed" | "secret";
