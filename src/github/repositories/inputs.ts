@@ -58,7 +58,9 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
-    repositorySettingOverrides: {},
+    repositorySettingOverrides: {
+      allowAutoMerge: false,
+    },
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
