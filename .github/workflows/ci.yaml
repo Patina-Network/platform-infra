@@ -4,7 +4,6 @@ run-name: Running continuous integration on ${{ github.actor }}'s commits
 
 permissions:
   contents: read
-  pull-requests: write
 
 on:
   push:
@@ -49,6 +48,9 @@ jobs:
     runs-on: ubuntu-latest
 
     if: github.event_name == 'pull_request'
+
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Checkout Repository
