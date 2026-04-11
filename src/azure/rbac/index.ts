@@ -35,5 +35,10 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
       roleDefinitionId: `/subscriptions/${env.azure.subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${KEY_VAULT_CRYPTO_USER_ROLE_DEFINITION_ID}`,
       scope: sopsMasterVault.id,
     },
-    { provider },
+    {
+      provider,
+      // TODO: remove when access is granted
+      import:
+        "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/PatinaTesting/providers/Microsoft.KeyVault/vaults/sops-master/providers/Microsoft.Authorization/roleAssignments/c440094e-09f7-4804-b2a4-1e8771659f90",
+    },
   );
