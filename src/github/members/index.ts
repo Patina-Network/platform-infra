@@ -1,17 +1,24 @@
 import * as github from "@pulumi/github";
 
-import { GITHUB_OWNER } from "@/github/const";
-import { members } from "@/github/members/inputs";
-import { provider } from "@/github/provider";
+import { GITHUB_OWNER } from "../inputs.ts";
+import { provider } from "../provider.ts";
+import { MEMBERS, type GithubUsername } from "./inputs.ts";
 
-export const githubMemberships = members.map(
-  (m) =>
-    new github.Membership(
-      `${GITHUB_OWNER}-member-${m.username}`,
-      {
-        role: m.role,
-        username: m.username,
-      },
-      { provider },
-    ),
+type GithubMembershipMap = Record<GithubUsername, github.Membership>;
+
+export const githubMembershipMap: GithubMembershipMap = Object.fromEntries(
+  MEMBERS.map(
+    (member) =>
+      [
+        member.username,
+        new github.Membership(
+          `${GITHUB_OWNER}-member-${member.username}`,
+          {
+            role: member.role,
+            username: member.username,
+          },
+          { provider },
+        ),
+      ] as const,
+  ),
 );

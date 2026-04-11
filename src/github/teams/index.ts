@@ -1,0 +1,44 @@
+import * as github from "@pulumi/github";
+
+import { GITHUB_OWNER } from "../inputs.ts";
+import { githubMembershipMap } from "../members/index.ts";
+import { provider } from "../provider.ts";
+import { TEAMS, type GithubTeamName } from "./inputs.ts";
+
+type GithubTeamMap = Record<GithubTeamName, github.Team>;
+
+export const githubTeams: GithubTeamMap = Object.fromEntries(
+  Object.entries(TEAMS).map(
+    ([teamName, teamConfig]) =>
+      [
+        teamName,
+        new github.Team(
+          `${GITHUB_OWNER}-team-${teamName}`,
+          {
+            name: teamName,
+            privacy: teamConfig.privacy,
+          },
+          { provider },
+        ),
+      ] as const,
+  ),
+);
+
+export const githubTeamMemberships = Object.entries(TEAMS).flatMap(
+  ([teamName, teamConfig]) =>
+    teamConfig.members.map(
+      (member) =>
+        new github.TeamMembership(
+          `${GITHUB_OWNER}-team-${teamName}-member-${member.username}`,
+          {
+            role: member.role,
+            teamId: githubTeams[teamName].id,
+            username: member.username,
+          },
+          {
+            dependsOn: [githubMembershipMap[member.username]],
+            provider,
+          },
+        ),
+    ),
+);

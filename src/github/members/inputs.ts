@@ -1,11 +1,13 @@
-type GithubMemberRole = "admin" | "member";
+import type { MembershipArgs } from "@pulumi/github";
 
-type GithubMember = {
-  role: GithubMemberRole;
-  username: string;
+export type GithubMemberRole = "admin" | "member";
+
+export type GithubMember = {
+  role: MembershipArgs["role"];
+  username: MembershipArgs["username"];
 };
 
-export const members: GithubMember[] = [
+export const MEMBERS = [
   { username: "tahminator", role: "admin" },
   { username: "arklian", role: "admin" },
   { username: "Arshadul-Monir", role: "member" },
@@ -15,4 +17,6 @@ export const members: GithubMember[] = [
   { username: "rootandroo", role: "member" },
   { username: "isabellalam12", role: "member" },
   { username: "MalihaT111", role: "member" },
-];
+] as const satisfies readonly GithubMember[];
+
+export type GithubUsername = (typeof MEMBERS)[number]["username"];
