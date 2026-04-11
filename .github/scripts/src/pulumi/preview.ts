@@ -48,6 +48,7 @@ export async function main() {
   const res = await pulumiClient.preview({
     diff: true,
   });
+
   if (res.stderr.length) {
     console.warn(res.stderr);
   }

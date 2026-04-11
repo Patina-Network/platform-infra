@@ -18,6 +18,7 @@ type GithubRepository = {
   maintain: readonly GithubTeamReference[];
   /** GitHub's push permission: write code and branches, but less access than maintain. */
   push: readonly GithubTeamReference[];
+  statusChecks: readonly string[];
   visibility: RepositoryVisibility;
 };
 
@@ -26,18 +27,21 @@ type RepositoryName = string;
 export const REPOSITORIES = {
   "example-repository": {
     bootstrap: false,
+    statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
   },
   "k8s-universe": {
     bootstrap: false,
+    statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers", "@Patina-Network/infra"],
   },
   "platform-infra": {
     bootstrap: false,
+    statusChecks: ["Run Tests", "Preview Pulumi changes"],
     visibility: "public",
     maintain: ["@Patina-Network/admin", "@Patina-Network/infra"],
     push: ["@Patina-Network/developers"],
