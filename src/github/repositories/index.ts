@@ -11,6 +11,7 @@ import {
 import { githubTeams } from "@/github/teams";
 
 type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
+type GithubTeamPermission = "maintain" | "push";
 
 function getTeamName(teamReference: GithubTeamReference) {
   return teamReference.replace(
@@ -19,6 +20,22 @@ function getTeamName(teamReference: GithubTeamReference) {
   ) as keyof typeof githubTeams;
 }
 
+const getRepositoryResourceName = (repositoryName: string) =>
+  `${GITHUB_OWNER}-repository-${repositoryName}`;
+
+const getRepositoryTeamAccessResourceName = (
+  repositoryName: string,
+  teamName: string,
+  permission: GithubTeamPermission,
+) =>
+  `${GITHUB_OWNER}-repository-${repositoryName}-team-${teamName}-${permission}`;
+
+const getDefaultBranchRulesetResourceName = (repositoryName: string) =>
+  `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`;
+
+const getAllOtherBranchRulesetResourceName = (repositoryName: string) =>
+  `${GITHUB_OWNER}-repository-${repositoryName}-all-other-branch-ruleset`;
+
 export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
   Object.entries(REPOSITORIES).map(([repositoryName, repositoryConfig]) => {
     const actualRepositoryName = repositoryConfig.oldName ?? repositoryName;
@@ -26,7 +43,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
     return [
       repositoryName,
       new github.Repository(
-        `${GITHUB_OWNER}-repository-${repositoryName}`,
+        getRepositoryResourceName(repositoryName),
         {
           name: actualRepositoryName,
           visibility: repositoryConfig.visibility,
@@ -40,7 +57,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
             repositoryConfig.oldName ?
               [
                 {
-                  name: `${GITHUB_OWNER}-repository-${repositoryConfig.oldName}`,
+                  name: getRepositoryResourceName(repositoryConfig.oldName),
                 },
               ]
             : undefined,
@@ -53,20 +70,38 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
 export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
   ([repositoryName, repositoryConfig]) => {
     const createTeamAccess = (
-      permission: "maintain" | "push",
+      permission: GithubTeamPermission,
       teamReferences: readonly GithubTeamReference[],
     ) =>
       teamReferences.map((teamReference) => {
         const teamName = getTeamName(teamReference);
 
         return new github.TeamRepository(
-          `${GITHUB_OWNER}-repository-${repositoryName}-team-${teamName}-${permission}`,
+          getRepositoryTeamAccessResourceName(
+            repositoryName,
+            String(teamName),
+            permission,
+          ),
           {
             permission,
             repository: repositoryConfig.oldName ?? repositoryName,
             teamId: githubTeams[teamName].slug,
           },
-          { provider },
+          {
+            provider,
+            aliases:
+              repositoryConfig.oldName ?
+                [
+                  {
+                    name: getRepositoryTeamAccessResourceName(
+                      repositoryConfig.oldName,
+                      String(teamName),
+                      permission,
+                    ),
+                  },
+                ]
+              : undefined,
+          },
         );
       });
 
@@ -84,7 +119,7 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
 
   return [
     new github.RepositoryRuleset(
-      `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`,
+      getDefaultBranchRulesetResourceName(repositoryName),
       {
         name: "default-branch",
         enforcement: "active",
@@ -120,10 +155,22 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
             : undefined,
         },
       },
-      { provider },
+      {
+        provider,
+        aliases:
+          repositoryConfig.oldName ?
+            [
+              {
+                name: getDefaultBranchRulesetResourceName(
+                  repositoryConfig.oldName,
+                ),
+              },
+            ]
+          : undefined,
+      },
     ),
     new github.RepositoryRuleset(
-      `${GITHUB_OWNER}-repository-${repositoryName}-all-other-branch-ruleset`,
+      getAllOtherBranchRulesetResourceName(repositoryName),
       {
         name: "all-other-branch",
         enforcement: "active",
@@ -139,7 +186,19 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
           requiredLinearHistory: true,
         },
       },
-      { provider },
+      {
+        provider,
+        aliases:
+          repositoryConfig.oldName ?
+            [
+              {
+                name: getAllOtherBranchRulesetResourceName(
+                  repositoryConfig.oldName,
+                ),
+              },
+            ]
+          : undefined,
+      },
     ),
   ];
 });
