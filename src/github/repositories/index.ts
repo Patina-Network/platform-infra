@@ -30,22 +30,18 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
     ([repositoryName, repositoryConfig]) =>
       [
         repositoryName,
-        repositoryConfig.existing ?
-          github.Repository.get(
-            `${GITHUB_OWNER}-repository-${repositoryName}`,
-            repositoryName,
-            undefined,
-            { provider },
-          )
-        : new github.Repository(
-            `${GITHUB_OWNER}-repository-${repositoryName}`,
-            {
-              name: repositoryName,
-              visibility: repositoryConfig.visibility,
-              ...defaultRepositorySettings,
-            },
-            { provider },
-          ),
+        new github.Repository(
+          `${GITHUB_OWNER}-repository-${repositoryName}`,
+          {
+            name: repositoryName,
+            visibility: repositoryConfig.visibility,
+            ...defaultRepositorySettings,
+          },
+          {
+            provider,
+            import: repositoryConfig.existing ? repositoryName : undefined,
+          },
+        ),
       ] as const,
   ),
 ) as GithubRepositoryMap;
