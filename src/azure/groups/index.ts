@@ -12,8 +12,18 @@ export const patinaTestingResourceGroup = new azure.resources.ResourceGroup(
   },
   {
     provider,
-    import:
-      "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/PatinaTesting",
+  },
+);
+
+export const patinaTestingK8sResourceGroup = new azure.resources.ResourceGroup(
+  "patina-testing-k8s-resource-group",
+  {
+    resourceGroupName: "PatinaTestingK8s",
+    location: DEFAULT_REGION,
+    tags: {},
+  },
+  {
+    provider,
   },
 );
 
