@@ -22,6 +22,7 @@ type GithubRepository = {
   push: readonly GithubTeamReference[];
   statusChecks: readonly string[];
   visibility: RepositoryVisibility;
+  repositorySettingOverrides: Partial<RepositoryArgs>;
 };
 
 type RepositoryName = string;
@@ -41,6 +42,7 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
+    repositorySettingOverrides: {},
   },
   "k8s-universe": {
     bootstrap: false,
@@ -48,6 +50,7 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
+    repositorySettingOverrides: {},
   },
   "platform-infra": {
     bootstrap: false,
@@ -55,6 +58,7 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
+    repositorySettingOverrides: {},
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
