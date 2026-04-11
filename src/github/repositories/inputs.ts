@@ -25,7 +25,7 @@ type RepositoryName = string;
 export const REPOSITORIES = {
   "example-repository": {
     existing: false,
-    visibility: "private",
+    visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
   },
