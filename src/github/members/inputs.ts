@@ -12,7 +12,7 @@ export const members: GithubMember[] = [
   { username: "SelinaZhu26", role: "member" },
   { username: "Allimonae", role: "member" },
   { username: "RandyJDean", role: "member" },
-  // { username: "rootandroo", role: "member" },
+  { username: "rootandroo", role: "member" },
   { username: "isabellalam12", role: "member" },
   { username: "MalihaT111", role: "member" },
 ];
