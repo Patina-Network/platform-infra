@@ -116,6 +116,23 @@ export const REPOSITORIES = {
       },
     },
   },
+  ".github": {
+    description: undefined,
+    bootstrap: false,
+    visibility: "public",
+    oldName: undefined,
+    maintain: ["@Patina-Network/admin"],
+    push: ["@Patina-Network/developers"],
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {
+      pullRequest: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
+        requiredApprovingReviewCount: 0,
+        requireCodeOwnerReview: false,
+      },
+    },
+  },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
 export type GithubRepositoryName = keyof typeof REPOSITORIES;
