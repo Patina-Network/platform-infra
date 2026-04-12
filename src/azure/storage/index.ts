@@ -1,6 +1,7 @@
 import * as azure from "@pulumi/azure-native";
 
 import { platformInfraResourceGroup } from "@/azure/groups";
+import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 const subscription = azure.authorization.getClientConfigOutput({
@@ -33,7 +34,7 @@ export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
   {
     resourceGroupName: "platform-infra",
     accountName: "platform4pulumi",
-    location: "eastus",
+    location: DEFAULT_REGION,
     kind: azure.storage.Kind.StorageV2,
     sku: {
       name: azure.storage.SkuName.Standard_LRS,
