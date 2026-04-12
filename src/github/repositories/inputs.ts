@@ -1,4 +1,5 @@
 import type { RepositoryArgs } from "@pulumi/github";
+import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
 
 import type { GITHUB_OWNER } from "@/github/inputs";
 import type { GithubTeamName } from "@/github/teams/inputs";
@@ -22,9 +23,9 @@ type GithubRepository = {
   maintain: readonly GithubTeamReference[];
   /** GitHub's push permission: write code and branches, but less access than maintain. */
   push: readonly GithubTeamReference[];
-  statusChecks: readonly string[];
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
+  mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
 };
 
 type RepositoryName = string;
@@ -37,34 +38,69 @@ export const DEFAULT_REPOSITORY_SETTINGS: RepositoryArgs = {
   allowAutoMerge: true,
 } as const;
 
+export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
+  requiredLinearHistory: true,
+  nonFastForward: true,
+  deletion: false,
+  update: false,
+  pullRequest: {
+    requiredApprovingReviewCount: 1,
+    dismissStaleReviewsOnPush: true,
+    requireCodeOwnerReview: true,
+    requiredReviewThreadResolution: true,
+  },
+};
+
 export const REPOSITORIES = {
   "example-repository": {
     bootstrap: false,
-    statusChecks: [],
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
   },
   "k8s-manifests": {
     bootstrap: false,
     oldName: undefined,
-    statusChecks: [],
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {
+      pullRequest: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
+        requiredApprovingReviewCount: 0,
+      },
+    },
   },
   "platform-infra": {
     bootstrap: false,
-    statusChecks: ["Run Tests", "Preview Pulumi changes"],
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {
       allowAutoMerge: false,
+    },
+    mainBranchProtectionOverrides: {
+      ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Run Tests",
+          },
+          {
+            context: "Preview Pulumi changes",
+          },
+        ],
+        strictRequiredStatusChecksPolicy: true,
+      },
+      pullRequest: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
+        requiredApprovingReviewCount: 0,
+      },
     },
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
