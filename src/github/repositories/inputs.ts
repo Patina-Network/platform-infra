@@ -80,6 +80,7 @@ export const REPOSITORIES = {
       pullRequest: {
         ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
         requiredApprovingReviewCount: 0,
+        requireCodeOwnerReview: false,
       },
     },
   },
@@ -111,6 +112,7 @@ export const REPOSITORIES = {
       pullRequest: {
         ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
         requiredApprovingReviewCount: 0,
+        requireCodeOwnerReview: false,
       },
     },
   },
