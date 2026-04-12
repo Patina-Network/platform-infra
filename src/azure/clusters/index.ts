@@ -4,7 +4,7 @@ import { patinaTestingK8sResourceGroup } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
-export const k8sUniverseCluster = new azure.containerservice.ManagedCluster(
+export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
   "k8s-manifests-cluster",
   {
     resourceGroupName: patinaTestingK8sResourceGroup.name,
@@ -93,6 +93,24 @@ export const k8sUniverseCluster = new azure.containerservice.ManagedCluster(
         vmSize: "Standard_DC2as_v5",
       },
     ],
+  },
+  { provider },
+);
+
+export const traefikPublicIp = new azure.network.PublicIPAddress(
+  "traefik-public-ip",
+  {
+    publicIpAddressName: "traefik-public-ip",
+    resourceGroupName: k8sManifestsCluster.nodeResourceGroup.apply(
+      (nodeResourceGroup) => nodeResourceGroup ?? "",
+    ),
+    location: DEFAULT_REGION,
+    publicIPAllocationMethod: azure.network.IPAllocationMethod.Static,
+    publicIPAddressVersion: azure.network.IPVersion.IPv4,
+    sku: {
+      name: azure.network.PublicIPAddressSkuName.Standard,
+      tier: azure.network.PublicIPAddressSkuTier.Regional,
+    },
   },
   { provider },
 );
