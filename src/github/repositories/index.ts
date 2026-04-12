@@ -48,6 +48,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
         {
           name: actualRepositoryName,
           visibility: repositoryConfig.visibility,
+          description: repositoryConfig.description,
           ...DEFAULT_REPOSITORY_SETTINGS,
           ...repositoryConfig.repositorySettingOverrides,
         },
