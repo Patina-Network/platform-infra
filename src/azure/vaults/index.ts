@@ -14,7 +14,7 @@ export const sopsMasterVault = new azure.keyvault.Vault(
     properties: {
       tenantId: env.azure.tenantId,
       sku: {
-        family: "A",
+        family: azure.keyvault.SkuFamily.A,
         name: azure.keyvault.SkuName.Standard,
       },
       enableRbacAuthorization: true,
@@ -36,7 +36,5 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   },
   {
     provider,
-    import:
-      "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/PatinaTesting/providers/Microsoft.KeyVault/vaults/sops-master",
   },
 );
