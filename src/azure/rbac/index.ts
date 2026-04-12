@@ -1,6 +1,6 @@
 import * as azure from "@pulumi/azure-native";
 
-import { k8sUniverseCluster } from "@/azure/clusters";
+import { k8sManifestsCluster } from "@/azure/clusters";
 import { patinaTestingK8sResourceGroup } from "@/azure/groups";
 import { fluxKustomizeIdentity } from "@/azure/identities";
 import { provider } from "@/azure/provider";
@@ -16,7 +16,7 @@ export const fluxKustomizeControllerFederatedCredential =
     {
       audiences: ["api://AzureADTokenExchange"],
       federatedIdentityCredentialResourceName: "flux-kustomize-controller",
-      issuer: k8sUniverseCluster.oidcIssuerProfile.apply(
+      issuer: k8sManifestsCluster.oidcIssuerProfile.apply(
         (profile) => profile?.issuerURL ?? "",
       ),
       resourceGroupName: patinaTestingK8sResourceGroup.name,
