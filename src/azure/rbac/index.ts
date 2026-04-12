@@ -38,8 +38,7 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
     },
     {
       provider,
-      // TODO: remove when access is granted
       import:
-        "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/PatinaTesting/providers/Microsoft.KeyVault/vaults/sops-master/providers/Microsoft.Authorization/roleAssignments/c440094e-09f7-4804-b2a4-1e8771659f90",
+        "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/platform-infra/providers/Microsoft.KeyVault/vaults/sops-master/providers/Microsoft.Authorization/roleAssignments/8ef47163-d263-4337-b569-8a4adf4dbfff",
     },
   );

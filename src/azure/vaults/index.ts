@@ -1,6 +1,6 @@
 import * as azure from "@pulumi/azure-native";
 
-import { patinaTestingResourceGroup } from "@/azure/groups";
+import { platformInfraResourceGroup } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 import { env } from "@/env";
@@ -9,7 +9,7 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   "sops-master-vault",
   {
     vaultName: "sops-master",
-    resourceGroupName: patinaTestingResourceGroup.name,
+    resourceGroupName: platformInfraResourceGroup.name,
     location: DEFAULT_REGION,
     properties: {
       tenantId: env.azure.tenantId,
@@ -36,5 +36,7 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   },
   {
     provider,
+    import:
+      "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/platform-infra/providers/Microsoft.KeyVault/vaults/sops-master",
   },
 );
