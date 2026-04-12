@@ -36,7 +36,5 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   },
   {
     provider,
-    import:
-      "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/platform-infra/providers/Microsoft.KeyVault/vaults/sops-master",
   },
 );
