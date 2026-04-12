@@ -8,7 +8,7 @@ export const k8sStorageAccount = new azure.storage.StorageAccount(
   "k8s-storage-account",
   {
     resourceGroupName: patinaTestingK8sResourceGroup.name,
-    accountName: "k8sstorage",
+    accountName: "k8sstorage0001",
     location: DEFAULT_REGION,
     kind: azure.storage.Kind.StorageV2,
     sku: {
