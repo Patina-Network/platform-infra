@@ -79,7 +79,7 @@ export const REPOSITORIES = {
     mainBranchProtectionOverrides: {
       pullRequest: {
         ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
-        requiredApprovingReviewCount: 0,
+        requiredApprovingReviewCount: 1,
       },
     },
   },
