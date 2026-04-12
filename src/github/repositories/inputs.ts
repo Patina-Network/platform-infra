@@ -19,10 +19,12 @@ type GithubRepository = {
   bootstrap: boolean;
   /** The actual GitHub repository name. Defaults to the config key when omitted. You should only use this when renaming a repository without having it being deleted. */
   oldName?: string;
-  /** GitHub's maintain permission: manage settings, labels, and branches without admin-level destructive access. */
+  /** Can read, clone, and push to this repository. They can also manage issues, pull requests, and some repository settings. */
   maintain: readonly GithubTeamReference[];
-  /** GitHub's push permission: write code and branches, but less access than maintain. */
+  /** Can read, clone, and push to this repository. Can also manage issues and pull requests. */
   push: readonly GithubTeamReference[];
+  /** Can read and clone this repository. Can also manage issues and pull requests. */
+  triage: readonly GithubTeamReference[];
   description?: RepositoryArgs["description"];
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
@@ -59,6 +61,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
+    triage: [],
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
@@ -71,6 +74,7 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
       pullRequest: {
@@ -87,6 +91,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
     push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    triage: [],
     repositorySettingOverrides: {
       allowAutoMerge: false,
     },

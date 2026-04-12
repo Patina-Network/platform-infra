@@ -12,7 +12,7 @@ import {
 import { githubTeams } from "@/github/teams";
 
 type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
-type GithubTeamPermission = "maintain" | "push";
+type GithubTeamPermission = "maintain" | "push" | "triage";
 
 function getTeamName(teamReference: GithubTeamReference) {
   return teamReference.replace(
@@ -110,6 +110,7 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
     return [
       ...createTeamAccess("maintain", repositoryConfig.maintain),
       ...createTeamAccess("push", repositoryConfig.push),
+      ...createTeamAccess("triage", repositoryConfig.triage),
     ];
   },
 );
