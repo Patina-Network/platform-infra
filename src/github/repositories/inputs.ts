@@ -70,7 +70,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers"],
+    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
       pullRequest: {
@@ -86,7 +86,7 @@ export const REPOSITORIES = {
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers"],
+    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
     repositorySettingOverrides: {
       allowAutoMerge: false,
     },
