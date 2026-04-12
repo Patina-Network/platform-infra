@@ -9,7 +9,7 @@ export const k8sStorageAccount = new azure.storage.StorageAccount(
   {
     resourceGroupName: patinaTestingK8sResourceGroup.name,
     accountName: "k8sstorage",
-    location: patinaTestingK8sResourceGroup.name,
+    location: DEFAULT_REGION,
     kind: azure.storage.Kind.StorageV2,
     sku: {
       name: azure.storage.SkuName.Standard_LRS,
