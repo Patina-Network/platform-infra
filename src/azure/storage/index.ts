@@ -1,23 +1,15 @@
 import * as azure from "@pulumi/azure-native";
 
-import { platformInfraResourceGroup } from "@/azure/groups";
+import { patinaTestingK8sResourceGroup } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
-const subscription = azure.authorization.getClientConfigOutput({
-  provider,
-});
-
-function makeStorageAccountName(subscriptionId: string) {
-  return `patinainfra${subscriptionId.replace(/-/g, "").slice(0, 12)}`;
-}
-
-export const platformInfraStorageAccount = new azure.storage.StorageAccount(
-  "platform-infra-storage-account",
+export const k8sStorageAccount = new azure.storage.StorageAccount(
+  "k8s-storage-account",
   {
-    resourceGroupName: platformInfraResourceGroup.name,
-    accountName: subscription.subscriptionId.apply(makeStorageAccountName),
-    location: platformInfraResourceGroup.location,
+    resourceGroupName: patinaTestingK8sResourceGroup.name,
+    accountName: "k8sstorage",
+    location: patinaTestingK8sResourceGroup.name,
     kind: azure.storage.Kind.StorageV2,
     sku: {
       name: azure.storage.SkuName.Standard_LRS,

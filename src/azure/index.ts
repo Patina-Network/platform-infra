@@ -3,5 +3,7 @@ import "@/azure/groups";
 import "@/azure/clusters";
 import "@/azure/storage";
 import "@/azure/storage/blob";
+import "@/azure/storage/file";
+import "@/azure/disks";
 import "@/azure/vaults";
 import "@/azure/rbac";
