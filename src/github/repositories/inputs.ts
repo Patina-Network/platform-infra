@@ -23,6 +23,7 @@ type GithubRepository = {
   maintain: readonly GithubTeamReference[];
   /** GitHub's push permission: write code and branches, but less access than maintain. */
   push: readonly GithubTeamReference[];
+  description?: RepositoryArgs["description"];
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
   mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
@@ -53,6 +54,7 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
 
 export const REPOSITORIES = {
   "example-repository": {
+    description: undefined,
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -62,6 +64,8 @@ export const REPOSITORIES = {
     mainBranchProtectionOverrides: {},
   },
   "k8s-manifests": {
+    description:
+      "Kubernetes manifests for Patina Network services and infrastructure.",
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -76,6 +80,8 @@ export const REPOSITORIES = {
     },
   },
   "platform-infra": {
+    description:
+      "Managed infrastructure for Patina Network, powered by Pulumi.",
     bootstrap: false,
     visibility: "public",
     oldName: undefined,
