@@ -65,7 +65,5 @@ export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
-    import:
-      "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/platform-infra/providers/Microsoft.Storage/storageAccounts/platform4pulumi",
   },
 );
