@@ -3,6 +3,7 @@ import * as github from "@pulumi/github";
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
 import {
+  DEFAULT_MAIN_BRANCH_PROTECTIONS,
   DEFAULT_REPOSITORY_SETTINGS,
   REPOSITORIES,
   type GithubRepositoryName,
@@ -132,27 +133,8 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
           },
         },
         rules: {
-          requiredLinearHistory: true,
-          nonFastForward: true,
-          deletion: false,
-          update: false,
-          pullRequest: {
-            // requiredApprovingReviewCount: 1,
-            dismissStaleReviewsOnPush: true,
-            requireCodeOwnerReview: true,
-            requiredReviewThreadResolution: true,
-          },
-          requiredStatusChecks:
-            repositoryConfig.statusChecks.length > 0 ?
-              {
-                requiredChecks: repositoryConfig.statusChecks.map(
-                  (context) => ({
-                    context,
-                  }),
-                ),
-                strictRequiredStatusChecksPolicy: true,
-              }
-            : undefined,
+          ...DEFAULT_MAIN_BRANCH_PROTECTIONS,
+          ...repositoryConfig.mainBranchProtectionOverrides,
         },
       },
       {
