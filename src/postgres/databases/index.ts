@@ -7,6 +7,7 @@ export const pgStgDb = new pg.Database(
   "codebloom-stg",
   {
     connectionLimit: 2,
+    name: "codebloom-stg",
     owner: pgCodebloomStgSaRole.name,
   },
   { provider },
