@@ -4,3 +4,4 @@ import "./patches";
 // to ensure that all resources are picked up by pulumi
 import "@/azure";
 import "@/github";
+import "@/postgres";
