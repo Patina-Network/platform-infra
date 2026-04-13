@@ -9,7 +9,7 @@ export const pgCodebloomStgSaRole = new pg.Role(
     name: "codebloom-stg-sa",
     password: env.pg.role["codebloom-stg-sa"],
     login: true,
-    connectionLimit: 2,
+    connectionLimit: 4,
   },
   { provider },
 );
