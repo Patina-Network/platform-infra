@@ -17,6 +17,7 @@ export const githubTeams: GithubTeamMap = Object.fromEntries(
           {
             name: teamName,
             privacy: teamConfig.privacy,
+            description: teamConfig.description,
           },
           { provider },
         ),
