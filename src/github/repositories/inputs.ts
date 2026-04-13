@@ -29,6 +29,7 @@ type GithubRepository = {
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
   mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
+  mainBranchProtectionBypassTeams: readonly GithubTeamReference[];
 };
 
 type RepositoryName = string;
@@ -65,6 +66,7 @@ export const REPOSITORIES = {
     push: ["@Patina-Network/developers"],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypassTeams: [],
   },
   "k8s-manifests": {
     description:
@@ -83,6 +85,8 @@ export const REPOSITORIES = {
         requireCodeOwnerReview: false,
       },
     },
+    // TODO: remove when initial bootstrapping & prototyping is complete
+    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
   },
   "platform-infra": {
     description:
@@ -111,10 +115,10 @@ export const REPOSITORIES = {
       },
       pullRequest: {
         ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
-        requiredApprovingReviewCount: 0,
-        requireCodeOwnerReview: false,
       },
     },
+    // TODO: remove when initial bootstrapping & prototyping is complete
+    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
   },
   ".github": {
     description: undefined,
@@ -126,6 +130,7 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypassTeams: [],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 

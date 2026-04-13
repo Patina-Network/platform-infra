@@ -127,6 +127,17 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
         name: "default-branch",
         enforcement: "active",
         target: "branch",
+        bypassActors:
+          repositoryConfig.mainBranchProtectionBypassTeams.length ?
+            repositoryConfig.mainBranchProtectionBypassTeams
+              .map((team) => getTeamName(team))
+              .map((teamName) => githubTeams[teamName].id)
+              .map((teamId) => ({
+                actorType: "Team",
+                actorId: teamId.apply(Number),
+                bypassMode: "pull_request",
+              }))
+          : undefined,
         repository: repository.name,
         conditions: {
           refName: {
