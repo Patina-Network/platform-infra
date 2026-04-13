@@ -40,6 +40,10 @@ jobs:
         shell: bash
         run: bun install --frozen-lockfile
 
+      - name: Run Pulumi Refresh
+        shell: bash
+        run: bun run .github/scripts/src/pulumi/refresh
+
       - name: Run Pulumi Up
         shell: bash
         run: bun run .github/scripts/src/pulumi/up
