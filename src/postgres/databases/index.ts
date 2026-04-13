@@ -6,7 +6,7 @@ import { pgCodebloomStgSaRole } from "@/postgres/roles";
 export const pgStgDb = new pg.Database(
   "codebloom-stg",
   {
-    connectionLimit: 2,
+    connectionLimit: 24,
     name: "codebloom-stg",
     owner: pgCodebloomStgSaRole.name,
   },
