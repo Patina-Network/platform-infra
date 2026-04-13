@@ -125,13 +125,7 @@ export const REPOSITORIES = {
     push: ["@Patina-Network/developers"],
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {
-      pullRequest: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
-        requiredApprovingReviewCount: 0,
-        requireCodeOwnerReview: false,
-      },
-    },
+    mainBranchProtectionOverrides: {},
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
