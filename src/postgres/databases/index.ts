@@ -12,3 +12,15 @@ export const pgStgDb = new pg.Database(
   },
   { provider },
 );
+
+export const pgStgDbPgCrypto = new pg.Extension(
+  "pgcrypto",
+  {
+    database: pgStgDb.name,
+    name: "pgcrypto",
+  },
+  {
+    provider,
+    dependsOn: [pgStgDb],
+  },
+);
