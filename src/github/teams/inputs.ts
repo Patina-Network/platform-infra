@@ -1,4 +1,4 @@
-import type { GithubUsername } from "@/github/members/inputs";
+import { MEMBERS, type GithubUsername } from "@/github/members/inputs";
 
 type GithubTeamRole = "maintainer" | "member";
 type GithubTeamPrivacy = "closed" | "secret";
@@ -21,17 +21,10 @@ export const TEAMS = {
   developers: {
     privacy: "closed",
     description: "All active developers",
-    members: [
-      { username: "tahminator", role: "maintainer" },
-      { username: "arklian", role: "maintainer" },
-      { username: "Arshadul-Monir", role: "member" },
-      { username: "SelinaZhu26", role: "member" },
-      { username: "Allimonae", role: "member" },
-      { username: "RandyJDean", role: "member" },
-      { username: "rootandroo", role: "member" },
-      { username: "isabellalam12", role: "member" },
-      { username: "MalihaT111", role: "member" },
-    ],
+    members: MEMBERS.map(({ username, role }) => ({
+      username,
+      role: role === "admin" ? "maintainer" : role,
+    })),
   },
   codebloom: {
     privacy: "closed",
