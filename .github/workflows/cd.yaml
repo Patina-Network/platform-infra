@@ -8,7 +8,9 @@ on:
       - "*"
 
 concurrency:
-  group: ci-${{ github.ref }}
+  # all cd shares same group so they must run/wait in order
+  # without it, we could end up corrupting pulumi state
+  group: cd
   cancel-in-progress: false
 
 jobs:
