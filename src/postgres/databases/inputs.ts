@@ -12,7 +12,8 @@ type PgDatabase = {
    */
   owner: PgRole;
   extensions: PgExtensions[];
-  dmlOnly: PgRole[];
+  dml: PgRole[];
+  ro: PgRole[];
 };
 
 export const DATABASES = {
@@ -20,12 +21,14 @@ export const DATABASES = {
     connectionLimit: 18,
     owner: "codebloom-sa",
     extensions: ["pgcrypto"],
-    dmlOnly: ["codebloom-stg-app"],
+    dml: ["codebloom-stg-app"],
+    ro: ["codebloom-stg-ro"],
   },
   "codebloom-prod": {
     connectionLimit: 18,
     owner: "codebloom-sa",
     extensions: ["pgcrypto"],
-    dmlOnly: ["codebloom-prod-app"],
+    dml: ["codebloom-prod-app"],
+    ro: ["codebloom-prod-ro"],
   },
 } as const satisfies Record<DatabaseName, PgDatabase>;

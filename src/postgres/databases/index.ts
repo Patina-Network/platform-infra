@@ -25,11 +25,11 @@ export const pgDatabaseDmlOnlyGrantsMap = Object.fromEntries(
   Object.entries(DATABASES).map(([databaseName, databaseConfig]) => [
     databaseName,
     Object.fromEntries(
-      databaseConfig.dmlOnly.map((dmlOnlyRole) => [
+      databaseConfig.dml.map((dmlOnlyRole) => [
         dmlOnlyRole,
         {
           schema: new pg.Grant(
-            `pg-db-${databaseName}-schema-grant-${dmlOnlyRole}`,
+            `pg-db-${databaseName}-schema-dml-grant-${dmlOnlyRole}`,
             {
               database: pgDatabasesMap[databaseName].name,
               objectType: "schema",
@@ -42,7 +42,7 @@ export const pgDatabaseDmlOnlyGrantsMap = Object.fromEntries(
             },
           ),
           tables: new pg.Grant(
-            `pg-db-${databaseName}-table-grant-${dmlOnlyRole}`,
+            `pg-db-${databaseName}-table-dml-grant-${dmlOnlyRole}`,
             {
               database: pgDatabasesMap[databaseName].name,
               objectType: "table",
@@ -55,7 +55,7 @@ export const pgDatabaseDmlOnlyGrantsMap = Object.fromEntries(
             },
           ),
           sequences: new pg.Grant(
-            `pg-db-${databaseName}-sequence-grant-${dmlOnlyRole}`,
+            `pg-db-${databaseName}-sequence-dml-grant-${dmlOnlyRole}`,
             {
               database: pgDatabasesMap[databaseName].name,
               objectType: "sequence",
@@ -68,7 +68,7 @@ export const pgDatabaseDmlOnlyGrantsMap = Object.fromEntries(
             },
           ),
           futureTables: new pg.DefaultPrivileges(
-            `pg-db-${databaseName}-default-table-grant-${dmlOnlyRole}`,
+            `pg-db-${databaseName}-default-table-dml-grant-${dmlOnlyRole}`,
             {
               database: pgDatabasesMap[databaseName].name,
               objectType: "table",
@@ -82,13 +82,93 @@ export const pgDatabaseDmlOnlyGrantsMap = Object.fromEntries(
             },
           ),
           futureSequences: new pg.DefaultPrivileges(
-            `pg-db-${databaseName}-default-sequence-grant-${dmlOnlyRole}`,
+            `pg-db-${databaseName}-default-sequence-dml-grant-${dmlOnlyRole}`,
             {
               database: pgDatabasesMap[databaseName].name,
               objectType: "sequence",
               owner: pgRolesMap[databaseConfig.owner].name,
               privileges: ["USAGE", "SELECT", "UPDATE"],
               role: pgRolesMap[dmlOnlyRole].name,
+              schema: "public",
+            },
+            {
+              provider,
+            },
+          ),
+        },
+      ]),
+    ),
+  ]),
+);
+
+export const pgDatabaseRoGrantsMap = Object.fromEntries(
+  Object.entries(DATABASES).map(([databaseName, databaseConfig]) => [
+    databaseName,
+    Object.fromEntries(
+      databaseConfig.ro.map((readOnlyRole) => [
+        readOnlyRole,
+        {
+          schema: new pg.Grant(
+            `pg-db-${databaseName}-schema-ro-grant-${readOnlyRole}`,
+            {
+              database: pgDatabasesMap[databaseName].name,
+              objectType: "schema",
+              privileges: ["USAGE"],
+              role: pgRolesMap[readOnlyRole].name,
+              schema: "public",
+            },
+            {
+              provider,
+            },
+          ),
+          tables: new pg.Grant(
+            `pg-db-${databaseName}-table-ro-grant-${readOnlyRole}`,
+            {
+              database: pgDatabasesMap[databaseName].name,
+              objectType: "table",
+              privileges: ["SELECT"],
+              role: pgRolesMap[readOnlyRole].name,
+              schema: "public",
+            },
+            {
+              provider,
+            },
+          ),
+          sequences: new pg.Grant(
+            `pg-db-${databaseName}-sequence-ro-grant-${readOnlyRole}`,
+            {
+              database: pgDatabasesMap[databaseName].name,
+              objectType: "sequence",
+              privileges: ["SELECT"],
+              role: pgRolesMap[readOnlyRole].name,
+              schema: "public",
+            },
+            {
+              provider,
+            },
+          ),
+          futureTables: new pg.DefaultPrivileges(
+            `pg-db-${databaseName}-default-table-ro-grant-${readOnlyRole}`,
+            {
+              database: pgDatabasesMap[databaseName].name,
+              objectType: "table",
+              owner: pgRolesMap[databaseConfig.owner].name,
+              privileges: ["SELECT"],
+              role: pgRolesMap[readOnlyRole].name,
+              schema: "public",
+            },
+            {
+              provider,
+            },
+          ),
+          futureSequences: new pg.DefaultPrivileges(
+            `pg-db-${databaseName}-default-sequence-ro-grant-${readOnlyRole}`,
+            {
+              database: pgDatabasesMap[databaseName].name,
+              objectType: "sequence",
+              owner: pgRolesMap[databaseConfig.owner].name,
+              privileges: ["SELECT"],
+              role: pgRolesMap[readOnlyRole].name,
               schema: "public",
             },
             {
