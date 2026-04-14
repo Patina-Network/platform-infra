@@ -132,6 +132,20 @@ export const REPOSITORIES = {
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypassTeams: [],
   },
+  patchats: {
+    description:
+      "Repository for Patina Network's PatChats pairing app to algorithmically connect members for 1 on 1 chats",
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    push: ["@Patina-Network/developers", "@Patina-Network/pat-chats"],
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    // TODO: remove this
+    mainBranchProtectionBypassTeams: ["@Patina-Network/admin"],
+  },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
 export type GithubRepositoryName = keyof typeof REPOSITORIES;

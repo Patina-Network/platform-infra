@@ -40,6 +40,15 @@ export const TEAMS = {
       { username: "MalihaT111", role: "member" },
     ],
   },
+  "pat-chats": {
+    privacy: "closed",
+    description: "Active team members for the PatChats project",
+    members: [
+      { username: "arklian", role: "maintainer" },
+      { username: "rayzhou1201", role: "member" },
+      { username: "Allimonae", role: "member" },
+    ],
+  },
   infra: {
     privacy: "closed",
     description: "Responsible for all infrastructures and GitOps",
