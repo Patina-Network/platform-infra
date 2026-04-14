@@ -29,8 +29,9 @@ export const env = {
     username: required("PG_USERNAME"),
     password: required("PG_PASSWORD"),
     role: {
-      "codebloom-stg-sa": required("PG_ROLE_codebloom-stg-sa"),
+      "codebloom-sa": required("PG_ROLE_codebloom-sa"),
       "codebloom-stg-app": required("PG_ROLE_codebloom-stg-app"),
+      "codebloom-prod-app": required("PG_ROLE_codebloom-prod-app"),
     },
   },
 } as const;
