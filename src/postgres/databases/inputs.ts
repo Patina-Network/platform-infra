@@ -18,8 +18,14 @@ type PgDatabase = {
 export const DATABASES = {
   "codebloom-stg": {
     connectionLimit: 18,
-    owner: "codebloom-stg-sa",
+    owner: "codebloom-sa",
     extensions: ["pgcrypto"],
     dmlOnly: ["codebloom-stg-app"],
+  },
+  "codebloom-prod": {
+    connectionLimit: 18,
+    owner: "codebloom-sa",
+    extensions: ["pgcrypto"],
+    dmlOnly: ["codebloom-prod-app"],
   },
 } as const satisfies Record<DatabaseName, PgDatabase>;

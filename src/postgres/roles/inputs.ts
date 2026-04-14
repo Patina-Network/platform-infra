@@ -14,14 +14,20 @@ type PgRoleArgs = {
 
 export const ROLES = [
   {
-    name: "codebloom-stg-sa",
-    password: env.pg.role["codebloom-stg-sa"],
+    name: "codebloom-sa",
+    password: env.pg.role["codebloom-sa"],
     login: true,
     connectionLimit: 4,
   },
   {
     name: "codebloom-stg-app",
     password: env.pg.role["codebloom-stg-app"],
+    login: true,
+    connectionLimit: 12,
+  },
+  {
+    name: "codebloom-prod-app",
+    password: env.pg.role["codebloom-prod-app"],
     login: true,
     connectionLimit: 12,
   },
