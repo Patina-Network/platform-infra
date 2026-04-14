@@ -1,15 +1,22 @@
 import * as pg from "@pulumi/postgresql";
 
-import { env } from "@/env";
 import { provider } from "@/postgres/provider";
+import { ROLES } from "@/postgres/roles/inputs";
 
-export const pgCodebloomStgSaRole = new pg.Role(
-  "codebloom-stg-sa",
-  {
-    name: "codebloom-stg-sa",
-    password: env.pg.role["codebloom-stg-sa"],
-    login: true,
-    connectionLimit: 24,
-  },
-  { provider },
+export const pgRolesMap = Object.fromEntries(
+  ROLES.map((role) => [
+    role.name,
+    new pg.Role(
+      `pg-role-${role.name}`,
+      {
+        name: role.name,
+        password: role.password,
+        login: role.login,
+        connectionLimit: role.connectionLimit,
+      },
+      {
+        provider,
+      },
+    ),
+  ]),
 );
