@@ -1,11 +1,8 @@
 e file *args:
-  sops --encrypt --in-place {{ file }} {{ args }}
+  just install-pre-commit && sops --encrypt --in-place {{ file }} {{ args }}
 
 d file *args:
-  sops --decrypt --in-place {{ file }} {{ args }}
+  just install-pre-commit && sops --decrypt --in-place {{ file }} {{ args }}
 
-appe app env:
-  just encrypt apps/{{ env }}/{{ app }}/secrets.yaml
-
-appd app env:
-  just decrypt apps/{{ env }}/{{ app }}/secrets.yaml
+install-pre-commit:
+  cp pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
