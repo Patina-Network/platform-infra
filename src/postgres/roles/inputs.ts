@@ -23,7 +23,7 @@ export const ROLES = [
     name: "codebloom-stg-app",
     password: env.pg.role["codebloom-stg-app"],
     login: true,
-    connectionLimit: 24,
+    connectionLimit: 12,
   },
 ] as const satisfies PgRoleArgs[];
 

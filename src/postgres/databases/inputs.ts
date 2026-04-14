@@ -17,7 +17,7 @@ type PgDatabase = {
 
 export const DATABASES = {
   "codebloom-stg": {
-    connectionLimit: 24,
+    connectionLimit: 18,
     owner: "codebloom-stg-sa",
     extensions: ["pgcrypto"],
     dmlOnly: ["codebloom-stg-app"],
