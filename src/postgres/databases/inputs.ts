@@ -32,7 +32,7 @@ export const DATABASES = {
     ro: ["codebloom-prod-ro"],
   },
   grafana: {
-    connectionLimit: 6,
+    connectionLimit: 14,
     owner: "grafana-sa",
     extensions: [],
     dml: [],
