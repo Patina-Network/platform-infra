@@ -47,6 +47,7 @@ export const TEAMS = {
       { username: "arklian", role: "maintainer" },
       { username: "rayzhou1201", role: "member" },
       { username: "Allimonae", role: "member" },
+      { username: "Arshadul-Monir", role: "member" },
     ],
   },
   infra: {
