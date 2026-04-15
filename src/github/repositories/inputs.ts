@@ -143,8 +143,7 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
-    // TODO: remove this
-    mainBranchProtectionBypassTeams: ["@Patina-Network/admin"],
+    mainBranchProtectionBypassTeams: [],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
