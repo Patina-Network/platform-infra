@@ -6,7 +6,10 @@ export const ORGANIZATION_SETTINGS = {
   membersCanCreateRepositories: false,
   membersCanCreatePublicRepositories: false,
   membersCanCreatePages: false,
+  membersCanCreatePublicPages: false,
   membersCanCreatePrivatePages: false,
   membersCanCreatePrivateRepositories: false,
   email: "tech@patinanetwork.org",
+  blog: "www.patinanetwork.org",
+  location: "United States of America",
 } as const satisfies OrganizationSettingsArgs;
