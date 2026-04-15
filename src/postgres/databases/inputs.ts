@@ -31,4 +31,11 @@ export const DATABASES = {
     dml: ["codebloom-prod-app"],
     ro: ["codebloom-prod-ro"],
   },
+  grafana: {
+    connectionLimit: 6,
+    owner: "grafana-sa",
+    extensions: [],
+    dml: [],
+    ro: [],
+  },
 } as const satisfies Record<DatabaseName, PgDatabase>;
