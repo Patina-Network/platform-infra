@@ -40,7 +40,7 @@ export const TEAMS = {
       { username: "MalihaT111", role: "member" },
     ],
   },
-  "pat-chats": {
+  patchats: {
     privacy: "closed",
     description: "Active team members for the PatChats project",
     members: [
