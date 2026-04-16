@@ -7,4 +7,4 @@ import "@/azure/storage/blob";
 import "@/azure/storage/file";
 import "@/azure/disks";
 import "@/azure/vaults";
-import "@/azure/rbac";
+import "@/azure/vaults/rbac";
