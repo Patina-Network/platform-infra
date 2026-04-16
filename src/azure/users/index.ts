@@ -1,8 +1,8 @@
 import * as azuread from "@pulumi/azuread";
 
 import {
-  AZURE_GLOBAL_ROLE_IDS,
-  type AzureGlobalRoleName,
+  AZURE_GLOBAL_ENTRA_ROLES,
+  type AzureGlobalEntraRoleName,
 } from "@/azure/users/const";
 import { AZURE_USERS } from "@/azure/users/inputs";
 import { split } from "@/utils";
@@ -53,37 +53,34 @@ export const azureUsers = Object.fromEntries(
     ]),
 );
 
-export const azureDirectoryRoles: Record<
-  AzureGlobalRoleName,
+export const azureEntraRoles: Record<
+  AzureGlobalEntraRoleName,
   azuread.DirectoryRole
 > = Object.fromEntries(
-  Object.entries(AZURE_GLOBAL_ROLE_IDS).map(([roleName, roleTemplateId]) => [
+  Object.entries(AZURE_GLOBAL_ENTRA_ROLES).map(([roleName, roleTemplateId]) => [
     roleName,
-    new azuread.DirectoryRole(`azure-directory-role-${roleName}`, {
-      templateId: roleTemplateId,
-    }),
+    new azuread.DirectoryRole(
+      `azure-directory-role-${roleName}`,
+      {
+        templateId: roleTemplateId,
+      },
+      {},
+    ),
   ]),
 );
 
 export const azureUserGlobalRoleAssignments = Object.entries(
   AZURE_USERS,
 ).flatMap(([userFullName, user]) =>
-  (user.globalRoles ?? []).map((globalRole) => {
-    const bootstrapGlobalRoleAssignmentIds =
-      user.bootstrapGlobalRoleAssignmentIds as
-        | Partial<Record<AzureGlobalRoleName, string>>
-        | undefined;
-
+  user.entraRoles.map((globalRole) => {
     return new azuread.DirectoryRoleAssignment(
       `azure-user-${user.mailNickname}-${globalRole}`,
       {
         directoryScopeId: "/",
         principalObjectId: azureUsers[userFullName].objectId,
-        roleId: azureDirectoryRoles[globalRole].templateId,
+        roleId: azureEntraRoles[globalRole].templateId,
       },
-      {
-        import: bootstrapGlobalRoleAssignmentIds?.[globalRole],
-      },
+      {},
     );
   }),
 );
