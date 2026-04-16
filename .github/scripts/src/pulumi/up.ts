@@ -21,7 +21,10 @@ export async function main() {
     },
   });
 
+  console.log("Pulumi up beginning...");
+  console.time("pulumi up");
   const res = await pulumiClient.up();
+  console.timeEnd("pulumi up");
 
   console.log(`Pulumi has finished reconciling!`);
   if (res.summary.resourceChanges) {

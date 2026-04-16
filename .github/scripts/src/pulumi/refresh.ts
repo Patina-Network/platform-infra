@@ -21,7 +21,10 @@ export async function main() {
     },
   });
 
+  console.log("Pulumi refresh beginning...");
+  console.time("pulumi refresh");
   const res = await pulumiClient.refresh();
+  console.timeEnd("pulumi refresh");
 
   console.log(`Pulumi has finished refreshing!`);
   if (res.summary.resourceChanges) {
