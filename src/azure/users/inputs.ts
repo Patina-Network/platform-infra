@@ -45,14 +45,20 @@ export const AZURE_USERS = {
     mailNickname: "ray",
     userPrincipalName: "ray@patinanetwork.onmicrosoft.com",
   },
-  // TODO: Uncomment these if it doesn't break anything by doing this.
-  // "Tahmid Ahmed": {
-  //   bootstrapObjectId: "e7b4476c-c01a-4ada-84ae-26b2d0fd3046",
-  //   mail: "tahmid@patinanetwork.onmicrosoft.com",
-  //   mailNickname: "tahmid",
-  //   preferredLanguage: "en",
-  //   userPrincipalName: "tahmid@patinanetwork.onmicrosoft.com",
-  // },
+  "Tahmid Ahmed": {
+    bootstrapGlobalRoleAssignmentIds: {
+      globalAdministrator:
+        "/roleManagement/directory/roleAssignments/lAPpYvVpN0KRkAEhdxReEGxHtOcawNpKhK4mstD9MEY-1",
+      userAdministrator:
+        "/roleManagement/directory/roleAssignments/5wuT_mJe20eRr5jDpJo4sWxHtOcawNpKhK4mstD9MEY-1",
+    },
+    bootstrapObjectId: "e7b4476c-c01a-4ada-84ae-26b2d0fd3046",
+    globalRoles: ["globalAdministrator", "userAdministrator"],
+    mail: "tahmid@patinanetwork.onmicrosoft.com",
+    mailNickname: "tahmid",
+    preferredLanguage: "en",
+    userPrincipalName: "tahmid@patinanetwork.onmicrosoft.com",
+  },
   // "Henry Chen": {
   //   bootstrapObjectId: "26e110ee-e4ec-4e59-87b4-ffe18222e6c6",
   //   mail: "henry@patinanetwork.onmicrosoft.com",
