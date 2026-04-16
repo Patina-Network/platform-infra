@@ -30,14 +30,7 @@ export const AZURE_USERS = {
     userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
   },
   "Kevin Ma": {
-    bootstrapGlobalRoleAssignmentIds: {
-      globalAdministrator:
-        "/roleManagement/directory/roleAssignments/lAPpYvVpN0KRkAEhdxReEND555MYGkRIsYHbEhGMuZc-1",
-      globalReader:
-        "/roleManagement/directory/roleAssignments/LJnv8vs6uUa3z6Em7nTEUdD555MYGkRIsYHbEhGMuZc-1",
-      userAdministrator:
-        "/roleManagement/directory/roleAssignments/5wuT_mJe20eRr5jDpJo4sdD555MYGkRIsYHbEhGMuZc-1",
-    },
+    bootstrapGlobalRoleAssignmentIds: {},
     bootstrapObjectId: undefined,
     globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
@@ -45,12 +38,7 @@ export const AZURE_USERS = {
     userPrincipalName: "kevin.ma@patinanetwork.onmicrosoft.com",
   },
   "Ray Zhou": {
-    bootstrapGlobalRoleAssignmentIds: {
-      globalReader:
-        "/roleManagement/directory/roleAssignments/LJnv8vs6uUa3z6Em7nTEUfsYg7-gTs5Iq6fc8j-yJHA-1",
-      userAdministrator:
-        "/roleManagement/directory/roleAssignments/5wuT_mJe20eRr5jDpJo4sfsYg7-gTs5Iq6fc8j-yJHA-1",
-    },
+    bootstrapGlobalRoleAssignmentIds: {},
     bootstrapObjectId: undefined,
     globalRoles: ["userAdministrator", "globalReader"],
     mail: "ray@patinanetwork.onmicrosoft.com",
