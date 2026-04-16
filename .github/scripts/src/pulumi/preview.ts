@@ -45,10 +45,14 @@ export async function main() {
     },
   });
 
+  console.log("Pulumi preview beginning...");
+  console.time("pulumi preview");
   const res = await pulumiClient.preview({
     diff: true,
   });
+  console.timeEnd("pulumi preview");
 
+  console.log(`Pulumi has finished generating preview!`);
   if (res.stderr.length) {
     console.warn(res.stderr);
   }
