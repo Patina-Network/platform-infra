@@ -4,8 +4,8 @@ import * as azuread from "@pulumi/azuread";
 import { k8sManifestsCluster } from "@/azure/clusters";
 import { AKS_RBAC_ROLE_IDS } from "@/azure/clusters/rbac/const";
 import {
-  AKS_CLUSTER_READER_USERS,
-  AKS_CLUSTER_WRITER_USERS,
+  AKS_CLUSTER_READONLY_USERS,
+  AKS_CLUSTER_ADMIN_USERS,
 } from "@/azure/clusters/rbac/inputs";
 import { azureadProvider, provider } from "@/azure/provider";
 import { azureUsers } from "@/azure/users";
@@ -28,7 +28,7 @@ export const k8sManifestsReadersGroup = new azuread.Group(
 );
 
 export const k8sManifestsReaderGroupMembers = Object.fromEntries(
-  AKS_CLUSTER_READER_USERS.map((userName) => [
+  AKS_CLUSTER_READONLY_USERS.map((userName) => [
     userName,
     new azuread.GroupMember(
       `k8s-manifests-reader-${AZURE_USERS[userName].mailNickname}`,
@@ -77,10 +77,10 @@ export const k8sManifestsReaderClusterUserRoleAssignment =
     },
   );
 
-export const k8sManifestsWritersGroup = new azuread.Group(
-  "k8s-manifests-writers-group",
+export const k8sManifestsAdminsGroup = new azuread.Group(
+  "k8s-manifests-admins-group",
   {
-    displayName: "k8s-manifests-writers",
+    displayName: "k8s-manifests-admins",
     mailEnabled: false,
     securityEnabled: true,
   },
@@ -89,13 +89,13 @@ export const k8sManifestsWritersGroup = new azuread.Group(
   },
 );
 
-export const k8sManifestsWriterGroupMembers = Object.fromEntries(
-  AKS_CLUSTER_WRITER_USERS.map((userName) => [
+export const k8sManifestsAdminGroupMembers = Object.fromEntries(
+  AKS_CLUSTER_ADMIN_USERS.map((userName) => [
     userName,
     new azuread.GroupMember(
-      `k8s-manifests-writer-${AZURE_USERS[userName].mailNickname}`,
+      `k8s-manifests-admin-${AZURE_USERS[userName].mailNickname}`,
       {
-        groupObjectId: k8sManifestsWritersGroup.objectId,
+        groupObjectId: k8sManifestsAdminsGroup.objectId,
         memberObjectId: azureUsers[userName].objectId,
       },
       {
@@ -105,15 +105,15 @@ export const k8sManifestsWriterGroupMembers = Object.fromEntries(
   ]),
 );
 
-export const k8sManifestsWriterRoleAssignment =
+export const k8sManifestsAdminRoleAssignment =
   new azure.authorization.RoleAssignment(
-    "k8s-manifests-writer-role-assignment",
+    "k8s-manifests-admin-role-assignment",
     {
-      principalId: k8sManifestsWritersGroup.objectId,
+      principalId: k8sManifestsAdminsGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
       roleDefinitionId: getRoleDefinitionId(
         env.azure.subscriptionId,
-        AKS_RBAC_ROLE_IDS.writer,
+        AKS_RBAC_ROLE_IDS.admin,
       ),
       scope: k8sManifestsCluster.id,
     },

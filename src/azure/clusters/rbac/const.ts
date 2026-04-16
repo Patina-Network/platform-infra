@@ -12,9 +12,9 @@ export const AKS_RBAC_ROLE_IDS = {
    */
   reader: "7f6c6a51-bcf8-42ba-9220-52d62157d7db",
   /**
-   * Azure Kubernetes Service RBAC Writer
+   * Azure Kubernetes Service RBAC Cluster Admin
    *
-   * Allows read/write access to most objects in a namespace.
+   * Lets you manage all resources in the cluster.
    */
-  writer: "a7ffa36f-339b-4b5c-8bdf-e2c188b2c0eb",
+  admin: "b1ff04bb-8a4e-4dc4-8eb5-8693973ce19b",
 } as const;
