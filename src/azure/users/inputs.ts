@@ -3,6 +3,10 @@ import type { UserArgs } from "@pulumi/azuread";
 import type { AzureGlobalRoleName } from "@/azure/users/const";
 
 type AzureUser = {
+  /** Set this to existing directory role assignment ids while bootstrapping admin roles. Then delete it. */
+  bootstrapGlobalRoleAssignmentIds?: Partial<
+    Record<AzureGlobalRoleName, string>
+  >;
   /** Set this to objectId if you are importing a user into Pulumi. Then once state is reonciled, delete it. */
   bootstrapObjectId?: string;
   globalRoles?: readonly AzureGlobalRoleName[];
@@ -18,6 +22,9 @@ type AzureUserFullName = string;
 // Then, we can use Pulumi to wire up resources & permissions.
 export const AZURE_USERS = {
   "Arshadul Monir": {
+    bootstrapGlobalRoleAssignmentIds: {
+      globalReader: "LJnv8vs6uUa3z6Em7nTEUfYJVchmvndGsRNWVm8fRGk-1",
+    },
     bootstrapObjectId: undefined,
     globalRoles: ["globalReader"],
     mail: "arshadul@patinanetwork.onmicrosoft.com",
@@ -25,6 +32,11 @@ export const AZURE_USERS = {
     userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
   },
   "Kevin Ma": {
+    bootstrapGlobalRoleAssignmentIds: {
+      globalAdministrator: "lAPpYvVpN0KRkAEhdxReEND555MYGkRIsYHbEhGMuZc-1",
+      globalReader: "LJnv8vs6uUa3z6Em7nTEUdD555MYGkRIsYHbEhGMuZc-1",
+      userAdministrator: "5wuT_mJe20eRr5jDpJo4sdD555MYGkRIsYHbEhGMuZc-1",
+    },
     bootstrapObjectId: undefined,
     globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
@@ -32,6 +44,10 @@ export const AZURE_USERS = {
     userPrincipalName: "kevin.ma@patinanetwork.onmicrosoft.com",
   },
   "Ray Zhou": {
+    bootstrapGlobalRoleAssignmentIds: {
+      globalReader: "LJnv8vs6uUa3z6Em7nTEUfsYg7-gTs5Iq6fc8j-yJHA-1",
+      userAdministrator: "5wuT_mJe20eRr5jDpJo4sfsYg7-gTs5Iq6fc8j-yJHA-1",
+    },
     bootstrapObjectId: undefined,
     globalRoles: ["userAdministrator", "globalReader"],
     mail: "ray@patinanetwork.onmicrosoft.com",

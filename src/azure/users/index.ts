@@ -68,15 +68,22 @@ export const azureDirectoryRoles: Record<
 export const azureUserGlobalRoleAssignments = Object.entries(
   AZURE_USERS,
 ).flatMap(([userFullName, user]) =>
-  (user.globalRoles ?? []).map(
-    (globalRole) =>
-      new azuread.DirectoryRoleAssignment(
-        `azure-user-${user.mailNickname}-${globalRole}`,
-        {
-          directoryScopeId: "/",
-          principalObjectId: azureUsers[userFullName].objectId,
-          roleId: azureDirectoryRoles[globalRole].templateId,
-        },
-      ),
-  ),
+  (user.globalRoles ?? []).map((globalRole) => {
+    const bootstrapGlobalRoleAssignmentIds =
+      user.bootstrapGlobalRoleAssignmentIds as
+        | Partial<Record<AzureGlobalRoleName, string>>
+        | undefined;
+
+    return new azuread.DirectoryRoleAssignment(
+      `azure-user-${user.mailNickname}-${globalRole}`,
+      {
+        directoryScopeId: "/",
+        principalObjectId: azureUsers[userFullName].objectId,
+        roleId: azureDirectoryRoles[globalRole].templateId,
+      },
+      {
+        import: bootstrapGlobalRoleAssignmentIds?.[globalRole],
+      },
+    );
+  }),
 );
