@@ -32,7 +32,7 @@ export const AZURE_USERS = {
   "Kevin Ma": {
     bootstrapGlobalRoleAssignmentIds: {},
     bootstrapObjectId: undefined,
-    globalRoles: ["globalAdministrator", "userAdministrator"],
+    globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
     mailNickname: "kevin.ma",
     userPrincipalName: "kevin.ma@patinanetwork.onmicrosoft.com",
