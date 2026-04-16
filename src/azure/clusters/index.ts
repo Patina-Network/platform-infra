@@ -11,8 +11,12 @@ export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
     resourceName: "k8s-manifests",
     location: DEFAULT_REGION,
     dnsPrefix: "k8s-manifests-dns",
-    disableLocalAccounts: false,
+    disableLocalAccounts: true,
     enableRBAC: true,
+    aadProfile: {
+      managed: true,
+      enableAzureRBAC: true,
+    },
     identity: {
       type: azure.containerservice.ResourceIdentityType.SystemAssigned,
     },
