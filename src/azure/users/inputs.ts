@@ -18,21 +18,21 @@ type AzureUserFullName = string;
 // Then, we can use Pulumi to wire up resources & permissions.
 export const AZURE_USERS = {
   "Arshadul Monir": {
-    bootstrapObjectId: "c85509f6-be66-4677-b113-56566f1f4469",
+    bootstrapObjectId: undefined,
     globalRoles: ["globalReader"],
     mail: "arshadul@patinanetwork.onmicrosoft.com",
     mailNickname: "arshadul",
     userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
   },
   "Kevin Ma": {
-    bootstrapObjectId: "93e7f9d0-1a18-4844-b181-db12118cb997",
+    bootstrapObjectId: undefined,
     globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
     mailNickname: "kevin.ma",
     userPrincipalName: "kevin.ma@patinanetwork.onmicrosoft.com",
   },
   "Ray Zhou": {
-    bootstrapObjectId: "bf8318fb-4ea0-48ce-aba7-dcf23fb22470",
+    bootstrapObjectId: undefined,
     globalRoles: ["userAdministrator", "globalReader"],
     mail: "ray@patinanetwork.onmicrosoft.com",
     mailNickname: "ray",
