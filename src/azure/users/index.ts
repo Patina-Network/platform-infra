@@ -1,5 +1,6 @@
 import * as azuread from "@pulumi/azuread";
 
+import { azureadProvider as provider } from "@/azure/provider";
 import {
   AZURE_GLOBAL_ENTRA_ROLES,
   type AzureGlobalEntraRoleName,
@@ -38,6 +39,7 @@ export const azureUsers = Object.fromEntries(
           userPrincipalName: user.userPrincipalName,
         },
         {
+          provider,
           ignoreChanges: [
             "forcePasswordChange",
             "otherMails",
@@ -64,7 +66,9 @@ export const azureEntraRoles: Record<
       {
         templateId: roleTemplateId,
       },
-      {},
+      {
+        provider,
+      },
     ),
   ]),
 );
@@ -80,7 +84,9 @@ export const azureUserGlobalRoleAssignments = Object.entries(
         principalObjectId: azureUsers[userFullName].objectId,
         roleId: azureEntraRoles[globalRole].templateId,
       },
-      {},
+      {
+        provider,
+      },
     );
   }),
 );
