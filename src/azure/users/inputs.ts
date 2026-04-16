@@ -54,13 +54,18 @@ export const AZURE_USERS = {
     preferredLanguage: "en",
     userPrincipalName: "tahmid@patinanetwork.onmicrosoft.com",
   },
-  // "Henry Chen": {
-  //   bootstrapObjectId: "26e110ee-e4ec-4e59-87b4-ffe18222e6c6",
-  //   mail: "henry@patinanetwork.onmicrosoft.com",
-  //   mailNickname: "henry",
-  //   preferredLanguage: "en",
-  //   userPrincipalName: "henry@patinanetwork.onmicrosoft.com",
-  // },
+  "Henry Chen": {
+    bootstrapGlobalRoleAssignmentIds: {
+      globalAdministrator:
+        "/roleManagement/directory/roleAssignments/lAPpYvVpN0KRkAEhdxReEO4Q4Sbs5FlOh7T_4YIi5sY-1",
+    },
+    bootstrapObjectId: "26e110ee-e4ec-4e59-87b4-ffe18222e6c6",
+    globalRoles: ["globalAdministrator"],
+    mail: "henry@patinanetwork.onmicrosoft.com",
+    mailNickname: "henry",
+    preferredLanguage: "en",
+    userPrincipalName: "henry@patinanetwork.onmicrosoft.com",
+  },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
 export type AzureUserName = keyof typeof AZURE_USERS;
