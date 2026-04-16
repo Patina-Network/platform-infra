@@ -46,12 +46,7 @@ export const AZURE_USERS = {
     userPrincipalName: "ray@patinanetwork.onmicrosoft.com",
   },
   "Tahmid Ahmed": {
-    bootstrapGlobalRoleAssignmentIds: {
-      globalAdministrator:
-        "/roleManagement/directory/roleAssignments/lAPpYvVpN0KRkAEhdxReEGxHtOcawNpKhK4mstD9MEY-1",
-      userAdministrator:
-        "/roleManagement/directory/roleAssignments/5wuT_mJe20eRr5jDpJo4sWxHtOcawNpKhK4mstD9MEY-1",
-    },
+    bootstrapGlobalRoleAssignmentIds: {},
     bootstrapObjectId: "e7b4476c-c01a-4ada-84ae-26b2d0fd3046",
     globalRoles: ["globalAdministrator", "userAdministrator"],
     mail: "tahmid@patinanetwork.onmicrosoft.com",
