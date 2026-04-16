@@ -1,13 +1,13 @@
 import * as azure from "@pulumi/azure-native";
 
-import { patinaTestingK8sResourceGroup } from "@/azure/groups";
+import { k8sResourceGroup } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
   "k8s-manifests-cluster",
   {
-    resourceGroupName: patinaTestingK8sResourceGroup.name,
+    resourceGroupName: k8sResourceGroup.name,
     resourceName: "k8s-manifests",
     location: DEFAULT_REGION,
     dnsPrefix: "k8s-manifests-dns",
