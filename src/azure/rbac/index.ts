@@ -33,12 +33,9 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
       principalId: fluxKustomizeIdentity.principalId,
       principalType: azure.authorization.PrincipalType.ServicePrincipal,
       roleDefinitionId: `/subscriptions/${env.azure.subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${KEY_VAULT_CRYPTO_USER_ROLE_DEFINITION_ID}`,
-      // TODO: remove when access is granted
-      scope: sopsMasterVault.id.apply((id) => id.replace(/^\//, "")),
+      scope: sopsMasterVault.id,
     },
     {
       provider,
-      import:
-        "/subscriptions/7779681e-36d2-4f42-9289-8160bd1a407d/resourceGroups/platform-infra/providers/Microsoft.KeyVault/vaults/sops-master/providers/Microsoft.Authorization/roleAssignments/8ef47163-d263-4337-b569-8a4adf4dbfff",
     },
   );
