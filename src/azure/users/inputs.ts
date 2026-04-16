@@ -26,14 +26,16 @@ export const AZURE_USERS = {
   },
   "Kevin Ma": {
     bootstrapObjectId: undefined,
-    globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
+    // globalRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
+    globalRoles: [],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
     mailNickname: "kevin.ma",
     userPrincipalName: "kevin.ma@patinanetwork.onmicrosoft.com",
   },
   "Ray Zhou": {
     bootstrapObjectId: undefined,
-    globalRoles: ["userAdministrator", "globalReader"],
+    // globalRoles: ["userAdministrator", "globalReader"],
+    globalRoles: [],
     mail: "ray@patinanetwork.onmicrosoft.com",
     mailNickname: "ray",
     userPrincipalName: "ray@patinanetwork.onmicrosoft.com",
