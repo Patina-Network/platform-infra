@@ -30,11 +30,16 @@ export const azureUsers: AzureUserMap = Object.fromEntries(
           givenName: firstName,
           mail: user.mail,
           mailNickname: user.mailNickname,
-          preferredLanguage: user.preferredLanguage,
           surname: lastName,
           userPrincipalName: user.userPrincipalName,
         },
         {
+          ignoreChanges: [
+            "forcePasswordChange",
+            "otherMails",
+            "usageLocation",
+            "preferredLanguage",
+          ],
           import:
             user.bootstrapObjectId ?
               getUserImportId(user.bootstrapObjectId)
