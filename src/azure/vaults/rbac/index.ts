@@ -4,8 +4,8 @@ import { k8sManifestsCluster } from "@/azure/clusters";
 import { k8sResourceGroup } from "@/azure/groups";
 import { fluxKustomizeIdentity } from "@/azure/identities";
 import { provider } from "@/azure/provider";
-import { AZURE_ROLE_IDS } from "@/azure/rbac/const";
 import { sopsMasterVault } from "@/azure/vaults";
+import { AZURE_KEY_VAULT_ROLES } from "@/azure/vaults/rbac/const";
 import { env } from "@/env";
 
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
@@ -44,7 +44,7 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
       principalType: azure.authorization.PrincipalType.ServicePrincipal,
       roleDefinitionId: getRoleDefinitionId(
         env.azure.subscriptionId,
-        AZURE_ROLE_IDS.keyVaultCryptoUser,
+        AZURE_KEY_VAULT_ROLES.keyVaultCryptoUser,
       ),
       scope: sopsMasterVault.id,
     },
