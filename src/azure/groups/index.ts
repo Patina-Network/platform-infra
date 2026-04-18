@@ -12,11 +12,6 @@ export const k8sResourceGroup = new azure.resources.ResourceGroup(
   },
   {
     provider,
-    aliases: [
-      {
-        name: "patina-k8s-resource-group",
-      },
-    ],
   },
 );
 
