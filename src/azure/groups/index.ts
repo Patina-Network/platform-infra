@@ -4,7 +4,7 @@ import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 export const k8sResourceGroup = new azure.resources.ResourceGroup(
-  "patina-k8s-resource-group",
+  "k8s-resource-group",
   {
     resourceGroupName: "k8s",
     location: DEFAULT_REGION,
@@ -12,6 +12,11 @@ export const k8sResourceGroup = new azure.resources.ResourceGroup(
   },
   {
     provider,
+    aliases: [
+      {
+        name: "patina-k8s-resource-group",
+      },
+    ],
   },
 );
 
