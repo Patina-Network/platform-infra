@@ -5,7 +5,7 @@ import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 export const k8sStorageAccount = new azure.storage.StorageAccount(
-  "k8s-storage-account",
+  "azure-k8sstorage0001-storage-account",
   {
     resourceGroupName: azureResourceGroupMap.k8s.name,
     accountName: "k8sstorage0001",
@@ -18,11 +18,18 @@ export const k8sStorageAccount = new azure.storage.StorageAccount(
     minimumTlsVersion: azure.storage.MinimumTlsVersion.TLS1_2,
     enableHttpsTrafficOnly: true,
   },
-  { provider },
+  {
+    provider,
+    aliases: [
+      {
+        name: "k8s-storage-account",
+      },
+    ],
+  },
 );
 
 export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
-  "pulumi-state-storage-account",
+  "azure-platform4pulumi-storage-account",
   {
     resourceGroupName: "platform-infra",
     accountName: "platform4pulumi",
@@ -65,5 +72,10 @@ export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
+    aliases: [
+      {
+        name: "pulumi-state-storage-account",
+      },
+    ],
   },
 );
