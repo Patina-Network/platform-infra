@@ -1,13 +1,13 @@
 import * as azure from "@pulumi/azure-native";
 
-import { k8sResourceGroup } from "@/azure/groups";
+import { azureResourceGroupMap } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 export const k8sStorageAccount = new azure.storage.StorageAccount(
   "k8s-storage-account",
   {
-    resourceGroupName: k8sResourceGroup.name,
+    resourceGroupName: azureResourceGroupMap.k8s.name,
     accountName: "k8sstorage0001",
     location: DEFAULT_REGION,
     kind: azure.storage.Kind.StorageV2,

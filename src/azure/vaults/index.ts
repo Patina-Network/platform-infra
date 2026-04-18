@@ -1,6 +1,6 @@
 import * as azure from "@pulumi/azure-native";
 
-import { platformInfraResourceGroup } from "@/azure/groups";
+import { azureResourceGroupMap } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 import { env } from "@/env";
@@ -9,7 +9,7 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   "sops-master-vault",
   {
     vaultName: "sops-master",
-    resourceGroupName: platformInfraResourceGroup.name,
+    resourceGroupName: azureResourceGroupMap["platform-infra"].name,
     location: DEFAULT_REGION,
     properties: {
       tenantId: env.azure.tenantId,
