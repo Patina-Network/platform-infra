@@ -1,6 +1,6 @@
 import * as azure from "@pulumi/azure-native";
 
-import { k8sResourceGroup } from "@/azure/groups";
+import { azureResourceGroupMap } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
@@ -9,7 +9,7 @@ export const fluxKustomizeIdentity =
     "flux-kustomize-identity",
     {
       location: DEFAULT_REGION,
-      resourceGroupName: k8sResourceGroup.name,
+      resourceGroupName: azureResourceGroupMap.k8s.name,
       resourceName: "flux-kustomize",
     },
     { provider },
