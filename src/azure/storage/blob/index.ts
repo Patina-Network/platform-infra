@@ -4,8 +4,19 @@ import { azureResourceGroupMap } from "@/azure/groups";
 import { provider } from "@/azure/provider";
 import { k8sStorageAccount, pulumiStateStorageAccount } from "@/azure/storage";
 
+const getBlobContainerResourceName = (
+  resourceGroupName: string,
+  accountName: string,
+  containerName: string,
+) =>
+  `azure-resource-group-${resourceGroupName}-storage-account-${accountName}-blob-container-${containerName}`;
+
 export const pulumiStateBlobContainer = new azure.storage.BlobContainer(
-  "pulumi-state-blob-container",
+  getBlobContainerResourceName(
+    "platform-infra",
+    "platform4pulumi",
+    "pulumi-state",
+  ),
   {
     resourceGroupName: azureResourceGroupMap["platform-infra"].name,
     accountName: pulumiStateStorageAccount.name,
@@ -14,11 +25,12 @@ export const pulumiStateBlobContainer = new azure.storage.BlobContainer(
   },
   {
     provider,
+    aliases: [{ name: "pulumi-state-blob-container" }],
   },
 );
 
 export const dbBackupBlobContainer = new azure.storage.BlobContainer(
-  "db-backup-blob-container",
+  getBlobContainerResourceName("k8s", "k8sstorage0001", "db-backup"),
   {
     resourceGroupName: azureResourceGroupMap.k8s.name,
     accountName: k8sStorageAccount.name,
@@ -27,5 +39,6 @@ export const dbBackupBlobContainer = new azure.storage.BlobContainer(
   },
   {
     provider,
+    aliases: [{ name: "db-backup-blob-container" }],
   },
 );

@@ -15,8 +15,16 @@ import { env } from "@/env";
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
+const getGroupResourceName = (groupName: string) => `azure-group-${groupName}`;
+
+const getGroupMemberResourceName = (groupName: string, memberName: string) =>
+  `azure-group-${groupName}-member-${memberName}`;
+
+const getRoleAssignmentResourceName = (...parts: string[]) =>
+  `azure-role-assignment-${parts.join("-")}`;
+
 export const k8sManifestsReadersGroup = new azuread.Group(
-  "k8s-manifests-readers-group",
+  getGroupResourceName("k8s-manifests-readers"),
   {
     displayName: "k8s-manifests-readers",
     mailEnabled: false,
@@ -24,6 +32,7 @@ export const k8sManifestsReadersGroup = new azuread.Group(
   },
   {
     provider: azureadProvider,
+    aliases: [{ name: "k8s-manifests-readers-group" }],
   },
 );
 
@@ -31,13 +40,21 @@ export const k8sManifestsReaderGroupMembers = Object.fromEntries(
   AKS_CLUSTER_READONLY_USERS.map((userName) => [
     userName,
     new azuread.GroupMember(
-      `k8s-manifests-reader-${AZURE_USERS[userName].mailNickname}`,
+      getGroupMemberResourceName(
+        "k8s-manifests-readers",
+        AZURE_USERS[userName].mailNickname,
+      ),
       {
         groupObjectId: k8sManifestsReadersGroup.objectId,
         memberObjectId: azureUsers[userName].objectId,
       },
       {
         provider: azureadProvider,
+        aliases: [
+          {
+            name: `k8s-manifests-reader-${AZURE_USERS[userName].mailNickname}`,
+          },
+        ],
       },
     ),
   ]),
@@ -45,7 +62,12 @@ export const k8sManifestsReaderGroupMembers = Object.fromEntries(
 
 export const k8sManifestsReaderRoleAssignment =
   new azure.authorization.RoleAssignment(
-    "k8s-manifests-reader-role-assignment",
+    getRoleAssignmentResourceName(
+      "k8s-manifests-readers",
+      "managed-cluster",
+      "k8s-manifests",
+      "reader",
+    ),
     {
       principalId: k8sManifestsReadersGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -57,12 +79,18 @@ export const k8sManifestsReaderRoleAssignment =
     },
     {
       provider,
+      aliases: [{ name: "k8s-manifests-reader-role-assignment" }],
     },
   );
 
 export const k8sManifestsReaderClusterUserRoleAssignment =
   new azure.authorization.RoleAssignment(
-    "k8s-manifests-reader-cluster-user-role-assignment",
+    getRoleAssignmentResourceName(
+      "k8s-manifests-readers",
+      "managed-cluster",
+      "k8s-manifests",
+      "cluster-user",
+    ),
     {
       principalId: k8sManifestsReadersGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -74,11 +102,12 @@ export const k8sManifestsReaderClusterUserRoleAssignment =
     },
     {
       provider,
+      aliases: [{ name: "k8s-manifests-reader-cluster-user-role-assignment" }],
     },
   );
 
 export const k8sManifestsAdminsGroup = new azuread.Group(
-  "k8s-manifests-admins-group",
+  getGroupResourceName("k8s-manifests-admins"),
   {
     displayName: "k8s-manifests-admins",
     mailEnabled: false,
@@ -86,6 +115,7 @@ export const k8sManifestsAdminsGroup = new azuread.Group(
   },
   {
     provider: azureadProvider,
+    aliases: [{ name: "k8s-manifests-admins-group" }],
   },
 );
 
@@ -93,13 +123,21 @@ export const k8sManifestsAdminGroupMembers = Object.fromEntries(
   AKS_CLUSTER_ADMIN_USERS.map((userName) => [
     userName,
     new azuread.GroupMember(
-      `k8s-manifests-admin-${AZURE_USERS[userName].mailNickname}`,
+      getGroupMemberResourceName(
+        "k8s-manifests-admins",
+        AZURE_USERS[userName].mailNickname,
+      ),
       {
         groupObjectId: k8sManifestsAdminsGroup.objectId,
         memberObjectId: azureUsers[userName].objectId,
       },
       {
         provider: azureadProvider,
+        aliases: [
+          {
+            name: `k8s-manifests-admin-${AZURE_USERS[userName].mailNickname}`,
+          },
+        ],
       },
     ),
   ]),
@@ -107,7 +145,12 @@ export const k8sManifestsAdminGroupMembers = Object.fromEntries(
 
 export const k8sManifestsAdminRoleAssignment =
   new azure.authorization.RoleAssignment(
-    "k8s-manifests-admin-role-assignment",
+    getRoleAssignmentResourceName(
+      "k8s-manifests-admins",
+      "managed-cluster",
+      "k8s-manifests",
+      "admin",
+    ),
     {
       principalId: k8sManifestsAdminsGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -119,5 +162,6 @@ export const k8sManifestsAdminRoleAssignment =
     },
     {
       provider,
+      aliases: [{ name: "k8s-manifests-admin-role-assignment" }],
     },
   );

@@ -4,8 +4,18 @@ import { azureResourceGroupMap } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
+const getManagedClusterResourceName = (
+  resourceGroupName: string,
+  clusterName: string,
+) => `azure-resource-group-${resourceGroupName}-managed-cluster-${clusterName}`;
+
+const getManagedClusterPublicIpResourceName = (
+  clusterName: string,
+  publicIpName: string,
+) => `azure-managed-cluster-${clusterName}-public-ip-${publicIpName}`;
+
 export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
-  "k8s-manifests-cluster",
+  getManagedClusterResourceName("k8s", "k8s-manifests"),
   {
     resourceGroupName: azureResourceGroupMap.k8s.name,
     resourceName: "k8s-manifests",
@@ -98,11 +108,14 @@ export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
       },
     ],
   },
-  { provider },
+  {
+    provider,
+    aliases: [{ name: "k8s-manifests-cluster" }],
+  },
 );
 
 export const traefikPublicIp = new azure.network.PublicIPAddress(
-  "traefik-public-ip",
+  getManagedClusterPublicIpResourceName("k8s-manifests", "traefik"),
   {
     publicIpAddressName: "traefik-public-ip",
     resourceGroupName: k8sManifestsCluster.nodeResourceGroup.apply(
@@ -116,5 +129,8 @@ export const traefikPublicIp = new azure.network.PublicIPAddress(
       tier: azure.network.PublicIPAddressSkuTier.Regional,
     },
   },
-  { provider },
+  {
+    provider,
+    aliases: [{ name: "traefik-public-ip" }],
+  },
 );
