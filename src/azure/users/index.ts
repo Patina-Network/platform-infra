@@ -9,6 +9,25 @@ import { AZURE_USERS } from "@/azure/users/inputs";
 import { split } from "@/utils";
 
 const getUserImportId = (objectId: string) => `/users/${objectId}`;
+const getUserResourceName = (firstName: string, lastName: string) =>
+  `azure-user-${firstName.toLowerCase()}-${lastName.toLowerCase()}`;
+
+const getLegacyUserResourceName = (firstName: string, lastName: string) =>
+  `azure-user-${fullName(firstName, lastName)}`;
+
+const getDirectoryRoleResourceName = (roleName: AzureGlobalEntraRoleName) =>
+  `azure-directory-role-${roleName}`;
+
+const getDirectoryRoleAssignmentResourceName = (
+  mailNickname: string,
+  globalRole: AzureGlobalEntraRoleName,
+) => `azure-directory-role-assignment-${mailNickname}-${globalRole}`;
+
+const getLegacyDirectoryRoleAssignmentResourceName = (
+  mailNickname: string,
+  globalRole: AzureGlobalEntraRoleName,
+) => `azure-user-${mailNickname}-${globalRole}`;
+
 const fullName = <FS extends string, LS extends string>(
   firstName: FS,
   lastName: LS,
@@ -29,7 +48,7 @@ export const azureUsers = Object.fromEntries(
     .map(([{ firstName, lastName }, user]) => [
       fullName(firstName, lastName),
       new azuread.User(
-        `azure-user-${fullName(firstName, lastName)}`,
+        getUserResourceName(firstName, lastName),
         {
           displayName: fullName(firstName, lastName),
           givenName: firstName,
@@ -40,6 +59,11 @@ export const azureUsers = Object.fromEntries(
         },
         {
           provider,
+          aliases: [
+            {
+              name: getLegacyUserResourceName(firstName, lastName),
+            },
+          ],
           ignoreChanges: [
             "forcePasswordChange",
             "otherMails",
@@ -59,18 +83,20 @@ export const azureEntraRoles: Record<
   AzureGlobalEntraRoleName,
   azuread.DirectoryRole
 > = Object.fromEntries(
-  Object.entries(AZURE_GLOBAL_ENTRA_ROLES).map(([roleName, roleTemplateId]) => [
-    roleName,
-    new azuread.DirectoryRole(
-      `azure-directory-role-${roleName}`,
-      {
-        templateId: roleTemplateId,
-      },
-      {
-        provider,
-      },
-    ),
-  ]),
+  (Object.keys(AZURE_GLOBAL_ENTRA_ROLES) as AzureGlobalEntraRoleName[]).map(
+    (roleName) => [
+      roleName,
+      new azuread.DirectoryRole(
+        getDirectoryRoleResourceName(roleName),
+        {
+          templateId: AZURE_GLOBAL_ENTRA_ROLES[roleName],
+        },
+        {
+          provider,
+        },
+      ),
+    ],
+  ),
 );
 
 export const azureUserGlobalRoleAssignments = Object.entries(
@@ -78,7 +104,7 @@ export const azureUserGlobalRoleAssignments = Object.entries(
 ).flatMap(([userFullName, user]) =>
   user.entraRoles.map((globalRole) => {
     return new azuread.DirectoryRoleAssignment(
-      `azure-user-${user.mailNickname}-${globalRole}`,
+      getDirectoryRoleAssignmentResourceName(user.mailNickname, globalRole),
       {
         directoryScopeId: "/",
         principalObjectId: azureUsers[userFullName].objectId,
@@ -86,6 +112,14 @@ export const azureUserGlobalRoleAssignments = Object.entries(
       },
       {
         provider,
+        aliases: [
+          {
+            name: getLegacyDirectoryRoleAssignmentResourceName(
+              user.mailNickname,
+              globalRole,
+            ),
+          },
+        ],
       },
     );
   }),

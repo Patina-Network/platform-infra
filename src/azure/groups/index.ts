@@ -5,6 +5,9 @@ import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
 const getResourceGroupName = (resourceGroupName: string) =>
+  `azure-resource-group-${resourceGroupName}`;
+
+const getLegacyResourceGroupName = (resourceGroupName: string) =>
   `${resourceGroupName}-resource-group`;
 
 export const azureResourceGroupMap = Object.fromEntries(
@@ -19,6 +22,7 @@ export const azureResourceGroupMap = Object.fromEntries(
           tags: resourceGroupProperties.tags,
         },
         {
+          aliases: [{ name: getLegacyResourceGroupName(resourceGroupName) }],
           provider,
         },
       ),

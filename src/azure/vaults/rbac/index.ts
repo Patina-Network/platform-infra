@@ -11,6 +11,16 @@ import { env } from "@/env";
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
+const getFederatedIdentityCredentialResourceName = (
+  resourceGroupName: string,
+  identityName: string,
+  credentialName: string,
+) =>
+  `azure-resource-group-${resourceGroupName}-user-assigned-identity-${identityName}-federated-identity-credential-${credentialName}`;
+
+const getRoleAssignmentResourceName = (...parts: string[]) =>
+  `azure-role-assignment-${parts.join("-")}`;
+
 // system:serviceaccount:<ns>:<svcaccount> where <svcaccount> is the name of the k8s object requiring access
 const getFederatedIdentityCredentialSubject = (
   namespace: string,
@@ -19,7 +29,11 @@ const getFederatedIdentityCredentialSubject = (
 
 export const fluxKustomizeControllerFederatedCredential =
   new azure.managedidentity.FederatedIdentityCredential(
-    "flux-kustomize-controller-federated-credential",
+    getFederatedIdentityCredentialResourceName(
+      "k8s",
+      "flux-kustomize",
+      "flux-kustomize-controller",
+    ),
     {
       audiences: ["api://AzureADTokenExchange"],
       federatedIdentityCredentialResourceName: "flux-kustomize-controller",
@@ -33,12 +47,20 @@ export const fluxKustomizeControllerFederatedCredential =
         "kustomize-controller",
       ),
     },
-    { provider },
+    {
+      provider,
+      aliases: [{ name: "flux-kustomize-controller-federated-credential" }],
+    },
   );
 
 export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
   new azure.authorization.RoleAssignment(
-    "flux-kustomize-sops-master-crypto-user-role-assignment",
+    getRoleAssignmentResourceName(
+      "flux-kustomize",
+      "key-vault",
+      "sops-master",
+      "crypto-user",
+    ),
     {
       principalId: fluxKustomizeIdentity.principalId,
       principalType: azure.authorization.PrincipalType.ServicePrincipal,
@@ -50,5 +72,8 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
     },
     {
       provider,
+      aliases: [
+        { name: "flux-kustomize-sops-master-crypto-user-role-assignment" },
+      ],
     },
   );

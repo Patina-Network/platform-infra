@@ -12,3 +12,5 @@ export const RESOURCE_GROUPS = {
     tags: {},
   },
 } as const satisfies Record<ResourceGroupName, ResourceGroup>;
+
+export type AzureResourceGroupName = keyof typeof RESOURCE_GROUPS;

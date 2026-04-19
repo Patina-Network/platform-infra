@@ -5,8 +5,13 @@ import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 import { env } from "@/env";
 
+const getKeyVaultResourceName = (
+  resourceGroupName: string,
+  vaultName: string,
+) => `azure-resource-group-${resourceGroupName}-key-vault-${vaultName}`;
+
 export const sopsMasterVault = new azure.keyvault.Vault(
-  "sops-master-vault",
+  getKeyVaultResourceName("platform-infra", "sops-master"),
   {
     vaultName: "sops-master",
     resourceGroupName: azureResourceGroupMap["platform-infra"].name,
@@ -36,5 +41,6 @@ export const sopsMasterVault = new azure.keyvault.Vault(
   },
   {
     provider,
+    aliases: [{ name: "sops-master-vault" }],
   },
 );

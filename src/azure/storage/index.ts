@@ -4,8 +4,18 @@ import { azureResourceGroupMap } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
+const getStorageAccountResourceName = (
+  resourceGroupName: string,
+  accountName: string,
+) => `azure-resource-group-${resourceGroupName}-storage-account-${accountName}`;
+
+const getLegacyStorageAccountResourceNames = (accountName: string) => [
+  `azure-storage-account-${accountName}`,
+  `azure-${accountName}-storage-account`,
+];
+
 export const k8sStorageAccount = new azure.storage.StorageAccount(
-  "azure-k8sstorage0001-storage-account",
+  getStorageAccountResourceName("k8s", "k8sstorage0001"),
   {
     resourceGroupName: azureResourceGroupMap.k8s.name,
     accountName: "k8sstorage0001",
@@ -20,16 +30,14 @@ export const k8sStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
-    aliases: [
-      {
-        name: "k8s-storage-account",
-      },
-    ],
+    aliases: getLegacyStorageAccountResourceNames("k8sstorage0001").map(
+      (name) => ({ name }),
+    ),
   },
 );
 
 export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
-  "azure-platform4pulumi-storage-account",
+  getStorageAccountResourceName("platform-infra", "platform4pulumi"),
   {
     resourceGroupName: "platform-infra",
     accountName: "platform4pulumi",
@@ -72,10 +80,8 @@ export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
-    aliases: [
-      {
-        name: "pulumi-state-storage-account",
-      },
-    ],
+    aliases: getLegacyStorageAccountResourceNames("platform4pulumi").map(
+      (name) => ({ name }),
+    ),
   },
 );
