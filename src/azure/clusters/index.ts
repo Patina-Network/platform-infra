@@ -108,10 +108,7 @@ export const k8sManifestsCluster = new azure.containerservice.ManagedCluster(
       },
     ],
   },
-  {
-    provider,
-    aliases: [{ name: "k8s-manifests-cluster" }],
-  },
+  { provider },
 );
 
 export const traefikPublicIp = new azure.network.PublicIPAddress(
@@ -129,8 +126,5 @@ export const traefikPublicIp = new azure.network.PublicIPAddress(
       tier: azure.network.PublicIPAddressSkuTier.Regional,
     },
   },
-  {
-    provider,
-    aliases: [{ name: "traefik-public-ip" }],
-  },
+  { provider },
 );

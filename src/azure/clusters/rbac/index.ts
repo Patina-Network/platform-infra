@@ -30,10 +30,7 @@ export const k8sManifestsReadersGroup = new azuread.Group(
     mailEnabled: false,
     securityEnabled: true,
   },
-  {
-    provider: azureadProvider,
-    aliases: [{ name: "k8s-manifests-readers-group" }],
-  },
+  { provider: azureadProvider },
 );
 
 export const k8sManifestsReaderGroupMembers = Object.fromEntries(
@@ -48,14 +45,7 @@ export const k8sManifestsReaderGroupMembers = Object.fromEntries(
         groupObjectId: k8sManifestsReadersGroup.objectId,
         memberObjectId: azureUsers[userName].objectId,
       },
-      {
-        provider: azureadProvider,
-        aliases: [
-          {
-            name: `k8s-manifests-reader-${AZURE_USERS[userName].mailNickname}`,
-          },
-        ],
-      },
+      { provider: azureadProvider },
     ),
   ]),
 );
@@ -77,10 +67,7 @@ export const k8sManifestsReaderRoleAssignment =
       ),
       scope: k8sManifestsCluster.id,
     },
-    {
-      provider,
-      aliases: [{ name: "k8s-manifests-reader-role-assignment" }],
-    },
+    { provider },
   );
 
 export const k8sManifestsReaderClusterUserRoleAssignment =
@@ -100,10 +87,7 @@ export const k8sManifestsReaderClusterUserRoleAssignment =
       ),
       scope: k8sManifestsCluster.id,
     },
-    {
-      provider,
-      aliases: [{ name: "k8s-manifests-reader-cluster-user-role-assignment" }],
-    },
+    { provider },
   );
 
 export const k8sManifestsAdminsGroup = new azuread.Group(
@@ -113,10 +97,7 @@ export const k8sManifestsAdminsGroup = new azuread.Group(
     mailEnabled: false,
     securityEnabled: true,
   },
-  {
-    provider: azureadProvider,
-    aliases: [{ name: "k8s-manifests-admins-group" }],
-  },
+  { provider: azureadProvider },
 );
 
 export const k8sManifestsAdminGroupMembers = Object.fromEntries(
@@ -131,14 +112,7 @@ export const k8sManifestsAdminGroupMembers = Object.fromEntries(
         groupObjectId: k8sManifestsAdminsGroup.objectId,
         memberObjectId: azureUsers[userName].objectId,
       },
-      {
-        provider: azureadProvider,
-        aliases: [
-          {
-            name: `k8s-manifests-admin-${AZURE_USERS[userName].mailNickname}`,
-          },
-        ],
-      },
+      { provider: azureadProvider },
     ),
   ]),
 );
@@ -160,8 +134,5 @@ export const k8sManifestsAdminRoleAssignment =
       ),
       scope: k8sManifestsCluster.id,
     },
-    {
-      provider,
-      aliases: [{ name: "k8s-manifests-admin-role-assignment" }],
-    },
+    { provider },
   );

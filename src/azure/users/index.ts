@@ -12,9 +12,6 @@ const getUserImportId = (objectId: string) => `/users/${objectId}`;
 const getUserResourceName = (firstName: string, lastName: string) =>
   `azure-user-${firstName.toLowerCase()}-${lastName.toLowerCase()}`;
 
-const getLegacyUserResourceName = (firstName: string, lastName: string) =>
-  `azure-user-${fullName(firstName, lastName)}`;
-
 const getDirectoryRoleResourceName = (roleName: AzureGlobalEntraRoleName) =>
   `azure-directory-role-${roleName}`;
 
@@ -22,11 +19,6 @@ const getDirectoryRoleAssignmentResourceName = (
   mailNickname: string,
   globalRole: AzureGlobalEntraRoleName,
 ) => `azure-directory-role-assignment-${mailNickname}-${globalRole}`;
-
-const getLegacyDirectoryRoleAssignmentResourceName = (
-  mailNickname: string,
-  globalRole: AzureGlobalEntraRoleName,
-) => `azure-user-${mailNickname}-${globalRole}`;
 
 const fullName = <FS extends string, LS extends string>(
   firstName: FS,
@@ -59,11 +51,6 @@ export const azureUsers = Object.fromEntries(
         },
         {
           provider,
-          aliases: [
-            {
-              name: getLegacyUserResourceName(firstName, lastName),
-            },
-          ],
           ignoreChanges: [
             "forcePasswordChange",
             "otherMails",
@@ -110,17 +97,7 @@ export const azureUserGlobalRoleAssignments = Object.entries(
         principalObjectId: azureUsers[userFullName].objectId,
         roleId: azureEntraRoles[globalRole].templateId,
       },
-      {
-        provider,
-        aliases: [
-          {
-            name: getLegacyDirectoryRoleAssignmentResourceName(
-              user.mailNickname,
-              globalRole,
-            ),
-          },
-        ],
-      },
+      { provider },
     );
   }),
 );

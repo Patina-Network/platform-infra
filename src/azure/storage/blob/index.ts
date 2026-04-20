@@ -23,10 +23,7 @@ export const pulumiStateBlobContainer = new azure.storage.BlobContainer(
     containerName: "pulumi-state",
     publicAccess: azure.storage.PublicAccess.None,
   },
-  {
-    provider,
-    aliases: [{ name: "pulumi-state-blob-container" }],
-  },
+  { provider },
 );
 
 export const dbBackupBlobContainer = new azure.storage.BlobContainer(
@@ -37,8 +34,5 @@ export const dbBackupBlobContainer = new azure.storage.BlobContainer(
     containerName: "db-backup",
     publicAccess: azure.storage.PublicAccess.None,
   },
-  {
-    provider,
-    aliases: [{ name: "db-backup-blob-container" }],
-  },
+  { provider },
 );

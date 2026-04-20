@@ -47,10 +47,7 @@ export const fluxKustomizeControllerFederatedCredential =
         "kustomize-controller",
       ),
     },
-    {
-      provider,
-      aliases: [{ name: "flux-kustomize-controller-federated-credential" }],
-    },
+    { provider },
   );
 
 export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
@@ -70,10 +67,5 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
       ),
       scope: sopsMasterVault.id,
     },
-    {
-      provider,
-      aliases: [
-        { name: "flux-kustomize-sops-master-crypto-user-role-assignment" },
-      ],
-    },
+    { provider },
   );
