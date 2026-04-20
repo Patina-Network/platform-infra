@@ -18,8 +18,5 @@ export const fluxKustomizeIdentity =
       resourceGroupName: azureResourceGroupMap.k8s.name,
       resourceName: "flux-kustomize",
     },
-    {
-      provider,
-      aliases: [{ name: "flux-kustomize-identity" }],
-    },
+    { provider },
   );

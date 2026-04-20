@@ -9,11 +9,6 @@ const getStorageAccountResourceName = (
   accountName: string,
 ) => `azure-resource-group-${resourceGroupName}-storage-account-${accountName}`;
 
-const getLegacyStorageAccountResourceNames = (accountName: string) => [
-  `azure-storage-account-${accountName}`,
-  `azure-${accountName}-storage-account`,
-];
-
 export const k8sStorageAccount = new azure.storage.StorageAccount(
   getStorageAccountResourceName("k8s", "k8sstorage0001"),
   {
@@ -30,9 +25,6 @@ export const k8sStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
-    aliases: getLegacyStorageAccountResourceNames("k8sstorage0001").map(
-      (name) => ({ name }),
-    ),
   },
 );
 
@@ -80,8 +72,5 @@ export const pulumiStateStorageAccount = new azure.storage.StorageAccount(
   },
   {
     provider,
-    aliases: getLegacyStorageAccountResourceNames("platform4pulumi").map(
-      (name) => ({ name }),
-    ),
   },
 );

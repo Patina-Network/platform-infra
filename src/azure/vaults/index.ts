@@ -39,8 +39,5 @@ export const sopsMasterVault = new azure.keyvault.Vault(
     },
     tags: {},
   },
-  {
-    provider,
-    aliases: [{ name: "sops-master-vault" }],
-  },
+  { provider },
 );
