@@ -49,6 +49,7 @@ export async function main() {
   console.time("pulumi preview");
   const res = await pulumiClient.preview({
     diff: true,
+    rewriteStdoutToDiffFriendly: true,
   });
   console.timeEnd("pulumi preview");
 
@@ -72,7 +73,7 @@ ${PulumiClient.parseChangeSumaryToPrettyTable(res.changeSummary)}
 <details>
 <summary>Click to view full diff</summary>
 
-\`\`\`text
+\`\`\`diff
 ${res.stdout}
 \`\`\`
 
