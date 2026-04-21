@@ -1,7 +1,7 @@
 import * as azure from "@pulumi/azure-native";
 
 import { azureClusters } from "@/azure/clusters";
-import { azureResourceGroupMap } from "@/azure/groups";
+import { azureResourceGroups } from "@/azure/groups";
 import { fluxKustomizeIdentity } from "@/azure/identities";
 import { provider } from "@/azure/provider";
 import { sopsMasterVault } from "@/azure/vaults";
@@ -40,7 +40,7 @@ export const fluxKustomizeControllerFederatedCredential =
       issuer: azureClusters["k8s-manifests"].oidcIssuerProfile.apply(
         (profile) => profile?.issuerURL ?? "",
       ),
-      resourceGroupName: azureResourceGroupMap.k8s.name,
+      resourceGroupName: azureResourceGroups.k8s.name,
       resourceName: fluxKustomizeIdentity.name,
       subject: getFederatedIdentityCredentialSubject(
         "flux-system",

@@ -1,6 +1,6 @@
 import * as azure from "@pulumi/azure-native";
 
-import { azureResourceGroupMap } from "@/azure/groups";
+import { azureResourceGroups } from "@/azure/groups";
 import { DEFAULT_REGION } from "@/azure/inputs";
 import { provider } from "@/azure/provider";
 
@@ -12,7 +12,7 @@ const getStorageAccountResourceName = (
 export const k8sStorageAccount = new azure.storage.StorageAccount(
   getStorageAccountResourceName("k8s", "k8sstorage0001"),
   {
-    resourceGroupName: azureResourceGroupMap.k8s.name,
+    resourceGroupName: azureResourceGroups.k8s.name,
     accountName: "k8sstorage0001",
     location: DEFAULT_REGION,
     kind: azure.storage.Kind.StorageV2,

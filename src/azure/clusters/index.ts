@@ -6,7 +6,7 @@ import {
   DEFAULT_CLUSTER_SETTINGS,
   DEFAULT_CLUSTER_SYSPOOL_SETTINGS,
 } from "@/azure/clusters/inputs";
-import { azureResourceGroupMap } from "@/azure/groups";
+import { azureResourceGroups } from "@/azure/groups";
 import { provider } from "@/azure/provider";
 
 const getManagedClusterResourceName = (
@@ -28,8 +28,7 @@ export const azureClusters = Object.fromEntries(
         ...DEFAULT_CLUSTER_SETTINGS,
         resourceName: clusterName,
         dnsPrefix: `${clusterName}-dns`,
-        resourceGroupName:
-          azureResourceGroupMap[clusterProps.resourceGroup].name,
+        resourceGroupName: azureResourceGroups[clusterProps.resourceGroup].name,
         kubernetesVersion: clusterProps.kubernetesVersion,
         storageProfile: {
           diskCSIDriver: {

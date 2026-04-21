@@ -7,7 +7,7 @@ import { provider } from "@/azure/provider";
 const getResourceGroupName = (resourceGroupName: string) =>
   `azure-resource-group-${resourceGroupName}`;
 
-export const azureResourceGroupMap = Object.fromEntries(
+export const azureResourceGroups = Object.fromEntries(
   Object.entries(RESOURCE_GROUPS).map(
     ([resourceGroupName, resourceGroupProperties]) => [
       resourceGroupName,
