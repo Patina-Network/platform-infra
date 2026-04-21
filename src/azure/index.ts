@@ -4,7 +4,6 @@ import "@/azure/clusters";
 import "@/azure/clusters/rbac";
 import "@/azure/users";
 import "@/azure/storage";
-import "@/azure/storage/blob";
 import "@/azure/disks";
 import "@/azure/vaults";
 import "@/azure/vaults/rbac";
