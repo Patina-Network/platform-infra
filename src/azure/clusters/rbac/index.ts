@@ -1,7 +1,7 @@
 import * as azure from "@pulumi/azure-native";
 import * as azuread from "@pulumi/azuread";
 
-import { k8sManifestsCluster } from "@/azure/clusters";
+import { azureClusters } from "@/azure/clusters";
 import { AKS_RBAC_ROLE_IDS } from "@/azure/clusters/rbac/const";
 import {
   AKS_CLUSTER_READONLY_USERS,
@@ -65,7 +65,7 @@ export const k8sManifestsReaderRoleAssignment =
         env.azure.subscriptionId,
         AKS_RBAC_ROLE_IDS.reader,
       ),
-      scope: k8sManifestsCluster.id,
+      scope: azureClusters["k8s-manifests"].id,
     },
     { provider },
   );
@@ -85,7 +85,7 @@ export const k8sManifestsReaderClusterUserRoleAssignment =
         env.azure.subscriptionId,
         AKS_RBAC_ROLE_IDS.clusterUser,
       ),
-      scope: k8sManifestsCluster.id,
+      scope: azureClusters["k8s-manifests"].id,
     },
     { provider },
   );
@@ -132,7 +132,7 @@ export const k8sManifestsAdminRoleAssignment =
         env.azure.subscriptionId,
         AKS_RBAC_ROLE_IDS.admin,
       ),
-      scope: k8sManifestsCluster.id,
+      scope: azureClusters["k8s-manifests"].id,
     },
     { provider },
   );
