@@ -27,6 +27,8 @@ export const STORAGE_ACCOUNTS = {
   },
 } as const satisfies Record<StorageAccountName, StorageAccount>;
 
+export type AzureStorageAccountName = keyof typeof STORAGE_ACCOUNTS;
+
 export const DEFAULT_STORAGE_ACCOUNT_SETTINGS: Omit<
   StorageAccountArgs,
   "resourceGroupName"
@@ -39,7 +41,7 @@ export const DEFAULT_STORAGE_ACCOUNT_SETTINGS: Omit<
   accessTier: azure.storage.AccessTier.Hot,
   allowBlobPublicAccess: false,
   allowCrossTenantReplication: false,
-  allowSharedKeyAccess: true,
+  allowSharedKeyAccess: false,
   defaultToOAuthAuthentication: false,
   enableHttpsTrafficOnly: true,
   minimumTlsVersion: azure.storage.MinimumTlsVersion.TLS1_2,
