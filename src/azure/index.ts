@@ -1,7 +1,7 @@
-import "@/azure/identities";
 import "@/azure/groups";
 import "@/azure/clusters";
 import "@/azure/clusters/rbac";
+import "@/azure/serviceaccounts";
 import "@/azure/users";
 import "@/azure/storage";
 import "@/azure/storage/rbac";
