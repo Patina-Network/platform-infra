@@ -145,6 +145,19 @@ export const REPOSITORIES = {
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypassTeams: [],
   },
+  dockerfiles: {
+    description: "Toolsets and software baked into static Docker images",
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    push: ["@Patina-Network/developers"],
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    // TODO: remove when initial bootstrapping & prototyping is complete
+    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
+  },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
 export type GithubRepositoryName = keyof typeof REPOSITORIES;
