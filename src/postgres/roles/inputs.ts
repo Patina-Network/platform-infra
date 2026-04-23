@@ -49,6 +49,12 @@ export const ROLES = [
     login: true,
     connectionLimit: 12,
   },
+  {
+    name: "db-backup-ro-sa",
+    password: env.pg.role["db-backup-ro-sa"],
+    login: true,
+    connectionLimit: 4,
+  },
 ] as const satisfies PgRoleArgs[];
 
 export type PgRole = (typeof ROLES)[number]["name"];
