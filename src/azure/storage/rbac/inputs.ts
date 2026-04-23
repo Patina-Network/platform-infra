@@ -1,7 +1,11 @@
+import type { AzureServiceAccountName } from "@/azure/serviceaccounts/inputs";
 import type { AzureStorageAccountName } from "@/azure/storage/inputs";
 import type { AzureUserName } from "@/azure/users/inputs";
 
-export type StorageRbacPrincipal = AzureUserName | "app";
+export type StorageRbacPrincipal =
+  | AzureServiceAccountName
+  | AzureUserName
+  | "app";
 
 // This gives you read-only access to the storage accounts' blob data.
 export const STORAGE_ACCOUNT_READERS = {
