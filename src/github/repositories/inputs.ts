@@ -154,7 +154,20 @@ export const REPOSITORIES = {
     push: ["@Patina-Network/developers", "@Patina-Network/infra"],
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Test Build All Docker images",
+          },
+        ],
+        strictRequiredStatusChecksPolicy: true,
+      },
+      pullRequest: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
+      },
+    },
     // TODO: remove when initial bootstrapping & prototyping is complete
     mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
   },
