@@ -151,7 +151,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers"],
+    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
