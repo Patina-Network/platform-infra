@@ -2,13 +2,13 @@ import { CLUSTERS } from "@/azure/clusters/inputs";
 
 type AzureClusterName = keyof typeof CLUSTERS;
 
-type AzureServiceAccount = {
+type ServiceAccount = {
   clusterName: AzureClusterName;
   namespace: string;
 };
 
 // this must match the name of the k8s ServiceAccount object you will create.
-type AzureServiceAccountName = string;
+type ServiceAccountName = string;
 
 // TODO: This only supports k8s service accounts at this time
 export const AZURE_SERVICE_ACCOUNTS = {
@@ -28,4 +28,6 @@ export const AZURE_SERVICE_ACCOUNTS = {
     clusterName: "k8s-manifests",
     namespace: "infrastructure",
   },
-} as const satisfies Record<AzureServiceAccountName, AzureServiceAccount>;
+} as const satisfies Record<ServiceAccountName, ServiceAccount>;
+
+export type AzureServiceAccountName = keyof typeof AZURE_SERVICE_ACCOUNTS;
