@@ -7,9 +7,8 @@ import {
   AKS_CLUSTER_READONLY_USERS,
   AKS_CLUSTER_ADMIN_USERS,
 } from "@/azure/clusters/rbac/inputs";
+import { AZURE_IDENTITIES } from "@/azure/identities";
 import { azureadProvider, provider } from "@/azure/provider";
-import { azureUsers } from "@/azure/users";
-import { AZURE_USERS } from "@/azure/users/inputs";
 import { env } from "@/env";
 
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
@@ -39,11 +38,11 @@ export const k8sManifestsReaderGroupMembers = Object.fromEntries(
     new azuread.GroupMember(
       getGroupMemberResourceName(
         "k8s-manifests-readers",
-        AZURE_USERS[userName].mailNickname,
+        AZURE_IDENTITIES[userName].name,
       ),
       {
         groupObjectId: k8sManifestsReadersGroup.objectId,
-        memberObjectId: azureUsers[userName].objectId,
+        memberObjectId: AZURE_IDENTITIES[userName].objectId,
       },
       { provider: azureadProvider },
     ),
@@ -106,11 +105,11 @@ export const k8sManifestsAdminGroupMembers = Object.fromEntries(
     new azuread.GroupMember(
       getGroupMemberResourceName(
         "k8s-manifests-admins",
-        AZURE_USERS[userName].mailNickname,
+        AZURE_IDENTITIES[userName].name,
       ),
       {
         groupObjectId: k8sManifestsAdminsGroup.objectId,
-        memberObjectId: azureUsers[userName].objectId,
+        memberObjectId: AZURE_IDENTITIES[userName].objectId,
       },
       { provider: azureadProvider },
     ),

@@ -1,22 +1,14 @@
 import * as azure from "@pulumi/azure-native";
 import * as azuread from "@pulumi/azuread";
 
-import { platformInfraPulumiSp } from "@/azure/apps";
+import { AZURE_IDENTITIES } from "@/azure/identities";
 import { azureadProvider, provider } from "@/azure/provider";
-import { azureServiceAccountManagedIdentities } from "@/azure/serviceaccounts";
-import {
-  AZURE_SERVICE_ACCOUNTS,
-  type AzureServiceAccountName,
-} from "@/azure/serviceaccounts/inputs";
 import { azureStorageAccounts } from "@/azure/storage";
 import { AZURE_STORAGE_RBAC_ROLE_IDS } from "@/azure/storage/rbac/const";
 import {
   STORAGE_ACCOUNT_READERS,
   STORAGE_ACCOUNT_WRITERS,
-  type StorageRbacPrincipal,
 } from "@/azure/storage/rbac/inputs";
-import { azureUsers } from "@/azure/users";
-import { AZURE_USERS, type AzureUserName } from "@/azure/users/inputs";
 import { env } from "@/env";
 
 type StorageAccessLevel = "readers" | "writers";
@@ -47,46 +39,6 @@ const getStorageBlobRoleAssignmentResourceName = (
   roleName: "blob-data-reader" | "blob-data-contributor",
 ) => `azure-role-assignment-${storageAccountName}-storage-account-${roleName}`;
 
-const isAzureUserName = (
-  principal: StorageRbacPrincipal,
-): principal is AzureUserName => principal in AZURE_USERS;
-
-const isAzureServiceAccountName = (
-  principal: StorageRbacPrincipal,
-): principal is AzureServiceAccountName => principal in AZURE_SERVICE_ACCOUNTS;
-
-const getPrincipalMemberName = (principal: StorageRbacPrincipal) => {
-  if (principal === "app") {
-    return "app";
-  }
-
-  if (isAzureUserName(principal)) {
-    return AZURE_USERS[principal].mailNickname;
-  }
-
-  if (isAzureServiceAccountName(principal)) {
-    return principal;
-  }
-
-  throw new Error(`Unknown storage RBAC principal: ${principal}`);
-};
-
-const getPrincipalObjectId = (principal: StorageRbacPrincipal) => {
-  if (principal === "app") {
-    return platformInfraPulumiSp.objectId;
-  }
-
-  if (isAzureUserName(principal)) {
-    return azureUsers[principal].objectId;
-  }
-
-  if (isAzureServiceAccountName(principal)) {
-    return azureServiceAccountManagedIdentities[principal].principalId;
-  }
-
-  throw new Error(`Unknown storage RBAC principal: ${principal}`);
-};
-
 export const azureStorageReaderGroups = Object.fromEntries(
   Object.keys(STORAGE_ACCOUNT_READERS).map((storageAccountName) => {
     return [
@@ -109,17 +61,17 @@ export const azureStorageReaderGroupMembers = Object.fromEntries(
     ([storageAccountName, principals]) =>
       principals.map((principal) => {
         return [
-          `${storageAccountName}-${getPrincipalMemberName(principal)}`,
+          `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
           new azuread.GroupMember(
             getStorageAccessGroupMemberResourceName(
               storageAccountName,
               "readers",
-              getPrincipalMemberName(principal),
+              AZURE_IDENTITIES[principal].name,
             ),
             {
               groupObjectId:
                 azureStorageReaderGroups[storageAccountName].objectId,
-              memberObjectId: getPrincipalObjectId(principal),
+              memberObjectId: AZURE_IDENTITIES[principal].objectId,
             },
             { provider: azureadProvider },
           ),
@@ -172,17 +124,17 @@ export const azureStorageWriterGroupMembers = Object.fromEntries(
     ([storageAccountName, principals]) =>
       principals.map((principal) => {
         return [
-          `${storageAccountName}-${getPrincipalMemberName(principal)}`,
+          `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
           new azuread.GroupMember(
             getStorageAccessGroupMemberResourceName(
               storageAccountName,
               "writers",
-              getPrincipalMemberName(principal),
+              AZURE_IDENTITIES[principal].name,
             ),
             {
               groupObjectId:
                 azureStorageWriterGroups[storageAccountName].objectId,
-              memberObjectId: getPrincipalObjectId(principal),
+              memberObjectId: AZURE_IDENTITIES[principal].objectId,
             },
             { provider: azureadProvider },
           ),
