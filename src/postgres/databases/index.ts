@@ -1,6 +1,6 @@
 import * as pg from "@pulumi/postgresql";
 
-import { DATABASES } from "@/postgres/databases/inputs";
+import { DATABASES, RO_ALL } from "@/postgres/databases/inputs";
 import { provider } from "@/postgres/provider";
 import { pgRolesMap } from "@/postgres/roles";
 
@@ -105,7 +105,7 @@ export const pgDatabaseRoGrantsMap = Object.fromEntries(
   Object.entries(DATABASES).map(([databaseName, databaseConfig]) => [
     databaseName,
     Object.fromEntries(
-      databaseConfig.ro.map((readOnlyRole) => [
+      [...databaseConfig.ro, ...RO_ALL].map((readOnlyRole) => [
         readOnlyRole,
         {
           schema: new pg.Grant(
