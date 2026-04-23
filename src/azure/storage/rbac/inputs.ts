@@ -1,11 +1,5 @@
-import type { AzureServiceAccountName } from "@/azure/serviceaccounts/inputs";
+import type { AzureIdentityName } from "@/azure/identities";
 import type { AzureStorageAccountName } from "@/azure/storage/inputs";
-import type { AzureUserName } from "@/azure/users/inputs";
-
-export type StorageRbacPrincipal =
-  | AzureServiceAccountName
-  | AzureUserName
-  | "app";
 
 // This gives you read-only access to the storage accounts' blob data.
 export const STORAGE_ACCOUNT_READERS = {
@@ -13,7 +7,7 @@ export const STORAGE_ACCOUNT_READERS = {
   platform4pulumi: ["Tahmid Ahmed", "app"],
 } as const satisfies Record<
   AzureStorageAccountName,
-  readonly StorageRbacPrincipal[]
+  readonly AzureIdentityName[]
 >;
 
 // This gives you read-write access to the storage accounts' blob data.
@@ -22,5 +16,5 @@ export const STORAGE_ACCOUNT_WRITERS = {
   platform4pulumi: ["Tahmid Ahmed", "app"],
 } as const satisfies Record<
   AzureStorageAccountName,
-  readonly StorageRbacPrincipal[]
+  readonly AzureIdentityName[]
 >;

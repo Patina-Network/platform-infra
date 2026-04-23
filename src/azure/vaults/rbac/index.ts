@@ -1,7 +1,7 @@
 import * as azure from "@pulumi/azure-native";
 
+import { AZURE_IDENTITIES } from "@/azure/identities";
 import { provider } from "@/azure/provider";
-import { azureServiceAccountManagedIdentities } from "@/azure/serviceaccounts";
 import { sopsMasterVault } from "@/azure/vaults";
 import { AZURE_KEY_VAULT_ROLES } from "@/azure/vaults/rbac/const";
 import { env } from "@/env";
@@ -21,9 +21,7 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
       "crypto-user",
     ),
     {
-      principalId:
-        azureServiceAccountManagedIdentities["kustomize-controller"]
-          .principalId,
+      principalId: AZURE_IDENTITIES["kustomize-controller"].objectId,
       principalType: azure.authorization.PrincipalType.ServicePrincipal,
       roleDefinitionId: getRoleDefinitionId(
         env.azure.subscriptionId,
