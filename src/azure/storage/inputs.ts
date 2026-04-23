@@ -17,7 +17,7 @@ type StorageAccountName = string;
 type StorageBlobName = string;
 
 export const STORAGE_ACCOUNTS = {
-  k8sstorage0001: {
+  infrastructure4k8s: {
     resourceGroupName: "k8s",
     blobs: ["db-backup"],
   },
