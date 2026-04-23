@@ -3,6 +3,11 @@ import * as azuread from "@pulumi/azuread";
 
 import { platformInfraPulumiSp } from "@/azure/apps";
 import { azureadProvider, provider } from "@/azure/provider";
+import { azureServiceAccountManagedIdentities } from "@/azure/serviceaccounts";
+import {
+  AZURE_SERVICE_ACCOUNTS,
+  type AzureServiceAccountName,
+} from "@/azure/serviceaccounts/inputs";
 import { azureStorageAccounts } from "@/azure/storage";
 import { AZURE_STORAGE_RBAC_ROLE_IDS } from "@/azure/storage/rbac/const";
 import {
@@ -11,7 +16,7 @@ import {
   type StorageRbacPrincipal,
 } from "@/azure/storage/rbac/inputs";
 import { azureUsers } from "@/azure/users";
-import { AZURE_USERS } from "@/azure/users/inputs";
+import { AZURE_USERS, type AzureUserName } from "@/azure/users/inputs";
 import { env } from "@/env";
 
 type StorageAccessLevel = "readers" | "writers";
@@ -42,13 +47,45 @@ const getStorageBlobRoleAssignmentResourceName = (
   roleName: "blob-data-reader" | "blob-data-contributor",
 ) => `azure-role-assignment-${storageAccountName}-storage-account-${roleName}`;
 
-const getPrincipalMemberName = (principal: StorageRbacPrincipal) =>
-  principal === "app" ? "app" : AZURE_USERS[principal].mailNickname;
+const isAzureUserName = (
+  principal: StorageRbacPrincipal,
+): principal is AzureUserName => principal in AZURE_USERS;
 
-const getPrincipalObjectId = (principal: StorageRbacPrincipal) =>
-  principal === "app" ?
-    platformInfraPulumiSp.objectId
-  : azureUsers[principal].objectId;
+const isAzureServiceAccountName = (
+  principal: StorageRbacPrincipal,
+): principal is AzureServiceAccountName => principal in AZURE_SERVICE_ACCOUNTS;
+
+const getPrincipalMemberName = (principal: StorageRbacPrincipal) => {
+  if (principal === "app") {
+    return "app";
+  }
+
+  if (isAzureUserName(principal)) {
+    return AZURE_USERS[principal].mailNickname;
+  }
+
+  if (isAzureServiceAccountName(principal)) {
+    return principal;
+  }
+
+  throw new Error(`Unknown storage RBAC principal: ${principal}`);
+};
+
+const getPrincipalObjectId = (principal: StorageRbacPrincipal) => {
+  if (principal === "app") {
+    return platformInfraPulumiSp.objectId;
+  }
+
+  if (isAzureUserName(principal)) {
+    return azureUsers[principal].objectId;
+  }
+
+  if (isAzureServiceAccountName(principal)) {
+    return azureServiceAccountManagedIdentities[principal].principalId;
+  }
+
+  throw new Error(`Unknown storage RBAC principal: ${principal}`);
+};
 
 export const azureStorageReaderGroups = Object.fromEntries(
   Object.keys(STORAGE_ACCOUNT_READERS).map((storageAccountName) => {
