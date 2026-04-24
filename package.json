@@ -24,10 +24,8 @@
     "prettier": "^3.8.1",
     "type-fest": "https://github.com/tahminator/type-fest",
     "typescript-eslint": "^8.57.1",
-    "vitest": "^4.1.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
+    "vitest": "^4.1.0",
+    "typescript": "^6"
   },
   "dependencies": {
     "@pulumi/azure-native": "^3.16.0",

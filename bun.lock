@@ -17,14 +17,12 @@
         "eslint": "^10.0.3",
         "eslint-plugin-perfectionist": "^5.7.0",
         "globals": "^17.4.0",
-        "type-fest": "https://github.com/tahminator/type-fest",
         "jiti": "^2.6.1",
         "prettier": "^3.8.1",
+        "type-fest": "https://github.com/tahminator/type-fest",
+        "typescript": "^6",
         "typescript-eslint": "^8.57.1",
         "vitest": "^4.1.0",
-      },
-      "peerDependencies": {
-        "typescript": "^5",
       },
     },
   },
@@ -761,7 +759,7 @@
 
     "type-fest": ["type-fest@github:tahminator/type-fest#d0bbbbe", { "dependencies": { "tagged-tag": "^1.0.0" } }, "tahminator-type-fest-d0bbbbe"],
 
-    "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+    "typescript": ["typescript@6.0.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw=="],
 
     "typescript-eslint": ["typescript-eslint@8.58.1", "", { "dependencies": { "@typescript-eslint/eslint-plugin": "8.58.1", "@typescript-eslint/parser": "8.58.1", "@typescript-eslint/typescript-estree": "8.58.1", "@typescript-eslint/utils": "8.58.1" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0 || ^10.0.0", "typescript": ">=4.8.4 <6.1.0" } }, "sha512-gf6/oHChByg9HJvhMO1iBexJh12AqqTfnuxscMDOVqfJW3htsdRJI/GfPpHTTcyeB8cSTUY2JcZmVgoyPqcrDg=="],
 
