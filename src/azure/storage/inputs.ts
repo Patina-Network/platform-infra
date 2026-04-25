@@ -9,9 +9,13 @@ import type { AzureResourceGroupName } from "@/azure/groups/inputs";
 
 import { DEFAULT_REGION } from "@/azure/inputs";
 
-type StorageAccount = {
+export type StorageAccount = {
   resourceGroupName: AzureResourceGroupName;
-  blobs: StorageBlobName[];
+  blobs: {
+    name: StorageBlobName;
+    /** ONLY SUPPORTS DAYS */
+    ttl?: Temporal.Duration;
+  }[];
 };
 type StorageAccountName = string;
 type StorageBlobName = string;
@@ -19,15 +23,35 @@ type StorageBlobName = string;
 export const STORAGE_ACCOUNTS = {
   infrastructure4k8s: {
     resourceGroupName: "k8s",
-    blobs: ["db-backup"],
+    blobs: [
+      {
+        name: "db-backup",
+        ttl: Temporal.Duration.from({ days: 30 }),
+      },
+    ],
   },
   platform4pulumi: {
     resourceGroupName: "platform-infra",
-    blobs: ["pulumi-state"],
+    blobs: [
+      {
+        name: "pulumi-state",
+        ttl: undefined,
+      },
+    ],
   },
 } as const satisfies Record<StorageAccountName, StorageAccount>;
 
 export type AzureStorageAccountName = keyof typeof STORAGE_ACCOUNTS;
+
+// TODO: Find a better solution
+export type AzureStorageAccountNameWithTtl = {
+  [K in keyof typeof STORAGE_ACCOUNTS]: Exclude<
+    (typeof STORAGE_ACCOUNTS)[K]["blobs"][number]["ttl"],
+    undefined
+  > extends never ?
+    never
+  : K;
+}[keyof typeof STORAGE_ACCOUNTS];
 
 export const DEFAULT_STORAGE_ACCOUNT_SETTINGS: Omit<
   StorageAccountArgs,
