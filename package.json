@@ -28,6 +28,7 @@
     "typescript": "^6"
   },
   "dependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
     "@pulumi/azure-native": "^3.16.0",
     "@pulumi/azuread": "^6.9.0",
     "@pulumi/github": "^6.12.2",
