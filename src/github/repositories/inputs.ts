@@ -145,6 +145,18 @@ export const REPOSITORIES = {
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypassTeams: [],
   },
+  codebloom: {
+    description: "Codebloom - LeetCode Leaderboard for Patina Network",
+    bootstrap: true,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    push: ["@Patina-Network/developers", "@Patina-Network/codebloom"],
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypassTeams: [],
+  },
   dockerfiles: {
     description: "Toolsets and software baked into static Docker images",
     bootstrap: false,
