@@ -4,6 +4,8 @@ import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
 import type { GITHUB_OWNER } from "@/github/inputs";
 import type { GithubTeamName } from "@/github/teams/inputs";
 
+import { GITHUB_APP_ID } from "@/github/repositories/const";
+
 /**
  * Can be `public` or `private`.
  * If your organization is associated with an enterprise account
@@ -106,9 +108,11 @@ export const REPOSITORIES = {
         requiredChecks: [
           {
             context: "Run Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Preview Pulumi changes",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
         strictRequiredStatusChecksPolicy: true,
@@ -160,33 +164,43 @@ export const REPOSITORIES = {
         requiredChecks: [
           {
             context: "Frontend Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Backend Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Validate DB Schema on Prod DB",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Build Test Docker Image",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Backend Pre Test",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Run verification checks on the PR",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "CodeQL",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "Deploy to staging",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
           {
             context: "[codebloom_backend] SonarCloud Code Analysis",
+            integrationId: GITHUB_APP_ID.sonarCloud,
           },
           {
             context: "[codebloom_frontend] SonarCloud Code Analysis",
+            integrationId: GITHUB_APP_ID.sonarCloud,
           },
         ],
         strictRequiredStatusChecksPolicy: true,
@@ -209,6 +223,7 @@ export const REPOSITORIES = {
         requiredChecks: [
           {
             context: "Test Build All Docker images",
+            integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
         strictRequiredStatusChecksPolicy: true,
