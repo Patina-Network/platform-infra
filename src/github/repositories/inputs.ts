@@ -147,7 +147,7 @@ export const REPOSITORIES = {
   },
   codebloom: {
     description: "Codebloom - LeetCode Leaderboard for Patina Network",
-    bootstrap: true,
+    bootstrap: false,
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
