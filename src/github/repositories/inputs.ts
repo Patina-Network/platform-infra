@@ -2,9 +2,9 @@ import type { RepositoryArgs } from "@pulumi/github";
 import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
 
 import type { GITHUB_OWNER } from "@/github/inputs";
-import type { GithubTeamName } from "@/github/teams/inputs";
 
 import { GITHUB_APP_ID } from "@/github/repositories/const";
+import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
 
 /**
  * Can be `public` or `private`.
@@ -57,6 +57,10 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
   },
 };
 
+const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
+  ([k]) => `@Patina-Network/${k}` as const,
+);
+
 export const REPOSITORIES = {
   "example-repository": {
     description: undefined,
@@ -65,7 +69,7 @@ export const REPOSITORIES = {
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     triage: [],
-    push: ["@Patina-Network/developers"],
+    push: ALL_GITHUB_TEAMS,
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypassTeams: [],
@@ -77,7 +81,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
@@ -97,7 +101,7 @@ export const REPOSITORIES = {
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {
       allowAutoMerge: false,
@@ -130,7 +134,7 @@ export const REPOSITORIES = {
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
@@ -143,7 +147,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/patchats"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
@@ -155,7 +159,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/codebloom"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
@@ -214,7 +218,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
-    push: ["@Patina-Network/developers", "@Patina-Network/infra"],
+    push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
