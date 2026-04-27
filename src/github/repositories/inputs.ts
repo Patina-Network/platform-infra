@@ -154,7 +154,44 @@ export const REPOSITORIES = {
     push: ["@Patina-Network/developers", "@Patina-Network/codebloom"],
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
+        requiredChecks: [
+          {
+            context: "Frontend Tests",
+          },
+          {
+            context: "Backend Tests",
+          },
+          {
+            context: "Validate DB Schema on Prod DB",
+          },
+          {
+            context: "Build Test Docker Image",
+          },
+          {
+            context: "Backend Pre Test",
+          },
+          {
+            context: "Run verification checks on the PR",
+          },
+          {
+            context: "CodeQL",
+          },
+          {
+            context: "Deploy to staging",
+          },
+          {
+            context: "[codebloom_backend] SonarCloud Code Analysis",
+          },
+          {
+            context: "[codebloom_frontend] SonarCloud Code Analysis",
+          },
+        ],
+        strictRequiredStatusChecksPolicy: true,
+      },
+    },
     mainBranchProtectionBypassTeams: [],
   },
   dockerfiles: {
@@ -167,17 +204,14 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
-      ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
       requiredStatusChecks: {
+        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
         requiredChecks: [
           {
             context: "Test Build All Docker images",
           },
         ],
         strictRequiredStatusChecksPolicy: true,
-      },
-      pullRequest: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
       },
     },
     // TODO: remove when initial bootstrapping & prototyping is complete
