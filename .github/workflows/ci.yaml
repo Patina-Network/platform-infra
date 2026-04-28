@@ -37,7 +37,7 @@ jobs:
 
       - name: Install deps
         shell: bash
-        run: bun install --frozen-lockfile
+        run: bun run install:deps:ci
 
       - name: Run Tests
         run: bun run test
@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-bun-
 
       - name: Install deps
-        run: bun install --frozen-lockfile
+        run: bun run install:deps:ci
 
       - name: Run Pulumi Preview
         run: bun run .github/scripts/src/pulumi/preview --prId=${{ github.event.number }}
