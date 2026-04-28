@@ -38,6 +38,7 @@ export const TEAMS = {
       { username: "rootandroo", role: "member" },
       { username: "isabellalam12", role: "member" },
       { username: "MalihaT111", role: "member" },
+      { username: "luoh00", role: "member" },
     ],
   },
   patchats: {
@@ -48,6 +49,12 @@ export const TEAMS = {
       { username: "rayzhou1201", role: "member" },
       { username: "Allimonae", role: "member" },
       { username: "Arshadul-Monir", role: "member" },
+      { username: "RandyJDean", role: "member" },
+      { username: "rootandroo", role: "member" },
+      { username: "isabellalam12", role: "member" },
+      { username: "MalihaT111", role: "member" },
+      { username: "SelinaZhu26", role: "member" },
+      { username: "luoh00", role: "member" },
     ],
   },
   infra: {
