@@ -1,7 +1,7 @@
 import type { AzureGlobalEntraRoleName } from "@/azure/users/const";
 
 type AzureUser = {
-  /** Set this to objectId if you are importing a user into Pulumi. Then once state is reonciled, delete it. */
+  /** Set this to objectId if you are importing a user into Pulumi. Then once state is reconciled, delete it. */
   bootstrapObjectId?: string;
   entraRoles: readonly AzureGlobalEntraRoleName[];
   /**
@@ -23,12 +23,19 @@ type AzureUserFullName = string;
 // New users should be created in Azure, then bootstrapped to this repository.
 // Then, we can use Pulumi to wire up resources & permissions.
 export const AZURE_USERS = {
-  "Arshadul Monir": {
+  "Henry Chen": {
     bootstrapObjectId: undefined,
-    entraRoles: ["globalReader"],
-    mail: "arshadul@patinanetwork.onmicrosoft.com",
-    mailNickname: "arshadul",
-    userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
+    entraRoles: ["globalAdministrator"],
+    mail: "henry@patinanetwork.onmicrosoft.com",
+    mailNickname: "henry",
+    userPrincipalName: "henry@patinanetwork.onmicrosoft.com",
+  },
+  "Tahmid Ahmed": {
+    bootstrapObjectId: undefined,
+    entraRoles: ["globalAdministrator", "userAdministrator"],
+    mail: "tahmid@patinanetwork.onmicrosoft.com",
+    mailNickname: "tahmid",
+    userPrincipalName: "tahmid@patinanetwork.onmicrosoft.com",
   },
   "Kevin Ma": {
     bootstrapObjectId: undefined,
@@ -44,19 +51,12 @@ export const AZURE_USERS = {
     mailNickname: "ray",
     userPrincipalName: "ray@patinanetwork.onmicrosoft.com",
   },
-  "Tahmid Ahmed": {
+  "Arshadul Monir": {
     bootstrapObjectId: undefined,
-    entraRoles: ["globalAdministrator", "userAdministrator"],
-    mail: "tahmid@patinanetwork.onmicrosoft.com",
-    mailNickname: "tahmid",
-    userPrincipalName: "tahmid@patinanetwork.onmicrosoft.com",
-  },
-  "Henry Chen": {
-    bootstrapObjectId: undefined,
-    entraRoles: ["globalAdministrator"],
-    mail: "henry@patinanetwork.onmicrosoft.com",
-    mailNickname: "henry",
-    userPrincipalName: "henry@patinanetwork.onmicrosoft.com",
+    entraRoles: ["globalReader"],
+    mail: "arshadul@patinanetwork.onmicrosoft.com",
+    mailNickname: "arshadul",
+    userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
   },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
