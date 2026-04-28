@@ -5,4 +5,3 @@ import "./patches";
 import "@/azure";
 import "@/github";
 import "@/postgres";
-import "@/sonarcloud";
