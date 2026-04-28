@@ -1,1 +1,1 @@
-export const SONARCLOUD_ORGANIZATION = "patina-network";
+export const SONARCLOUD_ORGANIZATION = "Patina-Network";
