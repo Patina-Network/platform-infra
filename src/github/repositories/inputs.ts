@@ -51,7 +51,7 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
   update: false,
   pullRequest: {
     requiredApprovingReviewCount: 1,
-    dismissStaleReviewsOnPush: true,
+    dismissStaleReviewsOnPush: false,
     requireCodeOwnerReview: true,
     requiredReviewThreadResolution: true,
   },
