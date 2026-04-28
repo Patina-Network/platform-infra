@@ -22,6 +22,9 @@ export const env = {
     installationId: required("GITHUB_APP_INSTALLATION_ID"),
     pemContent: required("GITHUB_APP_PEM_CONTENT"),
   },
+  sonarcloud: {
+    token: required("SONARCLOUD_TOKEN"),
+  },
   pg: {
     database: required("PG_DATABASE"),
     host: required("PG_HOST"),
