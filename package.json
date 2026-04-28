@@ -41,5 +41,6 @@
   },
   "trustedDependencies": [
     "@pulumi/sonarcloud"
-  ]
+  ],
+  "version": "1.0.131"
 }
