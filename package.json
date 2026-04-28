@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "install:deps:ci": "bun run install:sdks && bun install --frozen-lockfile",
+    "install:deps:ci": "bun run install:sdks && git restore package.json && bun install --frozen-lockfile",
     "install:deps": "bun run install:sdks && bun install",
     "install:sdks": "pulumi install --no-dependencies",
     "test": "bun run typecheck && bun run fmt && bun run lint",
