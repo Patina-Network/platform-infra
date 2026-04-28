@@ -4,7 +4,7 @@ import type { AzureStorageAccountName } from "@/azure/storage/inputs";
 // This gives you read-only access to the storage accounts' blob data.
 export const STORAGE_ACCOUNT_READERS = {
   infrastructure4k8s: ["Tahmid Ahmed"],
-  platform4pulumi: ["Tahmid Ahmed", "app"],
+  platform4pulumi: ["Tahmid Ahmed", "Henry Chen", "app"],
 } as const satisfies Record<
   AzureStorageAccountName,
   readonly AzureIdentityName[]
