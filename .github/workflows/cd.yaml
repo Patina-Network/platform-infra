@@ -40,7 +40,7 @@ jobs:
 
       - name: Install deps
         shell: bash
-        run: bun install --frozen-lockfile
+        run: bun run install:deps:ci
 
       - name: Run Pulumi Refresh
         shell: bash
