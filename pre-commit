@@ -7,7 +7,7 @@ for FILE in $FILES; do
         if ! grep -q "sops:" "$FILE"; then
             echo "--------------------------------------------------------"
             echo "ERROR: Unencrypted secret file detected: $FILE"
-            echo "Please encrypt this file by running \`just encrypt $FILE\`,"
+            echo "Please encrypt this file by running \`just e $FILE\`,"
             echo "then run \`git add $FILE\`."
             echo "--------------------------------------------------------"
             EXIT_CODE=1
