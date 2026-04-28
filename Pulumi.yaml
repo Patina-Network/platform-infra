@@ -2,9 +2,3 @@ name: platform-infra
 runtime: bun
 description: Platform infrastructure for Azure and GitHub
 main: src
-packages:
-  sonarcloud:
-    source: terraform-provider
-    version: 1.1.1
-    parameters:
-      - rewe-digital/sonarcloud
