@@ -62,18 +62,6 @@ const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
 );
 
 export const REPOSITORIES = {
-  "example-repository": {
-    description: undefined,
-    bootstrap: false,
-    oldName: undefined,
-    visibility: "public",
-    maintain: ["@Patina-Network/admin"],
-    triage: [],
-    push: ALL_GITHUB_TEAMS,
-    repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
-    mainBranchProtectionBypassTeams: [],
-  },
   "k8s-manifests": {
     description:
       "Kubernetes manifests for Patina Network services and infrastructure.",
