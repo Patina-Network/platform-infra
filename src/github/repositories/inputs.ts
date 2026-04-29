@@ -221,8 +221,7 @@ export const REPOSITORIES = {
         strictRequiredStatusChecksPolicy: true,
       },
     },
-    // TODO: remove when initial bootstrapping & prototyping is complete
-    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
+    mainBranchProtectionBypassTeams: [],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
