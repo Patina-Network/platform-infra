@@ -24,6 +24,10 @@ The following files should be edited:
 - src/github/teams/inputs.ts
 - src/azure/users/inputs.ts
 
+## Onboarding to Azure
+
+Please read the instructions in [`src/azure/users/inputs.ts`](./src/azure/users/inputs.ts) in order to understand how to onboard a new user via Azure.
+
 ## Infra Workflow
 
 Anyone in the organization can make changes to the infra by creating a PR on this repo.
