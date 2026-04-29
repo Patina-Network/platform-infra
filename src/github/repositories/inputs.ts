@@ -181,10 +181,6 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context: "Deploy to staging",
-            integrationId: GITHUB_APP_ID.githubActions,
-          },
-          {
             context: "[codebloom_backend] SonarCloud Code Analysis",
             integrationId: GITHUB_APP_ID.sonarCloud,
           },
