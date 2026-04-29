@@ -65,6 +65,14 @@ export const TEAMS = {
       { username: "arklian", role: "maintainer" },
     ],
   },
+  cicd: {
+    privacy: "closed",
+    description: "Responsible for all projects' CICD",
+    members: [
+      { username: "tahminator", role: "maintainer" },
+      { username: "arklian", role: "maintainer" },
+    ],
+  },
   admin: {
     privacy: "closed",
     description: "Patina-Network Administrators",
