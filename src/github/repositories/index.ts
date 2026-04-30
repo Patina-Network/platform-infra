@@ -2,6 +2,7 @@ import * as github from "@pulumi/github";
 
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
+import { DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME } from "@/github/repositories/const";
 import {
   DEFAULT_MAIN_BRANCH_PROTECTIONS,
   DEFAULT_REPOSITORY_SETTINGS,
@@ -123,6 +124,27 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
 ).map(([repositoryName, repositoryConfig]) => {
   const repository = githubRepositories[repositoryName];
 
+  const branchProtections = (() => {
+    const protections = mergeWithConcatArrays(
+      DEFAULT_MAIN_BRANCH_PROTECTIONS,
+      repositoryConfig.mainBranchProtectionOverrides,
+    ) as github.types.output.RepositoryRulesetRules;
+
+    if (repositoryConfig.monorepo) {
+      if (protections.requiredStatusChecks) {
+        protections.requiredStatusChecks = {
+          ...protections.requiredStatusChecks,
+          requiredChecks:
+            protections.requiredStatusChecks.requiredChecks.filter(
+              ({ context }) => context !== DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+            ),
+        };
+      }
+    }
+
+    return protections;
+  })();
+
   return [
     new github.RepositoryRuleset(
       getDefaultBranchRulesetResourceName(repositoryName),
@@ -149,10 +171,7 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
           },
         },
         rules: {
-          ...mergeWithConcatArrays(
-            DEFAULT_MAIN_BRANCH_PROTECTIONS,
-            repositoryConfig.mainBranchProtectionOverrides,
-          ),
+          ...branchProtections,
         },
       },
       {
