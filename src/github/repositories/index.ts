@@ -10,6 +10,7 @@ import {
   type GithubTeamReference,
 } from "@/github/repositories/inputs";
 import { githubTeams } from "@/github/teams";
+import { mergeWithConcatArrays } from "@/utils";
 
 type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
 type GithubTeamPermission = "maintain" | "push" | "triage";
@@ -49,8 +50,10 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           name: actualRepositoryName,
           visibility: repositoryConfig.visibility,
           description: repositoryConfig.description,
-          ...DEFAULT_REPOSITORY_SETTINGS,
-          ...repositoryConfig.repositorySettingOverrides,
+          ...mergeWithConcatArrays(
+            DEFAULT_REPOSITORY_SETTINGS,
+            repositoryConfig.repositorySettingOverrides,
+          ),
         },
         {
           provider,
@@ -146,8 +149,10 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
           },
         },
         rules: {
-          ...DEFAULT_MAIN_BRANCH_PROTECTIONS,
-          ...repositoryConfig.mainBranchProtectionOverrides,
+          ...mergeWithConcatArrays(
+            DEFAULT_MAIN_BRANCH_PROTECTIONS,
+            repositoryConfig.mainBranchProtectionOverrides,
+          ),
         },
       },
       {

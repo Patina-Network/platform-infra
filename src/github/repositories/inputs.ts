@@ -72,11 +72,7 @@ export const REPOSITORIES = {
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {
-      pullRequest: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
-      },
-    },
+    mainBranchProtectionOverrides: {},
     // TODO: remove when initial bootstrapping & prototyping is complete
     mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
   },
@@ -93,7 +89,6 @@ export const REPOSITORIES = {
       allowAutoMerge: false,
     },
     mainBranchProtectionOverrides: {
-      ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
       requiredStatusChecks: {
         requiredChecks: [
           {
@@ -105,10 +100,6 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
-        strictRequiredStatusChecksPolicy: true,
-      },
-      pullRequest: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.pullRequest,
       },
     },
     // TODO: remove when initial bootstrapping & prototyping is complete
@@ -150,7 +141,6 @@ export const REPOSITORIES = {
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
       requiredStatusChecks: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
         requiredChecks: [
           {
             context: "Frontend Tests",
@@ -189,7 +179,6 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.sonarCloud,
           },
         ],
-        strictRequiredStatusChecksPolicy: true,
       },
     },
     mainBranchProtectionBypassTeams: [],
@@ -205,14 +194,12 @@ export const REPOSITORIES = {
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
       requiredStatusChecks: {
-        ...DEFAULT_MAIN_BRANCH_PROTECTIONS.requiredStatusChecks,
         requiredChecks: [
           {
             context: "Test Build All Docker images",
             integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
-        strictRequiredStatusChecksPolicy: true,
       },
     },
     mainBranchProtectionBypassTeams: [],
