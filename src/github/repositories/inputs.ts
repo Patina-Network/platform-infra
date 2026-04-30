@@ -3,7 +3,10 @@ import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
 
 import type { GITHUB_OWNER } from "@/github/inputs";
 
-import { GITHUB_APP_ID } from "@/github/repositories/const";
+import {
+  DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+  GITHUB_APP_ID,
+} from "@/github/repositories/const";
 import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
 
 /**
@@ -32,6 +35,8 @@ type GithubRepository = {
   repositorySettingOverrides: Partial<RepositoryArgs>;
   mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
   mainBranchProtectionBypassTeams: readonly GithubTeamReference[];
+  /** if set to `true`, will exclude default `SonarCloud Code Analysis` status check. You are expected to register your own multi-scanner status checks instead. */
+  monorepo: boolean;
 };
 
 type RepositoryName = string;
@@ -55,6 +60,16 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
     requireCodeOwnerReview: true,
     requiredReviewThreadResolution: true,
   },
+  requiredStatusChecks: {
+    requiredChecks: [
+      // this check will be excluded if `monorepo: true` in repository config
+      {
+        context: DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+        integrationId: GITHUB_APP_ID.sonarCloud,
+      },
+    ],
+    strictRequiredStatusChecksPolicy: true,
+  },
 };
 
 const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
@@ -68,6 +83,7 @@ export const REPOSITORIES = {
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
+    monorepo: false,
     maintain: ["@Patina-Network/admin"],
     push: ALL_GITHUB_TEAMS,
     triage: [],
@@ -83,6 +99,7 @@ export const REPOSITORIES = {
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
+    monorepo: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {
@@ -111,6 +128,7 @@ export const REPOSITORIES = {
     visibility: "public",
     oldName: undefined,
     maintain: ["@Patina-Network/admin"],
+    monorepo: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -124,6 +142,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
+    monorepo: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -136,6 +155,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
+    monorepo: true,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -189,6 +209,7 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
+    monorepo: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
