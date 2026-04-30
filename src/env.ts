@@ -36,6 +36,12 @@ export const env = {
       "codebloom-prod-ro": required("PG_ROLE_codebloom-prod-ro"),
       "grafana-sa": required("PG_ROLE_grafana-sa"),
       "db-backup-ro-sa": required("PG_ROLE_db-backup-ro-sa"),
+      "patchats-stg-sa": required("PG_ROLE_patchats-stg-sa"),
+      "patchats-prod-sa": required("PG_ROLE_patchats-prod-sa"),
+      "patchats-stg-app": required("PG_ROLE_patchats-stg-app"),
+      "patchats-prod-app": required("PG_ROLE_patchats-prod-app"),
+      "patchats-stg-ro": required("PG_ROLE_patchats-stg-ro"),
+      "patchats-prod-ro": required("PG_ROLE_patchats-prod-ro"),
     },
   },
 } as const;
