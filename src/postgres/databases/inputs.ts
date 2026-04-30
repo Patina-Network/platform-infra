@@ -41,4 +41,18 @@ export const DATABASES = {
     dml: [],
     ro: [],
   },
+  "patchats-stg": {
+    connectionLimit: 18,
+    owner: "patchats-stg-sa",
+    extensions: ["pgcrypto"],
+    dml: ["patchats-stg-app"],
+    ro: ["patchats-stg-ro"],
+  },
+  "patchats-prod": {
+    connectionLimit: 18,
+    owner: "patchats-prod-sa",
+    extensions: ["pgcrypto"],
+    dml: ["patchats-prod-app"],
+    ro: ["patchats-prod-ro"],
+  },
 } as const satisfies Record<DatabaseName, PgDatabase>;
