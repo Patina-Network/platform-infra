@@ -187,10 +187,6 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context: "CodeQL",
-            integrationId: GITHUB_APP_ID.githubActions,
-          },
-          {
             context: "[codebloom_backend] SonarCloud Code Analysis",
             integrationId: GITHUB_APP_ID.sonarCloud,
           },
