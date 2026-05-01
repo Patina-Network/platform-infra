@@ -11,6 +11,8 @@ import {
 } from "@/azure/vaults/rbac/inputs";
 import { env } from "@/env";
 
+// TODO: refactor RBAC outputs to group by role ID & generate resource names with less manual work instead
+
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
@@ -75,6 +77,21 @@ export const sopsMasterReaderSecretsUserRoleAssignment =
       roleDefinitionId: getRoleDefinitionId(
         env.azure.subscriptionId,
         AZURE_KEY_VAULT_ROLES.keyVaultSecretsUser,
+      ),
+      scope: sopsMasterVault.id,
+    },
+    { provider },
+  );
+
+export const sopsMasterReaderCryptoUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName("sops-master-readers", "crypto-user"),
+    {
+      principalId: sopsMasterReadersGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultCryptoUser,
       ),
       scope: sopsMasterVault.id,
     },
