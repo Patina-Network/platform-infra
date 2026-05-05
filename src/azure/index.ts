@@ -3,6 +3,8 @@ import "@/azure/clusters";
 import "@/azure/clusters/rbac";
 import "@/azure/serviceaccounts";
 import "@/azure/users";
+import "@/azure/users/entra";
+import "@/azure/users/rbac";
 import "@/azure/storage";
 import "@/azure/storage/rbac";
 import "@/azure/disks";

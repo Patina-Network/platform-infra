@@ -1,13 +1,16 @@
 /**
- * Go-to source to see descriptions of each role.
+ * Global roles to control access to Microsoft Entra, which handles permissions across Microsoft's suite of tools.
+ * Excludes managing Azure resources.
+ * https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/permissions-reference
  */
 export const AZURE_GLOBAL_ENTRA_ROLES = {
   /**
    * Can manage all aspects of Microsoft Entra ID and Microsoft services that use Microsoft Entra identities.
+   * Can elevate themselves to super user and give other users permissions.
    */
   globalAdministrator: "62e90394-69f5-4237-9190-012177145e10",
   /**
-   * Can read everything that a Global Administrator can, but not update anything.
+   * Can read everything in Entra that a Global Administrator can, but not update anything.
    */
   globalReader: "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
   /**
