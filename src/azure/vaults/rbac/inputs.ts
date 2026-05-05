@@ -4,6 +4,7 @@ import type { AzureIdentityName } from "@/azure/identities";
 export const SOPS_VAULT_READONLY_USERS = [
   "Tahmid Ahmed",
   "Henry Chen",
+  "Haoking Luo",
 ] satisfies AzureIdentityName[];
 
 // This gives you read-write access to `sops-master` vault
