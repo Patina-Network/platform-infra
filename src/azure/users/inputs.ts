@@ -94,7 +94,7 @@ export const AZURE_USERS = {
   },
   "Haoking Luo": {
     bootstrapObjectId: undefined,
-    entraRoles: ["globalReader"],
+    entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "haoking.luo@patinanetwork.onmicrosoft.com",
     mailNickname: "haoking.luo",
