@@ -10,6 +10,38 @@ const getKeyVaultResourceName = (
   vaultName: string,
 ) => `azure-resource-group-${resourceGroupName}-key-vault-${vaultName}`;
 
+export const sopsRoVault = new azure.keyvault.Vault(
+  getKeyVaultResourceName("platform-infra", "sops-ro"),
+  {
+    vaultName: "sops-ro",
+    resourceGroupName: azureResourceGroups["platform-infra"].name,
+    location: DEFAULT_REGION,
+    properties: {
+      tenantId: env.azure.tenantId,
+      sku: {
+        family: azure.keyvault.SkuFamily.A,
+        name: azure.keyvault.SkuName.Standard,
+      },
+      enableRbacAuthorization: true,
+      enableSoftDelete: true,
+      enabledForDeployment: false,
+      enabledForDiskEncryption: false,
+      enabledForTemplateDeployment: false,
+      softDeleteRetentionInDays: 90,
+      publicNetworkAccess: "Enabled",
+      networkAcls: {
+        bypass: azure.keyvault.NetworkRuleBypassOptions.None,
+        defaultAction: azure.keyvault.NetworkRuleAction.Allow,
+        ipRules: [],
+        virtualNetworkRules: [],
+      },
+      accessPolicies: [],
+    },
+    tags: {},
+  },
+  { provider },
+);
+
 export const sopsMasterVault = new azure.keyvault.Vault(
   getKeyVaultResourceName("platform-infra", "sops-master"),
   {
@@ -38,6 +70,21 @@ export const sopsMasterVault = new azure.keyvault.Vault(
       accessPolicies: [],
     },
     tags: {},
+  },
+  { provider },
+);
+
+export const sopsRoKey = new azure.keyvault.Key(
+  "azure-keyvault-sops-ro-key",
+  {
+    resourceGroupName: azureResourceGroups["platform-infra"].name,
+    vaultName: sopsRoVault.name,
+    keyName: "sops-ro-key",
+    properties: {
+      kty: azure.keyvault.JsonWebKeyType.RSA,
+      keySize: 4096,
+      keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
+    },
   },
   { provider },
 );
