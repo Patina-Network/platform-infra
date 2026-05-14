@@ -3,11 +3,13 @@ import * as azuread from "@pulumi/azuread";
 
 import { AZURE_IDENTITIES, type AzureIdentityName } from "@/azure/identities";
 import { azureadProvider, provider } from "@/azure/provider";
-import { sopsMasterVault } from "@/azure/vaults";
+import { sopsMasterVault, sopsRoVault } from "@/azure/vaults";
 import { AZURE_KEY_VAULT_ROLES } from "@/azure/vaults/rbac/const";
 import {
-  SOPS_VAULT_ADMIN_USERS,
-  SOPS_VAULT_READONLY_USERS,
+  SOPS_MASTER_VAULT_ADMIN_USERS,
+  SOPS_MASTER_VAULT_READONLY_USERS,
+  SOPS_RO_VAULT_READONLY_USERS,
+  SOPS_RO_VAULT_ADMIN_USERS,
 } from "@/azure/vaults/rbac/inputs";
 import { env } from "@/env";
 
@@ -24,7 +26,9 @@ const getGroupMemberResourceName = (groupName: string, memberName: string) =>
 const getVaultRoleAssignmentResourceName = (
   principalName: string,
   roleName: string,
-) => `azure-role-assignment-${principalName}-key-vault-sops-master-${roleName}`;
+  vaultName: string,
+) =>
+  `azure-role-assignment-${principalName}-key-vault-${vaultName}-${roleName}`;
 
 export const sopsMasterReadersGroup = new azuread.Group(
   getGroupResourceName("sops-master-readers"),
@@ -37,7 +41,7 @@ export const sopsMasterReadersGroup = new azuread.Group(
 );
 
 export const sopsMasterReaderGroupMembers = Object.fromEntries(
-  SOPS_VAULT_READONLY_USERS.map((userName) => [
+  SOPS_MASTER_VAULT_READONLY_USERS.map((userName) => [
     userName,
     new azuread.GroupMember(
       getGroupMemberResourceName(
@@ -55,7 +59,11 @@ export const sopsMasterReaderGroupMembers = Object.fromEntries(
 
 export const sopsMasterReaderRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("sops-master-readers", "reader"),
+    getVaultRoleAssignmentResourceName(
+      "sops-master-readers",
+      "reader",
+      "sops-master",
+    ),
     {
       principalId: sopsMasterReadersGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -70,7 +78,11 @@ export const sopsMasterReaderRoleAssignment =
 
 export const sopsMasterReaderSecretsUserRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("sops-master-readers", "secrets-user"),
+    getVaultRoleAssignmentResourceName(
+      "sops-master-readers",
+      "secrets-user",
+      "sops-master",
+    ),
     {
       principalId: sopsMasterReadersGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -85,7 +97,11 @@ export const sopsMasterReaderSecretsUserRoleAssignment =
 
 export const sopsMasterReaderCryptoUserRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("sops-master-readers", "crypto-user"),
+    getVaultRoleAssignmentResourceName(
+      "sops-master-readers",
+      "crypto-user",
+      "sops-master",
+    ),
     {
       principalId: sopsMasterReadersGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -109,7 +125,7 @@ export const sopsMasterAdminsGroup = new azuread.Group(
 );
 
 export const sopsMasterAdminGroupMembers = Object.fromEntries(
-  (SOPS_VAULT_ADMIN_USERS as AzureIdentityName[]).map((userName) => [
+  (SOPS_MASTER_VAULT_ADMIN_USERS as AzureIdentityName[]).map((userName) => [
     userName,
     new azuread.GroupMember(
       getGroupMemberResourceName(
@@ -127,7 +143,11 @@ export const sopsMasterAdminGroupMembers = Object.fromEntries(
 
 export const sopsMasterAdminSecretsOfficerRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("sops-master-admins", "secrets-officer"),
+    getVaultRoleAssignmentResourceName(
+      "sops-master-admins",
+      "secrets-officer",
+      "sops-master",
+    ),
     {
       principalId: sopsMasterAdminsGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -142,7 +162,11 @@ export const sopsMasterAdminSecretsOfficerRoleAssignment =
 
 export const sopsMasterAdminRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("sops-master-admins", "administrator"),
+    getVaultRoleAssignmentResourceName(
+      "sops-master-admins",
+      "administrator",
+      "sops-master",
+    ),
     {
       principalId: sopsMasterAdminsGroup.objectId,
       principalType: azure.authorization.PrincipalType.Group,
@@ -157,7 +181,11 @@ export const sopsMasterAdminRoleAssignment =
 
 export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
   new azure.authorization.RoleAssignment(
-    getVaultRoleAssignmentResourceName("flux-kustomize", "crypto-user"),
+    getVaultRoleAssignmentResourceName(
+      "flux-kustomize",
+      "crypto-user",
+      "sops-master",
+    ),
     {
       principalId: AZURE_IDENTITIES["kustomize-controller"].objectId,
       principalType: azure.authorization.PrincipalType.ServicePrincipal,
@@ -169,3 +197,147 @@ export const fluxKustomizeSopsMasterCryptoUserRoleAssignment =
     },
     { provider },
   );
+
+export const sopsRoReadersGroup = new azuread.Group(
+  getGroupResourceName("sops-ro-readers"),
+  {
+    displayName: "sops-ro-readers",
+    mailEnabled: false,
+    securityEnabled: true,
+  },
+  { provider: azureadProvider },
+);
+
+export const sopsRoReaderGroupMembers = Object.fromEntries(
+  SOPS_RO_VAULT_READONLY_USERS.map((userName) => [
+    userName,
+    new azuread.GroupMember(
+      getGroupMemberResourceName(
+        "sops-ro-readers",
+        AZURE_IDENTITIES[userName].name,
+      ),
+      {
+        groupObjectId: sopsRoReadersGroup.objectId,
+        memberObjectId: AZURE_IDENTITIES[userName].objectId,
+      },
+      { provider: azureadProvider },
+    ),
+  ]),
+);
+
+export const sopsRoReaderRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName("sops-ro-readers", "reader", "sops-ro"),
+    {
+      principalId: sopsRoReadersGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultReader,
+      ),
+      scope: sopsRoVault.id,
+    },
+    { provider },
+  );
+
+export const sopsRoReaderSecretsUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-ro-readers",
+      "secrets-user",
+      "sops-ro",
+    ),
+    {
+      principalId: sopsRoReadersGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultSecretsUser,
+      ),
+      scope: sopsRoVault.id,
+    },
+    { provider },
+  );
+
+export const sopsRoReaderCryptoUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-ro-readers",
+      "crypto-user",
+      "sops-ro",
+    ),
+    {
+      principalId: sopsRoReadersGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultCryptoUser,
+      ),
+      scope: sopsRoVault.id,
+    },
+    { provider },
+  );
+
+export const sopsRoAdminsGroup = new azuread.Group(
+  getGroupResourceName("sops-ro-admins"),
+  {
+    displayName: "sops-ro-admins",
+    mailEnabled: false,
+    securityEnabled: true,
+  },
+  { provider: azureadProvider },
+);
+
+export const sopsRoAdminGroupMembers = Object.fromEntries(
+  (SOPS_RO_VAULT_ADMIN_USERS as AzureIdentityName[]).map((userName) => [
+    userName,
+    new azuread.GroupMember(
+      getGroupMemberResourceName(
+        "sops-ro-admins",
+        AZURE_IDENTITIES[userName].name,
+      ),
+      {
+        groupObjectId: sopsRoAdminsGroup.objectId,
+        memberObjectId: AZURE_IDENTITIES[userName].objectId,
+      },
+      { provider: azureadProvider },
+    ),
+  ]),
+);
+
+export const sopsRoAdminSecretsOfficerRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-ro-admins",
+      "secrets-officer",
+      "sops-ro",
+    ),
+    {
+      principalId: sopsRoAdminsGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultSecretsOfficer,
+      ),
+      scope: sopsRoVault.id,
+    },
+    { provider },
+  );
+
+export const sopsRoAdminRoleAssignment = new azure.authorization.RoleAssignment(
+  getVaultRoleAssignmentResourceName(
+    "sops-ro-admins",
+    "administrator",
+    "sops-ro",
+  ),
+  {
+    principalId: sopsRoAdminsGroup.objectId,
+    principalType: azure.authorization.PrincipalType.Group,
+    roleDefinitionId: getRoleDefinitionId(
+      env.azure.subscriptionId,
+      AZURE_KEY_VAULT_ROLES.keyVaultAdministrator,
+    ),
+    scope: sopsRoVault.id,
+  },
+  { provider },
+);
