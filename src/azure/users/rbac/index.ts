@@ -24,7 +24,7 @@ export const globalAzureRoleAssignment = Object.entries(AZURE_USERS).flatMap(
         getUserRoleAssignmentResourceName(user.mailNickname, globalRole),
         {
           principalId: azureUsers[userFullName].objectId,
-          principalType: azure.authorization.PrincipalType.Group,
+          principalType: azure.authorization.PrincipalType.User,
           roleDefinitionId: getRoleDefinitionId(
             env.azure.subscriptionId,
             AZURE_RBAC_GLOBAL_ROLES[globalRole],
