@@ -11,7 +11,6 @@ export const MEMBERS = [
   { username: "tahminator", role: "admin" },
   { username: "arklian", role: "admin" },
   { username: "Arshadul-Monir", role: "member" },
-  { username: "SelinaZhu26", role: "member" },
   { username: "Allimonae", role: "member" },
   { username: "RandyJDean", role: "member" },
   { username: "rootandroo", role: "member" },
