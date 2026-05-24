@@ -86,7 +86,7 @@ export const AZURE_USERS = {
   },
   "Arshadul Monir": {
     bootstrapObjectId: undefined,
-    entraRoles: ["globalReader"],
+    entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "arshadul@patinanetwork.onmicrosoft.com",
     mailNickname: "arshadul",
