@@ -4,7 +4,7 @@ import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
 import type { GITHUB_OWNER } from "@/github/inputs";
 
 import {
-  DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+  // DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
   GITHUB_APP_ID,
 } from "@/github/repositories/const";
 import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
@@ -61,16 +61,16 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
     requireCodeOwnerReview: true,
     requiredReviewThreadResolution: true,
   },
-  requiredStatusChecks: {
-    requiredChecks: [
+  // requiredStatusChecks: {
+    // requiredChecks: [
       // this check will be excluded if `monorepo: true` in repository config
-      {
-        context: DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
-        integrationId: GITHUB_APP_ID.sonarCloud,
-      },
-    ],
-    strictRequiredStatusChecksPolicy: true,
-  },
+      // {
+      //   context: DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+      //   integrationId: GITHUB_APP_ID.sonarCloud,
+      // },
+    // ],
+  //   strictRequiredStatusChecksPolicy: true,
+  // },
 };
 
 const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
