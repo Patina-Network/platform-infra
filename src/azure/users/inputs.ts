@@ -101,7 +101,7 @@ export const AZURE_USERS = {
     userPrincipalName: "haoking.luo@patinanetwork.onmicrosoft.com",
   },
   "Randy Dean": {
-    bootstrapObjectId: "0652ae34-c1f0-48f6-9593-f708acce3713",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "randy.dean@patinanetwork.onmicrosoft.com",
@@ -109,7 +109,7 @@ export const AZURE_USERS = {
     userPrincipalName: "randy.dean@patinanetwork.onmicrosoft.com",
   },
   "Isabella Lam": {
-    bootstrapObjectId: "0d4a9237-8e48-4800-9e58-e435bb805647",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "isabella.lam@patinanetwork.onmicrosoft.com",
@@ -117,7 +117,7 @@ export const AZURE_USERS = {
     userPrincipalName: "isabella.lam@patinanetwork.onmicrosoft.com",
   },
   "Allison Lee": {
-    bootstrapObjectId: "d6b5f944-9d66-4a08-8ca3-6784bad73efd",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "allison.lee@patinanetwork.onmicrosoft.com",
@@ -125,7 +125,7 @@ export const AZURE_USERS = {
     userPrincipalName: "allison.lee@patinanetwork.onmicrosoft.com",
   },
   "Andrew Yu": {
-    bootstrapObjectId: "0c3c0485-f23f-4f82-bdfb-32f58a1f6787",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "andrew.yu@patinanetwork.onmicrosoft.com",
@@ -133,7 +133,7 @@ export const AZURE_USERS = {
     userPrincipalName: "andrew.yu@patinanetwork.onmicrosoft.com",
   },
   "Maliha Tasnim": {
-    bootstrapObjectId: "914e42d6-2422-43be-bb18-e80506626e50",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["reader"],
     mail: "maliha.tasnim@patinanetwork.onmicrosoft.com",
