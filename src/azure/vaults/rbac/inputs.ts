@@ -6,7 +6,7 @@ import { ALL_AZURE_USERS } from "@/azure/rbac";
 export const SOPS_MASTER_VAULT_READONLY_USERS = [
   "Tahmid Ahmed",
   "Henry Chen",
-  "Haoking Luo",
+  "Andrew Yu",
 ] satisfies AzureIdentityName[];
 
 // This gives you read-write access to `sops-master` vault
