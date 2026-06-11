@@ -87,7 +87,7 @@ export const AZURE_USERS = {
   "Arshadul Monir": {
     bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
-    azureRoles: ["reader"],
+    azureRoles: ["contributor"],
     mail: "arshadul@patinanetwork.onmicrosoft.com",
     mailNickname: "arshadul",
     userPrincipalName: "arshadul@patinanetwork.onmicrosoft.com",
@@ -139,6 +139,14 @@ export const AZURE_USERS = {
     mail: "maliha.tasnim@patinanetwork.onmicrosoft.com",
     mailNickname: "maliha.tasnim",
     userPrincipalName: "maliha.tasnim@patinanetwork.onmicrosoft.com",
+  },
+  "Ousmane Barrie": {
+    bootstrapObjectId: "64fd0846-a645-4cf6-90e3-d1e7bb32e745",
+    entraRoles: ["globalReader", "userAdministrator"],
+    azureRoles: ["contributor"],
+    mail: "ousmane.barrie@patinanetwork.onmicrosoft.com",
+    mailNickname: "ousmane.barrie",
+    userPrincipalName: "ousmane.barrie@patinanetwork.onmicrosoft.com",
   },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
