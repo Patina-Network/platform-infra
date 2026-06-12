@@ -141,7 +141,7 @@ export const AZURE_USERS = {
     userPrincipalName: "maliha.tasnim@patinanetwork.onmicrosoft.com",
   },
   "Ousmane Barrie": {
-    bootstrapObjectId: "64fd0846-a645-4cf6-90e3-d1e7bb32e745",
+    bootstrapObjectId: undefined,
     entraRoles: ["globalReader", "userAdministrator"],
     azureRoles: ["contributor"],
     mail: "ousmane.barrie@patinanetwork.onmicrosoft.com",
