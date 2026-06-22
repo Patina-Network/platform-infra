@@ -7,6 +7,7 @@ export const SOPS_MASTER_VAULT_READONLY_USERS = [
   "Tahmid Ahmed",
   "Henry Chen",
   "Andrew Yu",
+  "Arshadul Monir",
 ] satisfies AzureIdentityName[];
 
 // This gives you read-write access to `sops-master` vault
