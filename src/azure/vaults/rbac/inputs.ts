@@ -21,3 +21,9 @@ export const SOPS_RO_VAULT_READONLY_USERS =
 // This gives read-write access to `sops-ro` vault
 export const SOPS_RO_VAULT_ADMIN_USERS =
   [] as const satisfies AzureIdentityName[];
+
+// This gives read-write access to the `sops-administrators` vault
+export const SOPS_ADMINISTRATORS_VAULT_USERS = [
+  "Tahmid Ahmed",
+  "Henry Chen",
+] as const satisfies AzureIdentityName[];
