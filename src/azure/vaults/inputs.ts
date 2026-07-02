@@ -16,11 +16,6 @@ export type Vault = {
 };
 
 export const VAULTS = {
-  "sops-ro": {
-    vaultName: "sops-ro",
-    resourceGroup: "platform-infra",
-    key: { keyName: "sops-ro-key", keySize: 4096 },
-  },
   "sops-master": {
     vaultName: "sops-master",
     resourceGroup: "platform-infra",
