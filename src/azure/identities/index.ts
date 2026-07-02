@@ -1,9 +1,10 @@
 /**
  * This directory combines enterprise apps, users, and service accounts
  * in one unified interface. This is particularly useful for RBAC as you can essentially
- * pass in the `objectId` for any of these in order to pull it off.
+ * pass in the `objectId` (and matching `principalType`) for any of these in order to pull it off.
  */
 
+import * as azure from "@pulumi/azure-native";
 import { Output } from "@pulumi/pulumi";
 
 import { platformInfraPulumiSp } from "@/azure/apps";
@@ -25,6 +26,8 @@ type IdentityOptions = {
   type: Identity;
   name: string;
   objectId: Output<string>;
+  /** Azure RBAC principal type, ready to pass straight into a `RoleAssignment`. */
+  principalType: azure.authorization.PrincipalType;
   native: object;
 };
 
@@ -38,6 +41,7 @@ export const AZURE_IDENTITIES = {
         objectId: azureUsers[k].objectId,
         type: Identity.USER,
         name: v.mailNickname,
+        principalType: azure.authorization.PrincipalType.User,
         native: azureUsers[k],
       },
     ]),
@@ -49,6 +53,7 @@ export const AZURE_IDENTITIES = {
         objectId: azureServiceAccountManagedIdentities[k].principalId,
         type: Identity.SERVICE_ACCOUNT,
         name: k,
+        principalType: azure.authorization.PrincipalType.ServicePrincipal,
         native: azureServiceAccountManagedIdentities[k],
       },
     ]),
@@ -57,6 +62,7 @@ export const AZURE_IDENTITIES = {
     type: Identity.ENTERPRISE_APP,
     objectId: platformInfraPulumiSp.objectId,
     name: "app",
+    principalType: azure.authorization.PrincipalType.ServicePrincipal,
     native: platformInfraPulumiSp,
   },
 } as const satisfies Record<IdentityName, IdentityOptions>;
