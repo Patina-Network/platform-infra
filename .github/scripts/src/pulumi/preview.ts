@@ -6,6 +6,7 @@ import {
   PulumiClientStrategy,
   Utils,
 } from "@tahminator/pipeline";
+import _ from "lodash";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -28,7 +29,12 @@ export async function main() {
     githubAppInstallationId,
     githubAppPrivateKey,
     env,
-  } = parseCiEnv(await envClient.readFromEnv("secrets.yaml"));
+  } = parseCiEnv(
+    _.merge(
+      await envClient.readFromEnv("secrets.yaml"),
+      await envClient.readFromEnv("secrets.administrator.yaml"),
+    ),
+  );
   const githubClient = await GitHubClient.createWithGithubAppToken({
     appId: githubAppAppId,
     privateKey: githubAppPrivateKey,
