@@ -4,5 +4,7 @@ stores:
 creation_rules:
   - path_regex: src/github/repositories/secrets/*.yaml
     azure_keyvault: "https://sops-master.vault.azure.net/keys/sops-key/"
+  - path_regex: secrets.administrator.yaml
+    azure_keyvault: "https://sops-administrators.vault.azure.net/keys/sops-administrators-key/"
   - path_regex: .*secret(s)?.*\.yaml
     azure_keyvault: "https://sops-master.vault.azure.net/keys/sops-key/"
