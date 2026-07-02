@@ -25,6 +25,7 @@ export default tseslint.config(
       },
     },
     rules: {
+      "no-console": ["error"],
       "@typescript-eslint/no-namespace": ["off"],
       "@typescript-eslint/no-non-null-assertion": ["error"],
       "@typescript-eslint/no-empty-object-type": ["off"],
