@@ -1,3 +1,5 @@
+import "@/github/repositories/secrets";
+
 import * as github from "@pulumi/github";
 
 import { GITHUB_OWNER } from "@/github/inputs";
