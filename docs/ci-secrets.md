@@ -28,11 +28,8 @@ Org secrets are visible to every repo under `Patina-Network`.
    ```
 
 3. Save and close. `sops` re-encrypts on save.
-4. Preview and open a PR:
 
-   ```bash
-   just preview
-   ```
+4. Open a PR
 
 5. CI's preview job will show a new `ActionsOrganizationSecret` in the diff. CD applies it on merge + tag.
 
@@ -44,35 +41,35 @@ Repo secrets are visible to exactly one repo. The file name must match the repos
 > If the file name doesn't match a repo key in `REPOSITORIES`, `pulumi preview` will fail with a clear error. Rename the file or add the repo to `REPOSITORIES` first.
 
 1. Open the encrypted file.
+   - **First time for a repo**
 
-   **First time for a repo** — create the file, then encrypt it in place:
+     create the file, then encrypt it in place:
 
-   ```bash
-   touch src/github/repositories/secrets/<repo-name>.yaml
-   # add a key, e.g. `MY_REPO_SECRET: the-value`
-   just encrypt src/github/repositories/secrets/<repo-name>.yaml
-   ```
+     ```bash
+     touch src/github/repositories/secrets/<repo-name>.yaml
+     # add a key, e.g. `MY_REPO_SECRET: the-value`
+     just encrypt src/github/repositories/secrets/<repo-name>.yaml
+     ```
 
-   **Subsequent edits** — use `just edit`:
+   - **Subsequent edits**
 
-   ```bash
-   just edit src/github/repositories/secrets/<repo-name>.yaml
-   ```
+     use `just edit`:
 
-2. Add a key/value pair inside the editor:
+     ```bash
+     just edit src/github/repositories/secrets/<repo-name>.yaml
+     ```
 
-   ```yaml
-   MY_REPO_SECRET: "the-value"
-   ```
+     Add a key/value pair inside the editor:
 
-3. Save and close. `sops` re-encrypts on save.
-4. Preview and open a PR:
+     ```yaml
+     MY_REPO_SECRET: "the-value"
+     ```
 
-   ```bash
-   just preview
-   ```
+     Save & close, `sops` re-encrypts on save.
 
-5. CI's preview job will show a new `ActionsSecret` in the diff. CD applies it on merge + tag.
+2. Open a PR
+
+3. CI's preview job will show a new `ActionsSecret` in the diff. CD applies it on merge + tag.
 
 # What ends up on GitHub
 
