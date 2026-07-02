@@ -88,7 +88,7 @@ Values are pushed to GitHub via libsodium sealed-box encryption. Pulumi marks th
 - **Rotate**: `just edit <file>`, change the value, preview + merge.
 - **Remove**: `just edit <file>`, delete the key, preview + merge.
 
-Pulumi will delete the corresponding from GitHub.
+Pulumi will delete the corresponding secret from GitHub.
 
 # Code
 
