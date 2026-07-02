@@ -3,9 +3,14 @@ import * as azuread from "@pulumi/azuread";
 
 import { AZURE_IDENTITIES, type AzureIdentityName } from "@/azure/identities";
 import { azureadProvider, provider } from "@/azure/provider";
-import { sopsMasterVault, sopsRoVault } from "@/azure/vaults";
+import {
+  sopsAdministratorsVault,
+  sopsMasterVault,
+  sopsRoVault,
+} from "@/azure/vaults";
 import { AZURE_KEY_VAULT_ROLES } from "@/azure/vaults/rbac/const";
 import {
+  SOPS_ADMINISTRATORS_VAULT_USERS,
   SOPS_MASTER_VAULT_ADMIN_USERS,
   SOPS_MASTER_VAULT_READONLY_USERS,
   SOPS_RO_VAULT_READONLY_USERS,
@@ -341,3 +346,106 @@ export const sopsRoAdminRoleAssignment = new azure.authorization.RoleAssignment(
   },
   { provider },
 );
+
+export const sopsAdministratorsGroup = new azuread.Group(
+  getGroupResourceName("sops-administrators"),
+  {
+    displayName: "sops-administrators",
+    mailEnabled: false,
+    securityEnabled: true,
+  },
+  { provider: azureadProvider },
+);
+
+export const sopsAdministratorsGroupMembers = Object.fromEntries(
+  SOPS_ADMINISTRATORS_VAULT_USERS.map((userName) => [
+    userName,
+    new azuread.GroupMember(
+      getGroupMemberResourceName(
+        "sops-administrators",
+        AZURE_IDENTITIES[userName].name,
+      ),
+      {
+        groupObjectId: sopsAdministratorsGroup.objectId,
+        memberObjectId: AZURE_IDENTITIES[userName].objectId,
+      },
+      { provider: azureadProvider },
+    ),
+  ]),
+);
+
+export const sopsAdministratorsReaderRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-administrators",
+      "reader",
+      "sops-administrators",
+    ),
+    {
+      principalId: sopsAdministratorsGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultReader,
+      ),
+      scope: sopsAdministratorsVault.id,
+    },
+    { provider },
+  );
+
+export const sopsAdministratorsSecretsUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-administrators",
+      "secrets-user",
+      "sops-administrators",
+    ),
+    {
+      principalId: sopsAdministratorsGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultSecretsUser,
+      ),
+      scope: sopsAdministratorsVault.id,
+    },
+    { provider },
+  );
+
+export const sopsAdministratorsCryptoUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "sops-administrators",
+      "crypto-user",
+      "sops-administrators",
+    ),
+    {
+      principalId: sopsAdministratorsGroup.objectId,
+      principalType: azure.authorization.PrincipalType.Group,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultCryptoUser,
+      ),
+      scope: sopsAdministratorsVault.id,
+    },
+    { provider },
+  );
+
+export const pulumiAppSopsAdministratorsCryptoUserRoleAssignment =
+  new azure.authorization.RoleAssignment(
+    getVaultRoleAssignmentResourceName(
+      "app",
+      "crypto-user",
+      "sops-administrators",
+    ),
+    {
+      principalId: AZURE_IDENTITIES["app"].objectId,
+      principalType: azure.authorization.PrincipalType.ServicePrincipal,
+      roleDefinitionId: getRoleDefinitionId(
+        env.azure.subscriptionId,
+        AZURE_KEY_VAULT_ROLES.keyVaultCryptoUser,
+      ),
+      scope: sopsAdministratorsVault.id,
+    },
+    { provider },
+  );
