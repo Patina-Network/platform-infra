@@ -12,7 +12,9 @@ import {
 
 const SECRETS_DIR = join(import.meta.dir, "secrets");
 
-const envClient = EnvClient.create(EnvClientStrategy.SOPS);
+const envClient = EnvClient.create(EnvClientStrategy.SOPS, {
+  skipMasking: true,
+});
 
 const getRepositoryActionsSecretResourceName = (
   repositoryName: string,
@@ -34,17 +36,17 @@ export const githubRepositoryActionsSecrets = (
           `src/github/repositories/secrets/${filename} does not match any repository in REPOSITORIES.`,
         );
       }
-      const repositoryConfig = REPOSITORIES[repositoryName];
-      const actualRepositoryName = repositoryConfig.oldName ?? repositoryName;
+
       const secrets = await envClient.readFromEnv(filename, {
         baseDir: SECRETS_DIR,
       });
+
       return Object.entries(secrets).map(
         ([secretName, value]) =>
           new github.ActionsSecret(
             getRepositoryActionsSecretResourceName(repositoryName, secretName),
             {
-              repository: actualRepositoryName,
+              repository: repositoryName,
               secretName,
               value,
             },

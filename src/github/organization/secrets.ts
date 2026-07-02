@@ -4,7 +4,9 @@ import { EnvClient, EnvClientStrategy } from "@tahminator/pipeline";
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
 
-const envClient = EnvClient.create(EnvClientStrategy.SOPS);
+const envClient = EnvClient.create(EnvClientStrategy.SOPS, {
+  skipMasking: true,
+});
 
 const getOrgActionsSecretResourceName = (secretName: string) =>
   `${GITHUB_OWNER}-organization-actions-secret-${secretName}`;
