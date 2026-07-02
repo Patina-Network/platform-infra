@@ -9,7 +9,7 @@ init-pulumi *args:
 # Preview the changes that will occur in production by having pulumi diff the existing state.
 # NOTE: sops exec-env expects an encrypted secrets.yaml file.
 preview *args:
-  sops exec-env secrets.yaml "pulumi preview {{ args }}"
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi preview {{ args }}\""
 
 
 ### Secret management

@@ -4,11 +4,15 @@ import {
   PulumiClient,
   PulumiClientStrategy,
 } from "@tahminator/pipeline";
+import _ from "lodash";
 
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
   const { azurePulumiLocation, env } = parseCiEnv(
-    await envClient.readFromEnv("secrets.yaml"),
+    _.merge(
+      await envClient.readFromEnv("secrets.yaml"),
+      await envClient.readFromEnv("secrets.administrator.yaml"),
+    ),
   );
 
   const pulumiClient = await PulumiClient.create({
