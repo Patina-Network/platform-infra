@@ -1,6 +1,7 @@
 import type { AzureIdentityName } from "@/azure/identities";
 import type { VaultName } from "@/azure/vaults/inputs";
 
+import { ALL_AZURE_USERS } from "@/azure/rbac";
 import { AZURE_KEY_VAULT_ROLES } from "@/azure/vaults/rbac/const";
 
 export type KeyVaultRole = string;
@@ -49,7 +50,7 @@ export const VAULT_ACCESS = {
     {
       kind: "group",
       name: "sops-master-readers",
-      members: ["Tahmid Ahmed", "Henry Chen", "Andrew Yu", "Arshadul Monir"],
+      members: ALL_AZURE_USERS,
       roles: KEY_VAULT_READER_ROLES,
     },
     {
