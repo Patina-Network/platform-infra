@@ -3,7 +3,7 @@ import type { MembershipArgs } from "@pulumi/github";
 export type GithubMemberRole = "admin" | "member";
 
 export type GithubMember = {
-  role: MembershipArgs["role"];
+  role: GithubMemberRole;
   username: MembershipArgs["username"];
 };
 
@@ -21,6 +21,8 @@ export const MEMBERS = [
   { username: "patinanetwork-sa", role: "member" },
   { username: "luoh00", role: "member" },
   { username: "spiffyy99", role: "member" },
+  { username: "angelayu0530", role: "member" },
+  { username: "naanci", role: "member" },
 ] as const satisfies readonly GithubMember[];
 
 export type GithubUsername = (typeof MEMBERS)[number]["username"];
