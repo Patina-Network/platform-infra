@@ -30,15 +30,9 @@ export const TEAMS = {
     privacy: "closed",
     description: "Active team members for the Codebloom project",
     members: [
-      { username: "arklian", role: "maintainer" },
-      { username: "Arshadul-Monir", role: "member" },
-      { username: "Allimonae", role: "member" },
-      { username: "RandyJDean", role: "member" },
-      { username: "rootandroo", role: "member" },
-      { username: "isabellalam12", role: "member" },
-      { username: "MalihaT111", role: "member" },
-      { username: "luoh00", role: "member" },
-      { username: "spiffyy99", role: "member" },
+      { username: "tahminator", role: "member" },
+      { username: "angelayu0530", role: "member" },
+      { username: "naanci", role: "member" },
     ],
   },
   patchats: {
