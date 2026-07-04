@@ -161,6 +161,9 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
+      pullRequest: {
+        requiredApprovingReviewCount: 2,
+      },
       requiredStatusChecks: {
         requiredChecks: [
           {
