@@ -51,7 +51,7 @@ export const AZURE_USERS = {
   },
   "Kevin Ma": {
     newUser: false,
-    entraRoles: ["globalAdministrator", "userAdministrator", "globalReader"],
+    entraRoles: ["globalAdministrator", "userAdministrator"],
     azureRoles: ["contributor"],
     mail: "kevin.ma@patinanetwork.onmicrosoft.com",
     mailNickname: "kevin.ma",
