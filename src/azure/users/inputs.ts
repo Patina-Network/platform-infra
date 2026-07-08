@@ -35,7 +35,7 @@ type AzureUserFullName = string;
 export const AZURE_USERS = {
   "Henry Chen": {
     newUser: false,
-    entraRoles: ["globalAdministrator"],
+    entraRoles: ["globalAdministrator", "userAdministrator"],
     azureRoles: ["owner"],
     mail: "henry@patinanetwork.onmicrosoft.com",
     mailNickname: "henry",
@@ -75,7 +75,7 @@ export const AZURE_USERS = {
   },
   "Haoking Luo": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "haoking.luo@patinanetwork.onmicrosoft.com",
     mailNickname: "haoking.luo",
@@ -83,7 +83,7 @@ export const AZURE_USERS = {
   },
   "Randy Dean": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "randy.dean@patinanetwork.onmicrosoft.com",
     mailNickname: "randy.dean",
@@ -91,7 +91,7 @@ export const AZURE_USERS = {
   },
   "Isabella Lam": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "isabella.lam@patinanetwork.onmicrosoft.com",
     mailNickname: "isabella.lam",
@@ -99,7 +99,7 @@ export const AZURE_USERS = {
   },
   "Allison Lee": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "allison.lee@patinanetwork.onmicrosoft.com",
     mailNickname: "allison.lee",
@@ -107,7 +107,7 @@ export const AZURE_USERS = {
   },
   "Andrew Yu": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "andrew.yu@patinanetwork.onmicrosoft.com",
     mailNickname: "andrew.yu",
@@ -115,7 +115,7 @@ export const AZURE_USERS = {
   },
   "Maliha Tasnim": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "maliha.tasnim@patinanetwork.onmicrosoft.com",
     mailNickname: "maliha.tasnim",
@@ -123,7 +123,7 @@ export const AZURE_USERS = {
   },
   "Ousmane Barrie": {
     newUser: false,
-    entraRoles: ["globalReader", "userAdministrator"],
+    entraRoles: ["globalReader"],
     azureRoles: ["contributor"],
     mail: "ousmane.barrie@patinanetwork.onmicrosoft.com",
     mailNickname: "ousmane.barrie",
