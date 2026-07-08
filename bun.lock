@@ -11,6 +11,7 @@
         "@pulumi/github": "^6.12.2",
         "@pulumi/postgresql": "^3.16.3",
         "@pulumi/pulumi": "^3.230.0",
+        "@pulumi/random": "^4.21.0",
         "@tahminator/pipeline": "^1.0.63",
         "lodash": "^4.18.1",
       },
@@ -218,6 +219,8 @@
     "@pulumi/postgresql": ["@pulumi/postgresql@3.16.3", "", { "dependencies": { "@pulumi/pulumi": "^3.142.0" } }, "sha512-Z7HjAMKFUQ9KAiHhdTYwenpVejSbqZKrYl/9CK2zcLilsuHYKUYHAt2Um0EkKPbkx0/R0KtxBQbBtCtmixgG5g=="],
 
     "@pulumi/pulumi": ["@pulumi/pulumi@3.232.0", "", { "dependencies": { "@grpc/grpc-js": "^1.10.1", "@logdna/tail-file": "^2.0.6", "@npmcli/arborist": "^9.0.0", "@opentelemetry/api": "^1.9", "@opentelemetry/exporter-trace-otlp-grpc": "^0.57", "@opentelemetry/exporter-zipkin": "^1.30", "@opentelemetry/instrumentation": "^0.57", "@opentelemetry/instrumentation-grpc": "^0.57", "@opentelemetry/resources": "^1.30", "@opentelemetry/sdk-trace-base": "^1.30", "@opentelemetry/sdk-trace-node": "^1.30", "@types/google-protobuf": "^3.15.5", "@types/semver": "^7.5.6", "@types/tmp": "^0.2.6", "execa": "^5.1.0", "fdir": "^6.5.0", "google-protobuf": "^3.21.4", "ini": "^2.0.0", "js-yaml": "^3.14.2", "minimist": "^1.2.6", "normalize-package-data": "^6.0.0", "picomatch": "^4.0.0", "require-from-string": "^2.0.1", "semver": "^7.5.2", "source-map-support": "^0.5.6", "tmp": "^0.2.4", "upath": "^1.1.0" }, "peerDependencies": { "ts-node": ">= 7.0.1 < 12", "typescript": ">= 3.8.3 < 7" }, "optionalPeers": ["ts-node", "typescript"] }, "sha512-5Pl48cCwOOZEvG7b6w6sErrD1D/QiEwiPqEtHCIzF/alU0yzFjo95uxNteKFlt0LsnzWsZ58DJHgBe9gurjIFg=="],
+
+    "@pulumi/random": ["@pulumi/random@4.21.0", "", { "dependencies": { "@pulumi/pulumi": "^3.142.0" } }, "sha512-k4JHqQFOKXWkbSLZtX37xBlRsurfgZbLd1Zib0cLSDP4Dt3uTllR3CBWfMLSnXJGAoTr9MlwyHCer/5tmSaF0Q=="],
 
     "@rolldown/binding-android-arm64": ["@rolldown/binding-android-arm64@1.0.0-rc.17", "", { "os": "android", "cpu": "arm64" }, "sha512-s70pVGhw4zqGeFnXWvAzJDlvxhlRollagdCCKRgOsgUOH3N1l0LIxf83AtGzmb5SiVM4Hjl5HyarMRfdfj3DaQ=="],
 
