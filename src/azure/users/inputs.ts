@@ -137,6 +137,14 @@ export const AZURE_USERS = {
     mailNickname: "angela.yu",
     userPrincipalName: "angela.yu@patinanetwork.onmicrosoft.com",
   },
+  "Nancy Huang": {
+    newUser: true,
+    entraRoles: ["globalReader"],
+    azureRoles: ["reader"],
+    mail: "nancy.huang@patinanetwork.onmicrosoft.com",
+    mailNickname: "nancy.huang",
+    userPrincipalName: "nancy.huang@patinanetwork.onmicrosoft.com",
+  },
     "Kelly Lin": {
     bootstrapObjectId: "c9361bf6-3919-48c9-b5aa-d34250e5454c",
     entraRoles: ["globalReader", "userAdministrator"],
