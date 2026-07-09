@@ -137,6 +137,14 @@ export const AZURE_USERS = {
     mailNickname: "angela.yu",
     userPrincipalName: "angela.yu@patinanetwork.onmicrosoft.com",
   },
+  "Nancy Huang": {
+    newUser: true,
+    entraRoles: ["globalReader"],
+    azureRoles: ["reader"],
+    mail: "nancy.huang@patinanetwork.onmicrosoft.com",
+    mailNickname: "nancy.huang",
+    userPrincipalName: "nancy.huang@patinanetwork.onmicrosoft.com",
+  },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
 export type AzureUserName = keyof typeof AZURE_USERS;
