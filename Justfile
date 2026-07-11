@@ -1,3 +1,13 @@
+### Azure cmds
+
+# logout and authenticate again
+re-auth:
+  az logout && just auth
+
+# authenticate
+auth:
+  just install-pre-scripts && az login
+
 ### Core Commands
 
 # Initial setup command
