@@ -4,13 +4,17 @@ import * as github from "@pulumi/github";
 
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
-import { DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME } from "@/github/repositories/const";
+import {
+  DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+  GITHUB_APP_ID,
+} from "@/github/repositories/const";
 import {
   DEFAULT_MAIN_BRANCH_PROTECTIONS,
   DEFAULT_REPOSITORY_SETTINGS,
   REPOSITORIES,
   type GithubRepositoryName,
   type GithubTeamReference,
+  type MainBranchProtectionBypassActor,
 } from "@/github/repositories/inputs";
 import { githubTeams } from "@/github/teams";
 import { mergeWithConcatArrays } from "@/utils";
@@ -155,15 +159,24 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
         enforcement: "active",
         target: "branch",
         bypassActors:
-          repositoryConfig.mainBranchProtectionBypassTeams.length ?
-            repositoryConfig.mainBranchProtectionBypassTeams
-              .map((team) => getTeamName(team))
-              .map((teamName) => githubTeams[teamName].id)
-              .map((teamId) => ({
-                actorType: "Team",
-                actorId: teamId.apply(Number),
-                bypassMode: "pull_request",
-              }))
+          repositoryConfig.mainBranchProtectionBypass.length ?
+            repositoryConfig.mainBranchProtectionBypass.map((actor) => {
+              const a = actor as MainBranchProtectionBypassActor;
+              if ("team" in a) {
+                const teamName = getTeamName(a.team);
+                return {
+                  actorType: "Team",
+                  actorId: githubTeams[teamName].id.apply(Number),
+                  bypassMode: "pull_request",
+                };
+              }
+
+              return {
+                actorType: "Integration",
+                actorId: GITHUB_APP_ID[a.app],
+                bypassMode: "always",
+              };
+            })
           : undefined,
         repository: repository.name,
         conditions: {
