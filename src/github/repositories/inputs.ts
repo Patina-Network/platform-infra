@@ -6,6 +6,7 @@ import type { GITHUB_OWNER } from "@/github/inputs";
 import {
   DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
   GITHUB_APP_ID,
+  type GithubAppIdName,
 } from "@/github/repositories/const";
 import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
 
@@ -18,6 +19,14 @@ import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
  */
 type RepositoryVisibility = "public" | "private" | "internal";
 type GithubTeamReference = `@${typeof GITHUB_OWNER}/${GithubTeamName}`;
+
+export type MainBranchProtectionBypassActor =
+  | {
+      team: GithubTeamReference;
+    }
+  | {
+      app: GithubAppIdName;
+    };
 
 type GithubRepository = {
   /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
@@ -34,7 +43,9 @@ type GithubRepository = {
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
   mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
-  mainBranchProtectionBypassTeams: readonly GithubTeamReference[];
+  // teams/humans can only bypass via `PR` (aka cannot directly pass via Git).
+  // apps however can fully bypass (as they are automated).
+  mainBranchProtectionBypass: readonly MainBranchProtectionBypassActor[];
   /** if set to `true`, will exclude default `SonarCloud Code Analysis` status check. You are expected to register your own multi-scanner status checks instead. */
   monorepo: boolean;
 };
@@ -90,8 +101,11 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
-    // TODO: remove when initial bootstrapping & prototyping is complete
-    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/infra",
+      },
+    ],
   },
   "platform-infra": {
     description:
@@ -120,8 +134,11 @@ export const REPOSITORIES = {
         ],
       },
     },
-    // TODO: remove when initial bootstrapping & prototyping is complete
-    mainBranchProtectionBypassTeams: ["@Patina-Network/infra"],
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/infra",
+      },
+    ],
   },
   ".github": {
     description: undefined,
@@ -134,7 +151,7 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
-    mainBranchProtectionBypassTeams: [],
+    mainBranchProtectionBypass: [],
   },
   patchats: {
     description:
@@ -148,7 +165,7 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
-    mainBranchProtectionBypassTeams: [],
+    mainBranchProtectionBypass: [],
   },
   codebloom: {
     description: "Codebloom - LeetCode Leaderboard for Patina Network",
@@ -201,7 +218,7 @@ export const REPOSITORIES = {
         ],
       },
     },
-    mainBranchProtectionBypassTeams: [],
+    mainBranchProtectionBypass: [],
   },
   dockerfiles: {
     description: "Toolsets and software baked into static Docker images",
@@ -223,7 +240,7 @@ export const REPOSITORIES = {
         ],
       },
     },
-    mainBranchProtectionBypassTeams: [],
+    mainBranchProtectionBypass: [],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
