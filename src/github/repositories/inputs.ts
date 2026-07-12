@@ -105,6 +105,9 @@ export const REPOSITORIES = {
       {
         team: "@Patina-Network/infra",
       },
+      {
+        app: "patAgent",
+      },
     ],
   },
   "platform-infra": {
