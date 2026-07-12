@@ -6,6 +6,7 @@
 export const GITHUB_APP_ID = {
   githubActions: 15368,
   sonarCloud: 12526,
+  patAgent: 3239387,
 } as const;
 
 export const DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME =
