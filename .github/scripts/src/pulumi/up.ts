@@ -8,7 +8,7 @@ import _ from "lodash";
 
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
-  const { azurePulumiLocation, env } = parseCiEnv(
+  const { pulumiBackendUrl, env } = parseCiEnv(
     _.merge(
       await envClient.readFromEnv("secrets.yaml"),
       await envClient.readFromEnv("secrets.administrator.yaml"),
@@ -20,7 +20,7 @@ export async function main() {
     stackName: "main",
     workDir: ".",
     envs: {
-      PULUMI_BACKEND_URL: azurePulumiLocation,
+      PULUMI_BACKEND_URL: pulumiBackendUrl,
       ...env,
     },
   });
@@ -42,16 +42,16 @@ export async function main() {
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {
-  const azurePulumiLocation = (() => {
-    const v = ciEnv["AZURE_PULUMI_LOCATION"];
+  const pulumiBackendUrl = (() => {
+    const v = ciEnv["PULUMI_BACKEND_URL"];
     if (!v) {
-      throw new Error("Missing AZURE_PULUMI_LOCATION from .env.ci");
+      throw new Error("Missing PULUMI_BACKEND_URL from .env.ci");
     }
     return v;
   })();
 
   return {
-    azurePulumiLocation,
+    pulumiBackendUrl,
     env: ciEnv,
   };
 }

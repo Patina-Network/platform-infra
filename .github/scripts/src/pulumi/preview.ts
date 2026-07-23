@@ -24,7 +24,7 @@ const { prId } = await yargs(hideBin(process.argv))
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
   const {
-    azurePulumiLocation,
+    pulumiBackendUrl,
     githubAppAppId,
     githubAppInstallationId,
     githubAppPrivateKey,
@@ -46,7 +46,7 @@ export async function main() {
     stackName: "main",
     workDir: ".",
     envs: {
-      PULUMI_BACKEND_URL: azurePulumiLocation,
+      PULUMI_BACKEND_URL: pulumiBackendUrl,
       ...env,
     },
   });
@@ -92,10 +92,10 @@ ${res.stdout}
 }
 
 function parseCiEnv(ciEnv: Record<string, string>) {
-  const azurePulumiLocation = (() => {
-    const v = ciEnv["AZURE_PULUMI_LOCATION"];
+  const pulumiBackendUrl = (() => {
+    const v = ciEnv["PULUMI_BACKEND_URL"];
     if (!v) {
-      throw new Error("Missing AZURE_PULUMI_LOCATION from .env.ci");
+      throw new Error("Missing PULUMI_BACKEND_URL from .env.ci");
     }
     return v;
   })();
@@ -125,7 +125,7 @@ function parseCiEnv(ciEnv: Record<string, string>) {
   })();
 
   return {
-    azurePulumiLocation,
+    pulumiBackendUrl,
     githubAppAppId,
     githubAppInstallationId,
     githubAppPrivateKey,
