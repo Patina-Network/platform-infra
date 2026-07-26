@@ -17,7 +17,10 @@ type PgDatabase = {
 };
 
 // applied in index.ts and merged into all databases
-export const RO_ALL = ["db-backup-ro-sa"] as const satisfies PgRole[];
+export const RO_ALL = [
+  "db-backup-ro-sa",
+  "grafana-all-ro-sa",
+] as const satisfies PgRole[];
 
 export const DATABASES = {
   "codebloom-stg": {

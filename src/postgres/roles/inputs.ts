@@ -50,6 +50,12 @@ export const ROLES = [
     connectionLimit: 12,
   },
   {
+    name: "grafana-all-ro-sa",
+    password: env.pg.role["grafana-all-ro-sa"],
+    login: true,
+    connectionLimit: 12,
+  },
+  {
     name: "db-backup-ro-sa",
     password: env.pg.role["db-backup-ro-sa"],
     login: true,
