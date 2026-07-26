@@ -42,6 +42,7 @@ export const env = {
       "patchats-prod-app": required("PG_ROLE_patchats-prod-app"),
       "patchats-stg-ro": required("PG_ROLE_patchats-stg-ro"),
       "patchats-prod-ro": required("PG_ROLE_patchats-prod-ro"),
+      "grafana-all-ro-sa": required("PG_ROLE_grafana-all-ro-sa"),
     },
   },
 } as const;
