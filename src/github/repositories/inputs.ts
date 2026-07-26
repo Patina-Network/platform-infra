@@ -28,6 +28,12 @@ export type MainBranchProtectionBypassActor =
       app: GithubAppIdName;
     };
 
+type MainBranchRequiredReviewer = {
+  team: GithubTeamReference;
+  filePatterns: readonly string[];
+  minimumApprovals: number;
+};
+
 type GithubRepository = {
   /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
   bootstrap: boolean;
@@ -46,6 +52,7 @@ type GithubRepository = {
   // teams/humans can only bypass via `PR` (aka cannot directly pass via Git).
   // apps however can fully bypass (as they are automated).
   mainBranchProtectionBypass: readonly MainBranchProtectionBypassActor[];
+  mainBranchRequiredReviewers: readonly MainBranchRequiredReviewer[];
   /** if set to `true`, will exclude default `SonarCloud Code Analysis` status check. You are expected to register your own multi-scanner status checks instead. */
   monorepo: boolean;
 };
@@ -69,7 +76,8 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
     requiredApprovingReviewCount: 1,
     dismissStaleReviewsOnPush: false,
     requireLastPushApproval: true,
-    requireCodeOwnerReview: true,
+    // CODEOWNERS is retired in favor of `mainBranchRequiredReviewers`.
+    requireCodeOwnerReview: false,
     requiredReviewThreadResolution: true,
   },
   requiredStatusChecks: {
@@ -87,6 +95,22 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
 const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
   ([k]) => `@Patina-Network/${k}` as const,
 );
+
+const CICD_REVIEWER = {
+  team: "@Patina-Network/cicd",
+  filePatterns: [".github/**"],
+  minimumApprovals: 1,
+} as const satisfies MainBranchRequiredReviewer;
+
+const k8sAppManifests = (app: string, negate = false): string[] => {
+  const files = [
+    `base/production/${app}/kustomization.yaml`,
+    `base/production/${app}/application-prod.yaml`,
+    `base/staging/${app}/kustomization.yaml`,
+    `base/staging/${app}/application-stg.yaml`,
+  ];
+  return negate ? files.map((file) => `!${file}`) : files;
+};
 
 export const REPOSITORIES = {
   "k8s-manifests": {
@@ -108,6 +132,34 @@ export const REPOSITORIES = {
       {
         app: "patAgent",
       },
+    ],
+    mainBranchRequiredReviewers: [
+      {
+        // infra owns everything except specific app manifests.
+        team: "@Patina-Network/infra",
+        filePatterns: [
+          "**/*",
+          "!.github/**",
+          ...k8sAppManifests("codebloom", true),
+          ...k8sAppManifests("codebloom-standup-bot", true),
+          ...k8sAppManifests("patchats", true),
+        ],
+        minimumApprovals: 1,
+      },
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: [
+          ...k8sAppManifests("codebloom"),
+          ...k8sAppManifests("codebloom-standup-bot"),
+        ],
+        minimumApprovals: 1,
+      },
+      {
+        team: "@Patina-Network/patchats",
+        filePatterns: [...k8sAppManifests("patchats")],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
     ],
   },
   "platform-infra": {
@@ -137,6 +189,14 @@ export const REPOSITORIES = {
         ],
       },
     },
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/infra",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
     mainBranchProtectionBypass: [
       {
         team: "@Patina-Network/infra",
@@ -155,6 +215,14 @@ export const REPOSITORIES = {
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/admin",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
   },
   patchats: {
     description:
@@ -169,6 +237,14 @@ export const REPOSITORIES = {
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/patchats",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
   },
   codebloom: {
     description: "Codebloom - LeetCode Leaderboard for Patina Network",
@@ -181,9 +257,6 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {
-      pullRequest: {
-        requiredApprovingReviewCount: 2,
-      },
       requiredStatusChecks: {
         requiredChecks: [
           {
@@ -221,6 +294,14 @@ export const REPOSITORIES = {
         ],
       },
     },
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 2,
+      },
+      CICD_REVIEWER,
+    ],
     mainBranchProtectionBypass: [],
   },
   dockerfiles: {
@@ -244,6 +325,14 @@ export const REPOSITORIES = {
       },
     },
     mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/infra",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 

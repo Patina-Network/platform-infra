@@ -151,6 +151,17 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
     return protections;
   })();
 
+  const requiredReviewers = repositoryConfig.mainBranchRequiredReviewers.map(
+    ({ filePatterns, team, minimumApprovals }) => ({
+      filePatterns: [...filePatterns],
+      minimumApprovals,
+      reviewer: {
+        id: githubTeams[getTeamName(team)].id.apply(Number),
+        type: "Team",
+      },
+    }),
+  ) satisfies github.types.input.RepositoryRulesetRulesPullRequestRequiredReviewer[];
+
   return [
     new github.RepositoryRuleset(
       getDefaultBranchRulesetResourceName(repositoryName),
@@ -187,6 +198,11 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
         },
         rules: {
           ...branchProtections,
+          pullRequest: {
+            ...(branchProtections.pullRequest ?? {}),
+            requiredReviewers:
+              requiredReviewers.length ? requiredReviewers : undefined,
+          },
         },
       },
       {
