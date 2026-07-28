@@ -57,6 +57,7 @@ export const TEAMS = {
     members: [
       { username: "tahminator", role: "maintainer" },
       { username: "arklian", role: "maintainer" },
+      { username: "spiffyy99", role: "member" },
     ],
   },
   cicd: {
@@ -65,6 +66,7 @@ export const TEAMS = {
     members: [
       { username: "tahminator", role: "maintainer" },
       { username: "arklian", role: "maintainer" },
+      { username: "spiffyy99", role: "member" },
     ],
   },
   admin: {
