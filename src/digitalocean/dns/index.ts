@@ -19,7 +19,7 @@ const getDnsRecordResourceName = (record: DnsRecord) => {
     (r) => r.name === record.name && r.type === record.type,
   );
   const index = group.indexOf(record);
-  const base = `${record.name.replace(/\./g, "-")}-${record.type}`;
+  const base = `${record.name.replaceAll(".", "-")}-${record.type}`;
   return index === 0 ? base : `${base}-${index + 1}`;
 };
 
