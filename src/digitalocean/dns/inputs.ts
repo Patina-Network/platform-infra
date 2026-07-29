@@ -7,41 +7,43 @@ export type DnsRecord = {
   value: string;
 };
 
+const K8S_IP_ADDR = "20.127.117.204" as const;
+
 export const RECORDS = [
   {
     name: "gerrit.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "stg.patchats.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 3600,
   },
   {
     name: "patchats.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 3600,
   },
   {
     name: "codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "stg.codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "redis.k8s.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
@@ -60,37 +62,37 @@ export const RECORDS = [
   {
     name: "grafana.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "production.k8s.codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "staging.k8s.codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "db.k8s.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "k8s.codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
     name: "stg.k8s.codebloom.patinanetwork.org",
     type: "A",
-    value: "20.127.117.204",
+    value: K8S_IP_ADDR,
     ttl: 1800,
   },
   {
