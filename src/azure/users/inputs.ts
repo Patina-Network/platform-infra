@@ -138,7 +138,7 @@ export const AZURE_USERS = {
     userPrincipalName: "angela.yu@patinanetwork.onmicrosoft.com",
   },
   "Nancy Huang": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "nancy.huang@patinanetwork.onmicrosoft.com",
