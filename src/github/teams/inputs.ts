@@ -30,7 +30,7 @@ export const TEAMS = {
     privacy: "closed",
     description: "Active team members for the Codebloom project",
     members: [
-      { username: "tahminator", role: "member" },
+      { username: "tahminator", role: "maintainer" },
       { username: "angelayu0530", role: "member" },
       { username: "naanci", role: "member" },
     ],
