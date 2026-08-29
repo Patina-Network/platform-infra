@@ -160,7 +160,7 @@ export const AZURE_USERS = {
     mail: "ryan.min@patinanetwork.onmicrosoft.com",
     mailNickname: "ryan.min",
     userPrincipalName: "ryan.min@patinanetwork.onmicrosoft.com",
-  }
+  },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
 export type AzureUserName = keyof typeof AZURE_USERS;
