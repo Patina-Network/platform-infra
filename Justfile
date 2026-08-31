@@ -23,7 +23,7 @@ preview *args:
 
 # Print the initial password Pulumi generated for a newly-created Azure user, keyed by their full email.
 get-init-pwd fullEmail:
-  sops exec-env secrets.yaml "pulumi stack output azureInitPwsPlaintext --show-secrets --json | jq -er --arg e '{{ fullEmail }}' '.[\$e]'"
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureInitPwsPlaintext --show-secrets --json | jq -er --arg e '{{ fullEmail }}' '.[\$e]'\""
 
 
 ### Secret management
