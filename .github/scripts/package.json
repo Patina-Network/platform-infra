@@ -1,6 +1,6 @@
 {
   "name": "scripts",
-  "version": "1.0.0",
+  "version": "1.0.220",
   "description": "@patina-network/platform-infra CI Scripts",
   "scripts": {
     "typecheck": "tsc --noEmit",
