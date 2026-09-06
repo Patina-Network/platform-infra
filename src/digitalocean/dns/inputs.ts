@@ -1,6 +1,7 @@
 export type DnsType = "A" | "CNAME" | "SOA" | "TXT";
 
 export type DnsRecordInput = {
+  bootstrapId?: number;
   name: string;
   ttl?: number;
   value: string;
@@ -13,33 +14,105 @@ const K8S_IP_ADDR = "20.127.117.204" as const;
 export const RECORDS = {
   "patinanetwork.org": {
     A: [
-      { name: "gerrit", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "stg.patchats", value: K8S_IP_ADDR, ttl: 3600 },
-      { name: "patchats", value: K8S_IP_ADDR, ttl: 3600 },
-      { name: "codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "stg.codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "redis.k8s", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "grafana", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "production.k8s.codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "staging.k8s.codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "db.k8s", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "k8s.codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: "stg.k8s.codebloom", value: K8S_IP_ADDR, ttl: 1800 },
-      { name: ROOT, value: "31.43.161.6", ttl: 3600 },
-      { name: ROOT, value: "31.43.160.6", ttl: 3600 },
+      {
+        bootstrapId: 1824470027,
+        name: "gerrit",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1823138069,
+        name: "stg.patchats",
+        value: K8S_IP_ADDR,
+        ttl: 3600,
+      },
+      {
+        bootstrapId: 1823138018,
+        name: "patchats",
+        value: K8S_IP_ADDR,
+        ttl: 3600,
+      },
+      {
+        bootstrapId: 1817054900,
+        name: "codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1817052577,
+        name: "stg.codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1816958860,
+        name: "redis.k8s",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1815864905,
+        name: "grafana",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1815657393,
+        name: "production.k8s.codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1815657172,
+        name: "staging.k8s.codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1815538560,
+        name: "db.k8s",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1815478721,
+        name: "k8s.codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1814324580,
+        name: "stg.k8s.codebloom",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
+      { bootstrapId: 1790438940, name: ROOT, value: "31.43.161.6", ttl: 3600 },
+      { bootstrapId: 1790438925, name: ROOT, value: "31.43.160.6", ttl: 3600 },
     ],
     CNAME: [
-      { name: "www", value: "sites.framer.app", ttl: 1800 },
-      { name: "gb-bounces", value: "pm.mtasv.net", ttl: 43200 },
+      {
+        bootstrapId: 1790730528,
+        name: "www",
+        value: "sites.framer.app",
+        ttl: 1800,
+      },
+      {
+        bootstrapId: 1785343407,
+        name: "gb-bounces",
+        value: "pm.mtasv.net",
+        ttl: 43200,
+      },
     ],
     TXT: [
       {
+        bootstrapId: 1816751902,
         // used for email authenticity
         name: "_dmarc",
         value: "v=DMARC1; p=reject",
         ttl: 3600,
       },
       {
+        bootstrapId: 1816749498,
         // Google Search Console domain verification
         name: ROOT,
         value:
@@ -47,12 +120,14 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
+        bootstrapId: 1810800193,
         // GitHub organization domain verification
         name: "_gh-patina-network-o",
         value: "7288a89d92",
         ttl: 3600,
       },
       {
+        bootstrapId: 1785340947,
         // used for email authenticity
         name: "20250710202314pm._domainkey",
         value:
@@ -60,6 +135,7 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
+        bootstrapId: 1750483664,
         // Google Search Console domain verification
         name: ROOT,
         value:
@@ -67,12 +143,14 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
+        bootstrapId: 1746552430,
         // used for email authenticity
         name: ROOT,
         value: "v=spf1 include:mailgun.org include:_spf.google.com ~all",
         ttl: 3600,
       },
       {
+        bootstrapId: 1746552401,
         // used for email authenticity
         name: "mx._domainkey",
         value:

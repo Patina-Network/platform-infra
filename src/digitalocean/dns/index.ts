@@ -41,7 +41,13 @@ export const digitaloceanDnsRecordMap = Object.fromEntries(
               type,
               value: record.value,
             },
-            { provider },
+            {
+              provider,
+              import:
+                record.bootstrapId === undefined ?
+                  undefined
+                : `${domain},${record.bootstrapId}`,
+            },
           ),
         ] as const;
       });
