@@ -26,12 +26,12 @@ export const RECORDS = {
         value: K8S_IP_ADDR,
         ttl: 3600,
       },
-      {
-        bootstrapId: 1823138018,
-        name: "patchats",
-        value: K8S_IP_ADDR,
-        ttl: 3600,
-      },
+      // {
+      //   bootstrapId: 1823138018,
+      //   name: "patchats",
+      //   value: K8S_IP_ADDR,
+      //   ttl: 3600,
+      // },
       // {
       //   bootstrapId: 1817054900,
       //   name: "codebloom",
