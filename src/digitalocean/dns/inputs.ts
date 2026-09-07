@@ -9,7 +9,7 @@ export type DnsRecordInput = {
 
 export const ROOT = "@";
 
-const K8S_IP_ADDR = "20.127.117.204" as const;
+//const K8S_IP_ADDR = "20.127.117.204" as const;
 
 export const RECORDS = {
   "patinanetwork.org": {
@@ -23,7 +23,7 @@ export const RECORDS = {
       {
         bootstrapId: undefined,
         name: "stg.patchats",
-        value: K8S_IP_ADDR,
+        value: "192.0.2.1",
         ttl: 3600,
       },
       // {
