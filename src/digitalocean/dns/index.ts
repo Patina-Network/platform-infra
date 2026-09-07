@@ -76,7 +76,10 @@ export const digitaloceanDnsRecordMap = (() => {
             {
               provider,
               import:
-                !("bootstrapId" in record) || record.bootstrapId === undefined ?
+                (
+                  !("bootstrapId" in record) ||
+                  typeof record.bootstrapId !== "number"
+                ) ?
                   undefined
                 : `${domain},${record.bootstrapId}`,
             },
