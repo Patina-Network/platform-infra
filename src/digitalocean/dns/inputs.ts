@@ -21,7 +21,7 @@ export const RECORDS = {
       //   ttl: 1800,
       // },
       {
-        //bootstrapId: 1823138069,
+        bootstrapId: undefined,
         name: "stg.patchats",
         value: K8S_IP_ADDR,
         ttl: 3600,
