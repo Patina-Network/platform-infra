@@ -15,7 +15,7 @@ export const RECORDS = {
   "patinanetwork.org": {
     A: [
       {
-        bootstrapId: 1824470027,
+        bootstrapId: undefined,
         name: "gerrit",
         value: K8S_IP_ADDR,
         ttl: 1800,
@@ -27,77 +27,77 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
-        bootstrapId: 1823138018,
+        bootstrapId: undefined,
         name: "patchats",
         value: K8S_IP_ADDR,
         ttl: 3600,
       },
       {
-        bootstrapId: 1817054900,
+        bootstrapId: undefined,
         name: "codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1817052577,
+        bootstrapId: undefined,
         name: "stg.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1816958860,
+        bootstrapId: undefined,
         name: "redis.k8s",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1815864905,
+        bootstrapId: undefined,
         name: "grafana",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1815657393,
+        bootstrapId: undefined,
         name: "production.k8s.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1815657172,
+        bootstrapId: undefined,
         name: "staging.k8s.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1815538560,
+        bootstrapId: undefined,
         name: "db.k8s",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1815478721,
+        bootstrapId: undefined,
         name: "k8s.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
       {
-        bootstrapId: 1814324580,
+        bootstrapId: undefined,
         name: "stg.k8s.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
-      { bootstrapId: 1790438940, name: ROOT, value: "31.43.161.6", ttl: 3600 },
-      { bootstrapId: 1790438925, name: ROOT, value: "31.43.160.6", ttl: 3600 },
+      { bootstrapId: undefined, name: ROOT, value: "31.43.161.6", ttl: 3600 },
+      { bootstrapId: undefined, name: ROOT, value: "31.43.160.6", ttl: 3600 },
     ],
     CNAME: [
       {
-        bootstrapId: 1790730528,
+        bootstrapId: undefined,
         name: "www",
         value: "sites.framer.app",
         ttl: 1800,
       },
       {
-        bootstrapId: 1785343407,
+        bootstrapId: undefined,
         name: "gb-bounces",
         value: "pm.mtasv.net",
         ttl: 43200,
@@ -105,14 +105,14 @@ export const RECORDS = {
     ],
     TXT: [
       {
-        bootstrapId: 1816751902,
+        bootstrapId: undefined,
         // used for email authenticity
         name: "_dmarc",
         value: "v=DMARC1; p=reject",
         ttl: 3600,
       },
       {
-        bootstrapId: 1816749498,
+        bootstrapId: undefined,
         // Google Search Console domain verification
         name: ROOT,
         value:
@@ -120,14 +120,14 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
-        bootstrapId: 1810800193,
+        bootstrapId: undefined,
         // GitHub organization domain verification
         name: "_gh-patina-network-o",
         value: "7288a89d92",
         ttl: 3600,
       },
       {
-        bootstrapId: 1785340947,
+        bootstrapId: undefined,
         // used for email authenticity
         name: "20250710202314pm._domainkey",
         value:
@@ -135,7 +135,7 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
-        bootstrapId: 1750483664,
+        bootstrapId: undefined,
         // Google Search Console domain verification
         name: ROOT,
         value:
@@ -143,14 +143,14 @@ export const RECORDS = {
         ttl: 3600,
       },
       {
-        bootstrapId: 1746552430,
+        bootstrapId: undefined,
         // used for email authenticity
         name: ROOT,
         value: "v=spf1 include:mailgun.org include:_spf.google.com ~all",
         ttl: 3600,
       },
       {
-        bootstrapId: 1746552401,
+        bootstrapId: undefined,
         // used for email authenticity
         name: "mx._domainkey",
         value:
