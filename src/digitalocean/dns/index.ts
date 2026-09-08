@@ -71,7 +71,10 @@ export const digitaloceanDnsRecordMap = (() => {
               name: record.name,
               ttl: record.ttl,
               type,
-              value: record.value,
+              value:
+                type === "CNAME" && !record.value.endsWith(".") ?
+                  `${record.value}.`
+                : record.value,
             },
             {
               provider,
