@@ -1,3 +1,7 @@
+# run to install all pkgs (pulumi & js)
+install *args:
+  pulumi install
+
 ### Azure cmds
 
 # logout and authenticate again

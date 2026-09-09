@@ -25,6 +25,9 @@ export const env = {
   digitalocean: {
     token: required("DIGITAL_OCEAN_DNS_PAT"),
   },
+  headscale: {
+    token: required("HEADSCALE_TOKEN"),
+  },
   pg: {
     database: required("PG_DATABASE"),
     host: required("PG_HOST"),

@@ -6,6 +6,7 @@ import "@/azure";
 import "@/github";
 import "@/postgres";
 import "@/digitalocean";
+import "@/headscale";
 
 // add explicit variable outputs to pulumi here (e.g. if you need to be able to see outputs via CLI)
 export { azureInitPwsPlaintext } from "@/azure/users";
