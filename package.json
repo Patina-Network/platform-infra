@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "prettier-package-json": "prettier --write package.json",
     "typecheck": "tsc --noEmit",
     "test": "bun run typecheck && bun run fmt && bun run lint",
     "fmt": "bun run prettier",
@@ -41,5 +42,7 @@
     "lodash": "^4.18.1",
     "@pulumi/headscale": "file:sdks/headscale"
   },
-  "trustedDependencies": ["@pulumi/headscale"]
+  "trustedDependencies": [
+    "@pulumi/headscale"
+  ]
 }
