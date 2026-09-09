@@ -1,3 +1,14 @@
+/**
+ * __ATTENTION__: Please follow these instructions in order to onboard a new
+ * Azure app.
+ *
+ * 1. Add app to `OAUTH_APPS` below.
+ * 2. Create & merge PR.
+ * 3. After state is reconciled, you can run `just get-oauth-app-secret {appKeyName}` to get the client secret.
+ *
+ * __Note__: If you need a password reset, please reach out to someone on `@Patina-Network/infra`.
+ */
+
 export type OAuthApp = {
   /**
    * Display name for the Azure AD app registration.

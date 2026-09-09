@@ -1,4 +1,5 @@
 import * as azuread from "@pulumi/azuread";
+import * as pulumi from "@pulumi/pulumi";
 
 import { OAUTH_APPS } from "@/azure/apps/inputs";
 import { azureadProvider as provider } from "@/azure/provider";
@@ -18,6 +19,9 @@ const getOAuthAppResourceName = (appName: string) =>
 
 const getOAuthAppServicePrincipalResourceName = (appName: string) =>
   `azure-oauth-app-service-principal-${appName}`;
+
+const getOAuthAppPasswordResourceName = (appName: string) =>
+  `azure-oauth-app-password-${appName}`;
 
 export const azureOAuthApps = Object.fromEntries(
   Object.entries(OAUTH_APPS).map(
@@ -52,5 +56,32 @@ export const azureOAuthServicePrincipals = Object.fromEntries(
           { provider },
         ),
       ] as const,
+  ),
+);
+
+export const azureOAuthAppPasswords = Object.fromEntries(
+  Object.entries(OAUTH_APPS).map(
+    ([appKey]) =>
+      [
+        appKey,
+        new azuread.ApplicationPassword(
+          getOAuthAppPasswordResourceName(appKey),
+          {
+            applicationId: azureOAuthApps[appKey].id,
+            displayName: "master",
+          },
+          { provider },
+        ),
+      ] as const,
+  ),
+);
+
+// so we can read output in pulumi state
+export const azureOAuthAppSecretsPlaintext = pulumi.secret(
+  Object.fromEntries(
+    Object.entries(OAUTH_APPS).map(([appKey]) => [
+      appKey,
+      azureOAuthAppPasswords[appKey].value,
+    ]),
   ),
 );

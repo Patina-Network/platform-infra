@@ -9,3 +9,4 @@ import "@/digitalocean";
 
 // add explicit variable outputs to pulumi here (e.g. if you need to be able to see outputs via CLI)
 export { azureInitPwsPlaintext } from "@/azure/users";
+export { azureOAuthAppSecretsPlaintext } from "@/azure/apps";
