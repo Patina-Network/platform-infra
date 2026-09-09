@@ -1,3 +1,11 @@
+# run to install all pkgs (pulumi & js)
+install *args:
+  pulumi install {{args}} && just prettier-package-json
+
+# pulumi install rewrites package.json, have to do this or else CI/CD will complain
+prettier-package-json:
+  bun run prettier-package-json
+
 ### Azure cmds
 
 # logout and authenticate again

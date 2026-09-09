@@ -26,6 +26,8 @@ jobs:
 
       - name: Setup pipeline
         uses: ./.github/composite/setup
+        with:
+          INSTALL_JUST: true
 
       - name: Cache Bun dependencies
         uses: actions/cache@v5
@@ -37,7 +39,7 @@ jobs:
 
       - name: Install deps
         shell: bash
-        run: bun install --frozen-lockfile
+        run: just install
 
       - name: Run Tests
         run: bun run test
@@ -63,6 +65,7 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          INSTALL_JUST: true
 
       - name: Cache Bun dependencies
         uses: actions/cache@v5
@@ -73,7 +76,7 @@ jobs:
             ${{ runner.os }}-bun-
 
       - name: Install deps
-        run: bun install --frozen-lockfile
+        run: just install
 
       - name: Run Pulumi Preview
         run: bun run .github/scripts/src/pulumi/preview --prId=${{ github.event.number }}
