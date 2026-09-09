@@ -86,6 +86,12 @@ export const RECORDS = {
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
+      {
+        bootstrapId: undefined,
+        name: "headscale",
+        value: K8S_IP_ADDR,
+        ttl: 1800,
+      },
       { bootstrapId: undefined, name: ROOT, value: "31.43.161.6", ttl: 3600 },
       { bootstrapId: undefined, name: ROOT, value: "31.43.160.6", ttl: 3600 },
     ],
