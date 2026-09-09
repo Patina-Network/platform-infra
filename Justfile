@@ -25,6 +25,10 @@ preview *args:
 get-init-pwd fullEmail:
   sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureInitPwsPlaintext --show-secrets --json | jq -er --arg e '{{ fullEmail }}' '.[\$e]'\""
 
+# Print the client secret Pulumi generated for an OAuth app registration, keyed by the key in OAUTH_APPS.
+get-oauth-app-secret appKeyName:
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureOAuthAppSecretsPlaintext --show-secrets --json | jq -er --arg e '{{ appKeyName }}' '.[\$e]'\""
+
 
 ### Secret management
 # sops is a library that handles the encryption and decryption of files (primarily used for secrets).
