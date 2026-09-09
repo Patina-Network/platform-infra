@@ -58,4 +58,11 @@ export const DATABASES = {
     dml: ["patchats-prod-app"],
     ro: ["patchats-prod-ro"],
   },
+  headscale: {
+    connectionLimit: 14,
+    owner: "headscale-sa",
+    extensions: [],
+    dml: [],
+    ro: [],
+  },
 } as const satisfies Record<DatabaseName, PgDatabase>;
