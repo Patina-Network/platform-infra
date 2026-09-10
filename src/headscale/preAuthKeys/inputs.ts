@@ -1,9 +1,8 @@
 import type { MachineUserName } from "@/headscale/users/inputs";
 
-type PreAuthKeyName = string;
+type PreAuthKeyName = MachineUserName;
 
 type PreAuthKey = {
-  user: MachineUserName;
   reusable: boolean;
   timeToExpire: string;
   // bump to re-generate key
@@ -11,8 +10,7 @@ type PreAuthKey = {
 };
 
 export const PRE_AUTH_KEYS = {
-  "proxy-infra": {
-    user: "proxy-infra",
+  "vpn-infra": {
     reusable: true,
     timeToExpire: "1y",
     generation: 1,
