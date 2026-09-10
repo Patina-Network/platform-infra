@@ -22,12 +22,21 @@ inputs:
     description: "Would you like to install Just? Defaults to false"
     required: false
     default: "false"
+  HEADSCALE_ADDRESS:
+    description: "Headscale address (passing any of the Headscale args in will enable Headscale support for the job)"
+    required: false
+  HEADSCALE_USER:
+    description: "Headscale user (passing any of the Headscale args in will enable Headscale support for the job)"
+    required: false
+  HEADSCALE_PREAUTHKEY:
+    description: "Headscale preauthkey (passing any of the Headscale args in will enable Headscale support for the job)"
+    required: false
 
 runs:
   using: "composite"
   steps:
     - name: Setup
-      uses: tahminator/pipeline/actions/setup@1.0.70
+      uses: tahminator/pipeline/actions/setup@1.0.70-beta.4a46d01a
       with:
         AZURE_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
         AZURE_CLIENT_SECRET: ${{ inputs.AZURE_CLIENT_SECRET }}
