@@ -38,6 +38,7 @@ export const headscaleMachineUsers = Object.fromEntries(
           getHeadscaleMachineUserResourceName(machineUser.name),
           {
             name: machineUser.name,
+            forceDelete: true,
           },
           { provider },
         ),
