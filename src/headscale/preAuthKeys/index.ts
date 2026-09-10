@@ -18,7 +18,7 @@ export const headscalePreAuthKeys = Object.fromEntries(
         new headscale.PreAuthKey(
           getHeadscalePreAuthKeyResourceName(keyName, keyProps.generation),
           {
-            user: headscaleMachineUsers[keyProps.user].id,
+            user: headscaleMachineUsers[keyName].id,
             reusable: keyProps.reusable,
             timeToExpire: keyProps.timeToExpire,
           },

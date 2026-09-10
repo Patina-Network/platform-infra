@@ -18,8 +18,8 @@ type MachineUser = {
 
 // non-human headscale users, e.g. for automated usages
 export const MACHINE_USERS = {
-  "proxy-infra": {
-    name: "proxy-infra",
+  "vpn-infra": {
+    name: "vpn-infra",
   },
 } as const satisfies Record<MachineUserFullName, MachineUser>;
 
