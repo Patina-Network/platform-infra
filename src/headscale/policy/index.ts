@@ -4,14 +4,19 @@ import * as pulumi from "@pulumi/pulumi";
 import { provider } from "@/headscale/provider";
 import { headscaleMachineUsers, headscaleUsers } from "@/headscale/users";
 
+const toMachineUserGroupMember = (name: pulumi.Input<string>) =>
+  pulumi.interpolate`${name}@`;
+
 // https://tailscale.com/docs/reference/syntax/policy-file
 const policy = pulumi.jsonStringify({
   groups: {
     ["group:consumers"]: [
-      ...Object.values(headscaleUsers).map((user) => user.name),
-      headscaleMachineUsers["global-cicd"].name,
+      ...Object.values(headscaleUsers).map((user) => user.email),
+      toMachineUserGroupMember(headscaleMachineUsers["global-cicd"].name),
     ],
-    ["group:cluster"]: [headscaleMachineUsers["vpn-infra"].name],
+    ["group:cluster"]: [
+      toMachineUserGroupMember(headscaleMachineUsers["vpn-infra"].name),
+    ],
   },
   acls: [
     {
