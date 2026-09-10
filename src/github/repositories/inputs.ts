@@ -113,6 +113,27 @@ const k8sAppManifests = (app: string, negate = false): string[] => {
 };
 
 export const REPOSITORIES = {
+  "hello-world-grpc-service": {
+    description: "Hello World gRPC service for Patina Network",
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
+  },
   "k8s-manifests": {
     description:
       "Kubernetes manifests for Patina Network services and infrastructure.",
