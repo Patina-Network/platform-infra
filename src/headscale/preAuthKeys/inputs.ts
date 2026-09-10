@@ -15,4 +15,9 @@ export const PRE_AUTH_KEYS = {
     timeToExpire: "1y",
     generation: 1,
   },
+  "proxy-infra": {
+    reusable: false,
+    timeToExpire: "30m",
+    generation: 1,
+  },
 } as const satisfies Record<PreAuthKeyName, PreAuthKey>;
