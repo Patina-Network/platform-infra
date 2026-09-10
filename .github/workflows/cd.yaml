@@ -32,7 +32,6 @@ jobs:
           HEADSCALE_ADDRESS: ${{ secrets.HEADSCALE_ADDRESS }}
           HEADSCALE_PREAUTHKEY: ${{ secrets.HEADSCALE_PREAUTHKEY }}
           HEADSCALE_USER: ${{ secrets.HEADSCALE_USER }}
-
           INSTALL_JUST: true
 
       - name: Cache Bun dependencies

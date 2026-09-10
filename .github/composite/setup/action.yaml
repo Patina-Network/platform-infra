@@ -44,6 +44,9 @@ runs:
         AZURE_SUBSCRIPTION_ID: ${{ inputs.AZURE_SUBSCRIPTION_ID }}
         INSTALL_SOPS: true
         INSTALL_JUST: ${{ inputs.INSTALL_JUST }}
+        HEADSCALE_ADDRESS: ${{ inputs.HEADSCALE_ADDRESS }}
+        HEADSCALE_USER: ${{ inputs.HEADSCALE_USER }}
+        HEADSCALE_PREAUTHKEY: ${{ inputs.HEADSCALE_PREAUTHKEY }}
 
     - name: Test CI scripts
       shell: bash
