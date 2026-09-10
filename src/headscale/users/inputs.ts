@@ -21,6 +21,9 @@ export const MACHINE_USERS = {
   "vpn-infra": {
     name: "vpn-infra",
   },
+  "global-cicd": {
+    name: "global-cicd",
+  },
 } as const satisfies Record<MachineUserFullName, MachineUser>;
 
 export type MachineUserName = keyof typeof MACHINE_USERS;
