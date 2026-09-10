@@ -31,15 +31,15 @@ preview *args:
 
 # Print the initial password Pulumi generated for a newly-created Azure user, keyed by their full email.
 get-init-pwd fullEmail:
-  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureInitPwsPlaintext --show-secrets --json | jq -er --arg e '{{ fullEmail }}' '.[\$e]'\""
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml './get-secret-output.sh azureInitPwsPlaintext {{ fullEmail }}'"
 
 # Print the client secret Pulumi generated for an OAuth app registration, keyed by the key in OAUTH_APPS.
 get-oauth-app-secret appKeyName:
-  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureOAuthAppSecretsPlaintext --show-secrets --json | jq -er --arg e '{{ appKeyName }}' '.[\$e]'\""
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml './get-secret-output.sh azureOAuthAppSecretsPlaintext {{ appKeyName }}'"
 
 # Print the preauth key Headscale generated, keyed by the key in PRE_AUTH_KEYS.
 get-headscale-preauth-key keyName:
-  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output headscalePreAuthKeysPlaintext --show-secrets --json | jq -er --arg e '{{ keyName }}' '.[\$e]'\""
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml './get-secret-output.sh headscalePreAuthKeysPlaintext {{ keyName }}'"
 
 
 ### Secret management
