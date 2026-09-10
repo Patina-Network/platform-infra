@@ -37,6 +37,10 @@ get-init-pwd fullEmail:
 get-oauth-app-secret appKeyName:
   sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output azureOAuthAppSecretsPlaintext --show-secrets --json | jq -er --arg e '{{ appKeyName }}' '.[\$e]'\""
 
+# Print the preauth key Headscale generated, keyed by the key in PRE_AUTH_KEYS.
+get-headscale-preauth-key keyName:
+  sops exec-env secrets.yaml "sops exec-env secrets.administrator.yaml \"pulumi stack output headscalePreAuthKeysPlaintext --show-secrets --json | jq -er --arg e '{{ keyName }}' '.[\$e]'\""
+
 
 ### Secret management
 # sops is a library that handles the encryption and decryption of files (primarily used for secrets).
