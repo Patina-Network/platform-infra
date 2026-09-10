@@ -1,8 +1,10 @@
 import * as headscale from "@pulumi/headscale";
 import * as pulumi from "@pulumi/pulumi";
 
+import { AZURE_USERS } from "@/azure/users/inputs";
 import { provider } from "@/headscale/provider";
-import { headscaleMachineUsers, headscaleUsers } from "@/headscale/users";
+import { headscaleMachineUsers } from "@/headscale/users";
+import { HEADSCALE_USERS } from "@/headscale/users/inputs";
 
 const toMachineUserGroupMember = (name: pulumi.Input<string>) =>
   pulumi.interpolate`${name}@`;
@@ -11,7 +13,7 @@ const toMachineUserGroupMember = (name: pulumi.Input<string>) =>
 const policy = pulumi.jsonStringify({
   groups: {
     ["group:consumers"]: [
-      ...Object.values(headscaleUsers).map((user) => user.email),
+      ...HEADSCALE_USERS.map((userName) => AZURE_USERS[userName].mail),
       toMachineUserGroupMember(headscaleMachineUsers["global-cicd"].name),
     ],
     ["group:cluster"]: [
