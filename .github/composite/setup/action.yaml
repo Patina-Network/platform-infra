@@ -36,7 +36,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup
-      uses: tahminator/pipeline/actions/setup@1.0.70-beta.4a46d01a
+      uses: tahminator/pipeline/actions/setup@1.0.71
       with:
         AZURE_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
         AZURE_CLIENT_SECRET: ${{ inputs.AZURE_CLIENT_SECRET }}
