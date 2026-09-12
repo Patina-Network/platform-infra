@@ -345,7 +345,7 @@ export const REPOSITORIES = {
       {
         team: "@Patina-Network/codebloom",
         filePatterns: ["**/*", "!.github/**"],
-        minimumApprovals: 2,
+        minimumApprovals: 1,
       },
       CICD_REVIEWER,
     ],
