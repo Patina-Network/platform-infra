@@ -113,6 +113,28 @@ const k8sAppManifests = (app: string, negate = false): string[] => {
 };
 
 export const REPOSITORIES = {
+  "hello-world-dashboard": {
+    description:
+      "Hello World dashboard that calls hello-world-grpc-service for an end-to-end Patina Network example",
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*", "!.github/**"],
+        minimumApprovals: 1,
+      },
+      CICD_REVIEWER,
+    ],
+  },
   "hello-world-grpc-service": {
     description: "Hello World gRPC service for Patina Network",
     bootstrap: false,
