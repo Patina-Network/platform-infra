@@ -37,6 +37,13 @@ export const OAUTH_APPS = {
     redirectUris: ["https://grafana.vpn.patinanetwork.org/login/azuread"],
     signInAudience: "AzureADMyOrg",
   },
+  artifactkeeper: {
+    displayName: "Artifact Keeper",
+    redirectUris: [
+      "https://pkg.vpn.patinanetwork.org/api/v1/auth/sso/oidc/callback",
+    ],
+    signInAudience: "AzureADMyOrg",
+  },
 } as const satisfies Record<string, OAuthApp>;
 
 export type OAuthAppName = keyof typeof OAUTH_APPS;
