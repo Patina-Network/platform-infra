@@ -65,4 +65,11 @@ export const DATABASES = {
     dml: [],
     ro: [],
   },
+  artifactkeeper: {
+    connectionLimit: 14,
+    owner: "artifactkeeper-sa",
+    extensions: [],
+    dml: [],
+    ro: [],
+  },
 } as const satisfies Record<DatabaseName, PgDatabase>;
