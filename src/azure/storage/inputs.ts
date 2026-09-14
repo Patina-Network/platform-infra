@@ -28,6 +28,10 @@ export const STORAGE_ACCOUNTS = {
         name: "db-backup",
         ttl: Temporal.Duration.from({ days: 30 }),
       },
+      {
+        name: "artifactkeeper4k8s",
+        ttl: undefined,
+      },
     ],
   },
   platform4pulumi: {
