@@ -16,18 +16,6 @@ export const RECORDS = {
     A: [
       {
         bootstrapId: undefined,
-        name: "gerrit",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "stg.patchats",
-        value: K8S_IP_ADDR,
-        ttl: 3600,
-      },
-      {
-        bootstrapId: undefined,
         name: "patchats",
         value: K8S_IP_ADDR,
         ttl: 3600,
@@ -35,54 +23,6 @@ export const RECORDS = {
       {
         bootstrapId: undefined,
         name: "codebloom",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "stg.codebloom",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "redis.k8s",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "grafana",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "production.k8s.codebloom",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "staging.k8s.codebloom",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "db.k8s",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "k8s.codebloom",
-        value: K8S_IP_ADDR,
-        ttl: 1800,
-      },
-      {
-        bootstrapId: undefined,
-        name: "stg.k8s.codebloom",
         value: K8S_IP_ADDR,
         ttl: 1800,
       },
