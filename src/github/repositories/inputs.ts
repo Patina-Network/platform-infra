@@ -96,12 +96,6 @@ const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
   ([k]) => `@Patina-Network/${k}` as const,
 );
 
-const CICD_REVIEWER = {
-  team: "@Patina-Network/cicd",
-  filePatterns: [".github/**"],
-  minimumApprovals: 1,
-} as const satisfies MainBranchRequiredReviewer;
-
 const k8sAppManifests = (app: string, negate = false): string[] => {
   const files = [
     `base/production/${app}/kustomization.yaml`,
@@ -129,10 +123,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/codebloom",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
   "hello-world-grpc-service": {
@@ -150,10 +143,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/codebloom",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
   "k8s-manifests": {
@@ -182,7 +174,6 @@ export const REPOSITORIES = {
         team: "@Patina-Network/infra",
         filePatterns: [
           "**/*",
-          "!.github/**",
           ...k8sAppManifests("codebloom", true),
           ...k8sAppManifests("codebloom-standup-bot", true),
           ...k8sAppManifests("patchats", true),
@@ -202,7 +193,6 @@ export const REPOSITORIES = {
         filePatterns: [...k8sAppManifests("patchats")],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
   "platform-infra": {
@@ -235,10 +225,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/infra",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
     mainBranchProtectionBypass: [
       {
@@ -261,10 +250,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/admin",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
   patchats: {
@@ -283,10 +271,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/patchats",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
   codebloom: {
@@ -344,10 +331,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/codebloom",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
     mainBranchProtectionBypass: [],
   },
@@ -375,10 +361,9 @@ export const REPOSITORIES = {
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/infra",
-        filePatterns: ["**/*", "!.github/**"],
+        filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
-      CICD_REVIEWER,
     ],
   },
 } as const satisfies Record<RepositoryName, GithubRepository>;
