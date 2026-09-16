@@ -10,6 +10,7 @@ export type GithubMember = {
 export const MEMBERS = [
   { username: "tahminator", role: "admin" },
   { username: "arklian", role: "admin" },
+  { username: "spiffyy99", role: "admin" },
   { username: "Arshadul-Monir", role: "member" },
   { username: "Allimonae", role: "member" },
   { username: "RandyJDean", role: "member" },
@@ -20,7 +21,6 @@ export const MEMBERS = [
   { username: "sookiemonster", role: "member" },
   { username: "patinanetwork-sa", role: "member" },
   { username: "luoh00", role: "member" },
-  { username: "spiffyy99", role: "member" },
   { username: "angelayu0530", role: "member" },
   { username: "naanci", role: "member" },
   { username: "Kxlcl", role: "member" },
