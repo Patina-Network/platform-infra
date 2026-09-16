@@ -40,6 +40,7 @@ export const TEAMS = {
     description: "Active team members for the PatChats project",
     members: [
       { username: "arklian", role: "maintainer" },
+      { username: "spiffyy99", role: "maintainer" },
       { username: "rayzhou1201", role: "member" },
       { username: "Allimonae", role: "member" },
       { username: "Arshadul-Monir", role: "member" },
@@ -48,7 +49,6 @@ export const TEAMS = {
       { username: "isabellalam12", role: "member" },
       { username: "MalihaT111", role: "member" },
       { username: "luoh00", role: "member" },
-      { username: "spiffyy99", role: "member" },
       { username: "Kxlcl", role: "member" },
     ],
   },
@@ -67,6 +67,7 @@ export const TEAMS = {
     members: [
       { username: "tahminator", role: "maintainer" },
       { username: "arklian", role: "maintainer" },
+      { username: "spiffyy99", role: "maintainer" },
     ],
   },
 } as const satisfies Record<TeamName, GithubTeam>;
