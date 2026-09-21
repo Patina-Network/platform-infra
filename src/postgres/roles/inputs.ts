@@ -38,6 +38,13 @@ export const ROLES = [
     connectionLimit: 12,
   },
   {
+    // Used to run manual operations on the staging database when necessary.
+    name: "codebloom-stg-rw",
+    password: env.pg.role["codebloom-stg-rw"],
+    login: true,
+    connectionLimit: 12,
+  },
+  {
     name: "codebloom-prod-ro",
     password: env.pg.role["codebloom-prod-ro"],
     login: true,

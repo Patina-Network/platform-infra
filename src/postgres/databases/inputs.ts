@@ -27,7 +27,7 @@ export const DATABASES = {
     connectionLimit: 18,
     owner: "codebloom-sa",
     extensions: ["pgcrypto"],
-    dml: ["codebloom-stg-app"],
+    dml: ["codebloom-stg-app", "codebloom-stg-rw"],
     ro: ["codebloom-stg-ro"],
   },
   "codebloom-prod": {
