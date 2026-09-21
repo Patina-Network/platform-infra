@@ -39,6 +39,7 @@ export const env = {
       "codebloom-stg-app": required("PG_ROLE_codebloom-stg-app"),
       "codebloom-prod-app": required("PG_ROLE_codebloom-prod-app"),
       "codebloom-stg-ro": required("PG_ROLE_codebloom-stg-ro"),
+      "codebloom-stg-rw": required("PG_ROLE_codebloom-stg-rw"),
       "codebloom-prod-ro": required("PG_ROLE_codebloom-prod-ro"),
       "grafana-sa": required("PG_ROLE_grafana-sa"),
       "db-backup-ro-sa": required("PG_ROLE_db-backup-ro-sa"),
