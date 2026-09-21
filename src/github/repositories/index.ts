@@ -47,14 +47,12 @@ const getAllOtherBranchRulesetResourceName = (repositoryName: string) =>
 
 export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
   Object.entries(REPOSITORIES).map(([repositoryName, repositoryConfig]) => {
-    const actualRepositoryName = repositoryConfig.oldName ?? repositoryName;
-
     return [
       repositoryName,
       new github.Repository(
         getRepositoryResourceName(repositoryName),
         {
-          name: actualRepositoryName,
+          name: repositoryName,
           visibility: repositoryConfig.visibility,
           description: repositoryConfig.description,
           ...mergeWithConcatArrays(
@@ -64,7 +62,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
         },
         {
           provider,
-          import: repositoryConfig.bootstrap ? actualRepositoryName : undefined,
+          import: repositoryConfig.bootstrap ? repositoryName : undefined,
           aliases:
             repositoryConfig.oldName ?
               [
@@ -96,7 +94,7 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
           ),
           {
             permission,
-            repository: repositoryConfig.oldName ?? repositoryName,
+            repository: githubRepositories[repositoryName].name,
             teamId: githubTeams[teamName].slug,
           },
           {
