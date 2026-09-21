@@ -113,11 +113,11 @@ const k8sAppManifests = (app: string, negate = false): string[] => {
 };
 
 export const REPOSITORIES = {
-  "hello-world-dashboard": {
+  "hello-world-clients": {
     description:
-      "Hello World dashboard that calls hello-world-grpc-service for an end-to-end Patina Network example",
+      "Hello World clients that call hello-world-grpc-service for an end-to-end Patina Network example",
     bootstrap: false,
-    oldName: undefined,
+    oldName: "hello-world-dashboard",
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
