@@ -50,6 +50,9 @@ export const TEAMS = {
       { username: "MalihaT111", role: "member" },
       { username: "luoh00", role: "member" },
       { username: "Kxlcl", role: "member" },
+      { username: "14c4", role: "member" },
+      { username: "brian10101", role: "member" },
+      { username: "helpful-sam", role: "member" },
     ],
   },
   infra: {
