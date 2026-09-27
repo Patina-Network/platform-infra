@@ -366,6 +366,26 @@ export const REPOSITORIES = {
       },
     ],
   },
+  docs: {
+    description: "Documentation site for all things Patina Network",
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "private",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/infra",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
 } as const satisfies Record<RepositoryName, GithubRepository>;
 
 export type GithubRepositoryName = keyof typeof REPOSITORIES;
