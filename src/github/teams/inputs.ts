@@ -4,9 +4,18 @@ type GithubTeamRole = "maintainer" | "member";
 type GithubTeamPrivacy = "closed" | "secret";
 
 type GithubTeamMember = {
-  role: GithubTeamRole;
-  username: GithubUsername;
-};
+  [Username in GithubUsername]: {
+    // requires that github org admins are marked
+    // as maintainers on a team (otherwise the API will complain).
+    role: Extract<
+      (typeof MEMBERS)[number],
+      { username: Username }
+    >["role"] extends "admin" ?
+      "maintainer"
+    : GithubTeamRole;
+    username: Username;
+  };
+}[GithubUsername];
 
 type GithubTeam = {
   members: readonly GithubTeamMember[];
@@ -21,10 +30,11 @@ export const TEAMS = {
   developers: {
     privacy: "closed",
     description: "All active developers",
-    members: MEMBERS.map(({ username, role }) => ({
-      username,
-      role: role === "admin" ? "maintainer" : role,
-    })),
+    members: MEMBERS.map(({ username, role }) =>
+      role === "admin" ?
+        { username, role: "maintainer" as const }
+      : { username, role },
+    ),
   },
   codebloom: {
     privacy: "closed",
@@ -61,7 +71,7 @@ export const TEAMS = {
     members: [
       { username: "tahminator", role: "maintainer" },
       { username: "arklian", role: "maintainer" },
-      { username: "spiffyy99", role: "member" },
+      { username: "spiffyy99", role: "maintainer" },
     ],
   },
   admin: {
