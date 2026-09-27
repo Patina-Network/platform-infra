@@ -377,7 +377,11 @@ export const REPOSITORIES = {
     triage: [],
     repositorySettingOverrides: {},
     mainBranchProtectionOverrides: {},
-    mainBranchProtectionBypass: [],
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/infra",
+      },
+    ],
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/infra",
