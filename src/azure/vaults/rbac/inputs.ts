@@ -70,7 +70,7 @@ export const VAULT_ACCESS = {
     {
       kind: "group",
       name: "sops-administrators",
-      members: ["Tahmid Ahmed", "Henry Chen"],
+      members: ["Tahmid Ahmed", "Henry Chen", "Arshadul Monir", "Ryan Min"],
       roles: KEY_VAULT_READER_ROLES,
     },
     {
