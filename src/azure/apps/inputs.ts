@@ -44,6 +44,20 @@ export const OAUTH_APPS = {
     ],
     signInAudience: "AzureADMyOrg",
   },
+  // powers middleware level oidc auth via traefik in k8s
+  azureOidcStaging: {
+    displayName: "Azure OIDC (Staging)",
+    // all redirectUris follow `<hostname>/oauth2/callback`
+    redirectUris: [],
+    signInAudience: "AzureADMyOrg",
+  },
+  // powers middleware level oidc auth via traefik in k8s
+  azureOidcProduction: {
+    displayName: "Azure OIDC (Production)",
+    // all redirectUris follow `<hostname>/oauth2/callback`
+    redirectUris: ["https://docs.patinanetwork.org/oauth2/callback"],
+    signInAudience: "AzureADMyOrg",
+  },
 } as const satisfies Record<string, OAuthApp>;
 
 export type OAuthAppName = keyof typeof OAUTH_APPS;
