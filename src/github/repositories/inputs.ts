@@ -106,6 +106,11 @@ const k8sAppManifests = (app: string, negate = false): string[] => {
   return negate ? files.map((file) => `!${file}`) : files;
 };
 
+const docsProjectPages = (project: string, negate = false): string[] => {
+  const files = [`docs/${project}/**`];
+  return negate ? files.map((file) => `!${file}`) : files;
+};
+
 export const REPOSITORIES = {
   "hello-world-clients": {
     description:
@@ -384,8 +389,14 @@ export const REPOSITORIES = {
     ],
     mainBranchRequiredReviewers: [
       {
+        // infra owns everything except specific docs for team(s)/project(s).
         team: "@Patina-Network/infra",
-        filePatterns: ["**/*"],
+        filePatterns: ["**/*", ...docsProjectPages("codebloom", true)],
+        minimumApprovals: 1,
+      },
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: docsProjectPages("codebloom"),
         minimumApprovals: 1,
       },
     ],
