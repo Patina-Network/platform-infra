@@ -19,50 +19,89 @@ const getManagedClusterPublicIpResourceName = (
   publicIpName: string,
 ) => `azure-managed-cluster-${clusterName}-public-ip-${publicIpName}`;
 
+const getAgentPoolResourceName = (clusterName: string, poolName: string) =>
+  `azure-managed-cluster-${clusterName}-agent-pool-${poolName}`;
+
 export const azureClusters = Object.fromEntries(
-  Object.entries(CLUSTERS).map(([clusterName, clusterProps]) => [
-    clusterName,
-    new azure.containerservice.ManagedCluster(
-      getManagedClusterResourceName(clusterProps.resourceGroup, clusterName),
-      {
-        ...DEFAULT_CLUSTER_SETTINGS,
-        resourceName: clusterName,
-        dnsPrefix: `${clusterName}-dns`,
-        resourceGroupName: azureResourceGroups[clusterProps.resourceGroup].name,
-        kubernetesVersion: clusterProps.kubernetesVersion,
-        storageProfile: {
-          diskCSIDriver: {
-            enabled: clusterProps.azureDiskSupport,
+  Object.entries(CLUSTERS).map(([clusterName, clusterProps]) => {
+    const [primarySystemPool] = clusterProps.systemPools;
+
+    return [
+      clusterName,
+      new azure.containerservice.ManagedCluster(
+        getManagedClusterResourceName(clusterProps.resourceGroup, clusterName),
+        {
+          ...DEFAULT_CLUSTER_SETTINGS,
+          resourceName: clusterName,
+          dnsPrefix: `${clusterName}-dns`,
+          resourceGroupName:
+            azureResourceGroups[clusterProps.resourceGroup].name,
+          kubernetesVersion: clusterProps.kubernetesVersion,
+          storageProfile: {
+            diskCSIDriver: {
+              enabled: clusterProps.azureDiskSupport,
+            },
+            fileCSIDriver: {
+              enabled: clusterProps.azureFileSupport,
+            },
+            snapshotController: {
+              enabled: clusterProps.azureSnapshotSupport,
+            },
           },
-          fileCSIDriver: {
-            enabled: clusterProps.azureFileSupport,
-          },
-          snapshotController: {
-            enabled: clusterProps.azureSnapshotSupport,
-          },
+          agentPoolProfiles: [
+            {
+              ...DEFAULT_CLUSTER_POOL_SETTINGS,
+              name: primarySystemPool.name,
+              mode: azure.containerservice.AgentPoolMode.System,
+              count: primarySystemPool.count,
+              osDiskSizeGB: primarySystemPool.osDiskSizeGB,
+              vmSize: primarySystemPool.vmSize,
+            },
+          ],
         },
-        agentPoolProfiles: [
-          ...clusterProps.systemPools.map((pool) => ({
-            ...DEFAULT_CLUSTER_POOL_SETTINGS,
-            name: pool.name,
-            mode: azure.containerservice.AgentPoolMode.System,
-            count: pool.count,
-            osDiskSizeGB: pool.osDiskSizeGB,
-            vmSize: pool.vmSize,
-          })),
-          ...clusterProps.userPools.map((pool) => ({
-            ...DEFAULT_CLUSTER_POOL_SETTINGS,
-            name: pool.name,
-            mode: azure.containerservice.AgentPoolMode.User,
-            count: pool.count,
-            osDiskSizeGB: pool.osDiskSizeGB,
-            vmSize: pool.vmSize,
-          })),
-        ],
-      },
-      { provider },
-    ),
-  ]),
+        { provider },
+      ),
+    ];
+  }),
+);
+
+export const azureClusterAgentPools = Object.fromEntries(
+  Object.entries(CLUSTERS).flatMap(([clusterName, clusterProps]) => {
+    const [, ...extraSystemPools] = clusterProps.systemPools;
+
+    const pools = [
+      ...extraSystemPools.map((pool) => ({
+        ...pool,
+        mode: azure.containerservice.AgentPoolMode.System,
+      })),
+      ...clusterProps.userPools.map((pool) => ({
+        ...pool,
+        mode: azure.containerservice.AgentPoolMode.User,
+      })),
+    ];
+
+    return pools.map(
+      (pool) =>
+        [
+          `${clusterName}-${pool.name}`,
+          new azure.containerservice.AgentPool(
+            getAgentPoolResourceName(clusterName, pool.name),
+            {
+              ...DEFAULT_CLUSTER_POOL_SETTINGS,
+              resourceGroupName:
+                azureResourceGroups[clusterProps.resourceGroup].name,
+              resourceName: azureClusters[clusterName].name,
+              agentPoolName: pool.name,
+              mode: pool.mode,
+              count: pool.count,
+              osDiskSizeGB: pool.osDiskSizeGB,
+              vmSize: pool.vmSize,
+            },
+            { provider, dependsOn: [azureClusters[clusterName]] },
+          ),
+        ] as const,
+    );
+  }),
 );
 
 export const azureClusterPublicIpAddresses = Object.fromEntries(
