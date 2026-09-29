@@ -10,17 +10,23 @@ import { DEFAULT_REGION } from "@/azure/inputs";
 
 export type VmSize = "Standard_DC2as_v5";
 
+type PoolName = string;
+
+export type Pool = {
+  name: PoolName;
+  count: number;
+  osDiskSizeGB: number;
+  vmSize: VmSize;
+};
+
 export type Cluster = {
   resourceGroup: AzureResourceGroupName;
   kubernetesVersion: string;
   azureDiskSupport: boolean;
   azureFileSupport: boolean;
   azureSnapshotSupport: boolean;
-  systemPool: {
-    count: number;
-    osDiskSizeGB: number;
-    vmSize: VmSize;
-  };
+  systemPools: readonly Pool[];
+  userPools: readonly Pool[];
 };
 
 type ClusterName = string;
@@ -29,11 +35,21 @@ export const CLUSTERS = {
   "k8s-manifests": {
     resourceGroup: "k8s",
     kubernetesVersion: "1.34.4",
-    systemPool: {
-      count: 1,
-      osDiskSizeGB: 128,
-      vmSize: "Standard_DC2as_v5",
-    },
+    systemPools: [
+      {
+        name: "syspool",
+        count: 1,
+        osDiskSizeGB: 128,
+        vmSize: "Standard_DC2as_v5",
+      },
+      {
+        name: "syspoolv2",
+        count: 1,
+        osDiskSizeGB: 64,
+        vmSize: "Standard_DC2as_v5",
+      },
+    ],
+    userPools: [] as Pool[],
     azureDiskSupport: true,
     azureFileSupport: false,
     azureSnapshotSupport: false,
@@ -44,28 +60,27 @@ type SinglePool = NonNullable<
   Unwrap<ManagedClusterArgs["agentPoolProfiles"]>
 >[number];
 
-export const DEFAULT_CLUSTER_SYSPOOL_SETTINGS: SinglePool = {
-  name: "syspool",
-  enableAutoScaling: false,
-  enableEncryptionAtHost: false,
-  enableFIPS: false,
-  enableNodePublicIP: false,
-  enableUltraSSD: false,
-  kubeletDiskType: azure.containerservice.KubeletDiskType.OS,
-  maxPods: 250,
-  mode: azure.containerservice.AgentPoolMode.System,
-  osDiskType: azure.containerservice.OSDiskType.Managed,
-  osSKU: azure.containerservice.OSSKU.Ubuntu,
-  osType: azure.containerservice.OSType.Linux,
-  scaleDownMode: azure.containerservice.ScaleDownMode.Delete,
-  type: azure.containerservice.AgentPoolType.VirtualMachineScaleSets,
-  upgradeSettings: {
-    maxSurge: "10%",
-    maxUnavailable: "0",
-    undrainableNodeBehavior:
-      azure.containerservice.UndrainableNodeBehavior.Schedule,
-  },
-};
+export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<SinglePool, "mode" | "name"> =
+  {
+    enableAutoScaling: false,
+    enableEncryptionAtHost: false,
+    enableFIPS: false,
+    enableNodePublicIP: false,
+    enableUltraSSD: false,
+    kubeletDiskType: azure.containerservice.KubeletDiskType.OS,
+    maxPods: 250,
+    osDiskType: azure.containerservice.OSDiskType.Managed,
+    osSKU: azure.containerservice.OSSKU.Ubuntu,
+    osType: azure.containerservice.OSType.Linux,
+    scaleDownMode: azure.containerservice.ScaleDownMode.Delete,
+    type: azure.containerservice.AgentPoolType.VirtualMachineScaleSets,
+    upgradeSettings: {
+      maxSurge: "10%",
+      maxUnavailable: "0",
+      undrainableNodeBehavior:
+        azure.containerservice.UndrainableNodeBehavior.Schedule,
+    },
+  };
 
 export const DEFAULT_CLUSTER_SETTINGS: Omit<
   ManagedClusterArgs,

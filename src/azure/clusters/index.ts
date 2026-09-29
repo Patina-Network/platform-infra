@@ -2,9 +2,9 @@ import * as azure from "@pulumi/azure-native";
 
 import {
   CLUSTERS,
+  DEFAULT_CLUSTER_POOL_SETTINGS,
   DEFAULT_CLUSTER_PUBLIC_IP_ADDRESS_SETTINGS,
   DEFAULT_CLUSTER_SETTINGS,
-  DEFAULT_CLUSTER_SYSPOOL_SETTINGS,
 } from "@/azure/clusters/inputs";
 import { azureResourceGroups } from "@/azure/groups";
 import { provider } from "@/azure/provider";
@@ -42,12 +42,22 @@ export const azureClusters = Object.fromEntries(
           },
         },
         agentPoolProfiles: [
-          {
-            ...DEFAULT_CLUSTER_SYSPOOL_SETTINGS,
-            count: clusterProps.systemPool.count,
-            osDiskSizeGB: clusterProps.systemPool.osDiskSizeGB,
-            vmSize: clusterProps.systemPool.vmSize,
-          },
+          ...clusterProps.systemPools.map((pool) => ({
+            ...DEFAULT_CLUSTER_POOL_SETTINGS,
+            name: pool.name,
+            mode: azure.containerservice.AgentPoolMode.System,
+            count: pool.count,
+            osDiskSizeGB: pool.osDiskSizeGB,
+            vmSize: pool.vmSize,
+          })),
+          ...clusterProps.userPools.map((pool) => ({
+            ...DEFAULT_CLUSTER_POOL_SETTINGS,
+            name: pool.name,
+            mode: azure.containerservice.AgentPoolMode.User,
+            count: pool.count,
+            osDiskSizeGB: pool.osDiskSizeGB,
+            vmSize: pool.vmSize,
+          })),
         ],
       },
       { provider },
