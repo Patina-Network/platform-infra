@@ -137,13 +137,18 @@ export const githubRepositoryDefaultBranchRulesets = Object.entries(
 
     if (repositoryConfig.monorepo) {
       if (protections.requiredStatusChecks) {
-        protections.requiredStatusChecks = {
-          ...protections.requiredStatusChecks,
-          requiredChecks:
-            protections.requiredStatusChecks.requiredChecks.filter(
-              ({ context }) => context !== DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
-            ),
-        };
+        const requiredChecks =
+          protections.requiredStatusChecks.requiredChecks.filter(
+            ({ context }) => context !== DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
+          );
+
+        protections.requiredStatusChecks =
+          requiredChecks.length ?
+            {
+              ...protections.requiredStatusChecks,
+              requiredChecks,
+            }
+          : undefined;
       }
     }
 
