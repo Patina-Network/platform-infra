@@ -42,13 +42,6 @@ export const CLUSTERS = {
     bootstrap: false,
     systemPools: [
       {
-        name: "syspoolv2",
-        count: 1,
-        osDiskSizeGB: 64,
-        vmSize: "Standard_DC2as_v5",
-        osSku: "Ubuntu",
-      },
-      {
         name: "syspoolv3",
         count: 1,
         osDiskSizeGB: 64,
