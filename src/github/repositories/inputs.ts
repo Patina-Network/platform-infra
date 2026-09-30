@@ -377,7 +377,8 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "private",
     maintain: ["@Patina-Network/admin"],
-    monorepo: false,
+    // private repo, can't run sonar in here.
+    monorepo: true,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -385,6 +386,9 @@ export const REPOSITORIES = {
     mainBranchProtectionBypass: [
       {
         team: "@Patina-Network/infra",
+      },
+      {
+        app: "patAgent",
       },
     ],
     mainBranchRequiredReviewers: [
