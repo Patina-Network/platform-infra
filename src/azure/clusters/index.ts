@@ -5,6 +5,7 @@ import {
   DEFAULT_CLUSTER_POOL_SETTINGS,
   DEFAULT_CLUSTER_PUBLIC_IP_ADDRESS_SETTINGS,
   DEFAULT_CLUSTER_SETTINGS,
+  type Pool,
 } from "@/azure/clusters/inputs";
 import { azureResourceGroups } from "@/azure/groups";
 import { provider } from "@/azure/provider";
@@ -24,8 +25,6 @@ const getAgentPoolResourceName = (clusterName: string, poolName: string) =>
 
 export const azureClusters = Object.fromEntries(
   Object.entries(CLUSTERS).map(([clusterName, clusterProps]) => {
-    const [primarySystemPool] = clusterProps.systemPools;
-
     return [
       clusterName,
       new azure.containerservice.ManagedCluster(
@@ -48,16 +47,23 @@ export const azureClusters = Object.fromEntries(
               enabled: clusterProps.azureSnapshotSupport,
             },
           },
-          agentPoolProfiles: [
-            {
-              ...DEFAULT_CLUSTER_POOL_SETTINGS,
-              name: primarySystemPool.name,
-              mode: azure.containerservice.AgentPoolMode.System,
-              count: primarySystemPool.count,
-              osDiskSizeGB: primarySystemPool.osDiskSizeGB,
-              vmSize: primarySystemPool.vmSize,
-            },
-          ],
+          agentPoolProfiles:
+            // azure terraform + API interaction sucks butt
+            // this angent pool array is required for init,
+            // but after init, its literally ignored.
+            // hence the bootstrapping.
+            clusterProps.bootstrap ?
+              [
+                {
+                  ...DEFAULT_CLUSTER_POOL_SETTINGS,
+                  name: clusterProps.systemPools[0].name,
+                  mode: azure.containerservice.AgentPoolMode.System,
+                  count: clusterProps.systemPools[0].count,
+                  osDiskSizeGB: clusterProps.systemPools[0].osDiskSizeGB,
+                  vmSize: clusterProps.systemPools[0].vmSize,
+                },
+              ]
+            : [],
         },
         { provider },
       ),
@@ -67,10 +73,13 @@ export const azureClusters = Object.fromEntries(
 
 export const azureClusterAgentPools = Object.fromEntries(
   Object.entries(CLUSTERS).flatMap(([clusterName, clusterProps]) => {
-    const [, ...extraSystemPools] = clusterProps.systemPools;
+    const systemPools =
+      clusterProps.bootstrap ?
+        (clusterProps.systemPools as readonly Pool[]).slice(1)
+      : clusterProps.systemPools;
 
     const pools = [
-      ...extraSystemPools.map((pool) => ({
+      ...systemPools.map((pool) => ({
         ...pool,
         mode: azure.containerservice.AgentPoolMode.System,
       })),
@@ -97,7 +106,10 @@ export const azureClusterAgentPools = Object.fromEntries(
               osDiskSizeGB: pool.osDiskSizeGB,
               vmSize: pool.vmSize,
             },
-            { provider, dependsOn: [azureClusters[clusterName]] },
+            {
+              provider,
+              dependsOn: [azureClusters[clusterName]],
+            },
           ),
         ] as const,
     );

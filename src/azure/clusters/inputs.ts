@@ -22,6 +22,7 @@ export type Pool = {
 export type Cluster = {
   resourceGroup: AzureResourceGroupName;
   kubernetesVersion: string;
+  bootstrap: boolean;
   azureDiskSupport: boolean;
   azureFileSupport: boolean;
   azureSnapshotSupport: boolean;
@@ -35,13 +36,8 @@ export const CLUSTERS = {
   "k8s-manifests": {
     resourceGroup: "k8s",
     kubernetesVersion: "1.34.4",
+    bootstrap: false,
     systemPools: [
-      {
-        name: "syspool",
-        count: 1,
-        osDiskSizeGB: 128,
-        vmSize: "Standard_DC2as_v5",
-      },
       {
         name: "syspoolv2",
         count: 1,
