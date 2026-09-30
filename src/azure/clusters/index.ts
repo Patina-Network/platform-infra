@@ -104,6 +104,7 @@ export const azureClusterAgentPools = Object.fromEntries(
               mode: pool.mode,
               count: pool.count,
               osDiskSizeGB: pool.osDiskSizeGB,
+              osSKU: pool.osSku,
               vmSize: pool.vmSize,
             },
             {

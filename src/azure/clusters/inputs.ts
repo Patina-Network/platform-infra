@@ -12,11 +12,14 @@ export type VmSize = "Standard_DC2as_v5";
 
 type PoolName = string;
 
+export type OsSku = keyof typeof azure.containerservice.OSSKU;
+
 export type Pool = {
   name: PoolName;
   count: number;
   osDiskSizeGB: number;
   vmSize: VmSize;
+  osSku: OsSku;
 };
 
 export type Cluster = {
@@ -43,6 +46,14 @@ export const CLUSTERS = {
         count: 1,
         osDiskSizeGB: 64,
         vmSize: "Standard_DC2as_v5",
+        osSku: "Ubuntu",
+      },
+      {
+        name: "syspoolv3",
+        count: 1,
+        osDiskSizeGB: 64,
+        vmSize: "Standard_DC2as_v5",
+        osSku: "AzureLinux3",
       },
     ],
     userPools: [] as Pool[],
@@ -56,27 +67,28 @@ type SinglePool = NonNullable<
   Unwrap<ManagedClusterArgs["agentPoolProfiles"]>
 >[number];
 
-export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<SinglePool, "mode" | "name"> =
-  {
-    enableAutoScaling: false,
-    enableEncryptionAtHost: false,
-    enableFIPS: false,
-    enableNodePublicIP: false,
-    enableUltraSSD: false,
-    kubeletDiskType: azure.containerservice.KubeletDiskType.OS,
-    maxPods: 250,
-    osDiskType: azure.containerservice.OSDiskType.Managed,
-    osSKU: azure.containerservice.OSSKU.Ubuntu,
-    osType: azure.containerservice.OSType.Linux,
-    scaleDownMode: azure.containerservice.ScaleDownMode.Delete,
-    type: azure.containerservice.AgentPoolType.VirtualMachineScaleSets,
-    upgradeSettings: {
-      maxSurge: "10%",
-      maxUnavailable: "0",
-      undrainableNodeBehavior:
-        azure.containerservice.UndrainableNodeBehavior.Schedule,
-    },
-  };
+export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<
+  SinglePool,
+  "mode" | "name" | "osSKU"
+> = {
+  enableAutoScaling: false,
+  enableEncryptionAtHost: false,
+  enableFIPS: false,
+  enableNodePublicIP: false,
+  enableUltraSSD: false,
+  kubeletDiskType: azure.containerservice.KubeletDiskType.OS,
+  maxPods: 250,
+  osDiskType: azure.containerservice.OSDiskType.Managed,
+  osType: azure.containerservice.OSType.Linux,
+  scaleDownMode: azure.containerservice.ScaleDownMode.Delete,
+  type: azure.containerservice.AgentPoolType.VirtualMachineScaleSets,
+  upgradeSettings: {
+    maxSurge: "10%",
+    maxUnavailable: "0",
+    undrainableNodeBehavior:
+      azure.containerservice.UndrainableNodeBehavior.Schedule,
+  },
+};
 
 export const DEFAULT_CLUSTER_SETTINGS: Omit<
   ManagedClusterArgs,
