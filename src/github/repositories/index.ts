@@ -55,6 +55,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           name: repositoryName,
           visibility: repositoryConfig.visibility,
           description: repositoryConfig.description,
+          homepageUrl: repositoryConfig.url,
           autoInit: true,
           ...mergeWithConcatArrays(
             DEFAULT_REPOSITORY_SETTINGS,

@@ -46,6 +46,7 @@ type GithubRepository = {
   /** Can read and clone this repository. Can also manage issues and pull requests. */
   triage: readonly GithubTeamReference[];
   description?: RepositoryArgs["description"];
+  url?: RepositoryArgs["homepageUrl"];
   visibility: RepositoryVisibility;
   repositorySettingOverrides: Partial<RepositoryArgs>;
   mainBranchProtectionOverrides: Partial<RepositoryRulesetRules>;
@@ -115,6 +116,7 @@ export const REPOSITORIES = {
   "hello-world-clients": {
     description:
       "Hello World clients that call hello-world-grpc-service for an end-to-end Patina Network example",
+    url: undefined,
     bootstrap: false,
     oldName: "hello-world-dashboard",
     visibility: "public",
@@ -135,6 +137,7 @@ export const REPOSITORIES = {
   },
   "hello-world-grpc-service": {
     description: "Hello World gRPC service for Patina Network",
+    url: undefined,
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -156,6 +159,7 @@ export const REPOSITORIES = {
   "k8s-manifests": {
     description:
       "Kubernetes manifests for Patina Network services and infrastructure.",
+    url: undefined,
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -203,6 +207,7 @@ export const REPOSITORIES = {
   "platform-infra": {
     description:
       "Managed infrastructure for Patina Network, powered by Pulumi.",
+    url: undefined,
     bootstrap: false,
     visibility: "public",
     oldName: undefined,
@@ -242,6 +247,7 @@ export const REPOSITORIES = {
   },
   ".github": {
     description: undefined,
+    url: undefined,
     bootstrap: false,
     visibility: "public",
     oldName: undefined,
@@ -263,6 +269,7 @@ export const REPOSITORIES = {
   patchats: {
     description:
       "Repository for Patina Network's PatChats pairing app to algorithmically connect members for 1 on 1 chats",
+    url: "https://patchats.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -283,6 +290,7 @@ export const REPOSITORIES = {
   },
   codebloom: {
     description: "Codebloom - LeetCode Leaderboard for Patina Network",
+    url: "https://codebloom.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -344,6 +352,7 @@ export const REPOSITORIES = {
   },
   dockerfiles: {
     description: "Toolsets and software baked into static Docker images",
+    url: undefined,
     bootstrap: false,
     oldName: undefined,
     visibility: "public",
@@ -373,6 +382,7 @@ export const REPOSITORIES = {
   },
   docs: {
     description: "Documentation site for all things Patina Network",
+    url: "https://docs.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
     visibility: "private",
