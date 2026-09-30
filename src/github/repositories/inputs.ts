@@ -377,14 +377,32 @@ export const REPOSITORIES = {
     oldName: undefined,
     visibility: "private",
     maintain: ["@Patina-Network/admin"],
-    monorepo: false,
+    // private repo, can't run sonar in here.
+    monorepo: true,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Build & validate docs site",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context:
+              "Check if PR only touches docs/ & prompt for /merge if it is",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
     mainBranchProtectionBypass: [
       {
         team: "@Patina-Network/infra",
+      },
+      {
+        app: "patAgent",
       },
     ],
     mainBranchRequiredReviewers: [
