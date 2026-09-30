@@ -23,8 +23,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pipeline
-        uses: ./.github/composite/setup
+        uses: tahminator/pipeline/actions/setup@adcdbb53017bacabdafa30003f14b20aedf6e5e0
         with:
+          LINT_CI: true
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -32,6 +33,7 @@ jobs:
           HEADSCALE_ADDRESS: ${{ secrets.HEADSCALE_ADDRESS }}
           HEADSCALE_PREAUTHKEY: ${{ secrets.HEADSCALE_PREAUTHKEY }}
           HEADSCALE_USER: ${{ secrets.HEADSCALE_USER }}
+          INSTALL_SOPS: true
           INSTALL_JUST: true
 
       - name: Cache Bun dependencies
