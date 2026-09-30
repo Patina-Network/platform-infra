@@ -24,8 +24,6 @@ const getAgentPoolResourceName = (clusterName: string, poolName: string) =>
 
 export const azureClusters = Object.fromEntries(
   Object.entries(CLUSTERS).map(([clusterName, clusterProps]) => {
-    const [primarySystemPool] = clusterProps.systemPools;
-
     return [
       clusterName,
       new azure.containerservice.ManagedCluster(
@@ -48,16 +46,7 @@ export const azureClusters = Object.fromEntries(
               enabled: clusterProps.azureSnapshotSupport,
             },
           },
-          agentPoolProfiles: [
-            {
-              ...DEFAULT_CLUSTER_POOL_SETTINGS,
-              name: primarySystemPool.name,
-              mode: azure.containerservice.AgentPoolMode.System,
-              count: primarySystemPool.count,
-              osDiskSizeGB: primarySystemPool.osDiskSizeGB,
-              vmSize: primarySystemPool.vmSize,
-            },
-          ],
+          agentPoolProfiles: [],
         },
         { provider },
       ),
@@ -67,10 +56,8 @@ export const azureClusters = Object.fromEntries(
 
 export const azureClusterAgentPools = Object.fromEntries(
   Object.entries(CLUSTERS).flatMap(([clusterName, clusterProps]) => {
-    const [, ...extraSystemPools] = clusterProps.systemPools;
-
     const pools = [
-      ...extraSystemPools.map((pool) => ({
+      ...clusterProps.systemPools.map((pool) => ({
         ...pool,
         mode: azure.containerservice.AgentPoolMode.System,
       })),
@@ -97,7 +84,10 @@ export const azureClusterAgentPools = Object.fromEntries(
               osDiskSizeGB: pool.osDiskSizeGB,
               vmSize: pool.vmSize,
             },
-            { provider, dependsOn: [azureClusters[clusterName]] },
+            {
+              provider,
+              dependsOn: [azureClusters[clusterName]],
+            },
           ),
         ] as const,
     );

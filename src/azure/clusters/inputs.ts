@@ -37,12 +37,6 @@ export const CLUSTERS = {
     kubernetesVersion: "1.34.4",
     systemPools: [
       {
-        name: "syspool",
-        count: 1,
-        osDiskSizeGB: 128,
-        vmSize: "Standard_DC2as_v5",
-      },
-      {
         name: "syspoolv2",
         count: 1,
         osDiskSizeGB: 64,
