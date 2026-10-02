@@ -10,6 +10,10 @@ import {
 } from "@/github/repositories/const";
 import { TEAMS, type GithubTeamName } from "@/github/teams/inputs";
 
+import * as fs from "node:fs";
+import { fileURLToPath } from "node:url";
+import * as path from "node:path";
+
 /**
  * Can be `public` or `private`.
  * If your organization is associated with an enterprise account
@@ -111,6 +115,14 @@ const docsProjectPages = (project: string, negate = false): string[] => {
   const files = [`docs/${project}/**`];
   return negate ? files.map((file) => `!${file}`) : files;
 };
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const patchatsPrTemplate = fs.readFileSync(
+  path.resolve(__dirname, "../templates/patchats-pull-request-template.md"),
+  "utf-8",
+);
 
 export const REPOSITORIES = {
   "hello-world-clients": {
@@ -277,7 +289,9 @@ export const REPOSITORIES = {
     monorepo: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
-    repositorySettingOverrides: {},
+    repositorySettingOverrides: {
+      pullRequestTemplate: patchatsPrTemplate,
+    },
     mainBranchProtectionOverrides: {},
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
