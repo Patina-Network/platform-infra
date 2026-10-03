@@ -15,6 +15,10 @@ export const AZURE_RBAC_GLOBAL_ROLES = {
    * Read access to all Azure Resources.
    */
   reader: "acdd72a7-3385-48ef-bd42-f606fba81ae7",
+  /**
+   * View and search all monitoring data, including querying Log Analytics workspaces.
+   */
+  logAnalyticsReader: "73c42c96-874c-492b-b04d-ab87d138a893",
 } as const;
 
 export type AzureGlobalRbacRoleName = keyof typeof AZURE_RBAC_GLOBAL_ROLES;

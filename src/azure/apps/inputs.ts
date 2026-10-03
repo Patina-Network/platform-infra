@@ -1,3 +1,5 @@
+import type { AzureGlobalRbacRoleName } from "@/azure/users/rbac/const";
+
 /**
  * __ATTENTION__: Please follow these instructions in order to onboard a new
  * Azure app.
@@ -24,6 +26,10 @@ export type OAuthApp = {
    * Please default to `AzureADMyOrg` unless you know what you're doing.
    */
   signInAudience: "AzureADMyOrg" | "AzureADMultipleOrgs";
+  /**
+   * Leave empty for sign-in only apps.
+   */
+  azureRoles: readonly AzureGlobalRbacRoleName[];
 };
 
 export const OAUTH_APPS = {
@@ -31,11 +37,20 @@ export const OAUTH_APPS = {
     displayName: "Headscale",
     redirectUris: ["https://headscale.patinanetwork.org/oidc/callback"],
     signInAudience: "AzureADMyOrg",
+    azureRoles: [],
   },
   grafana: {
     displayName: "Grafana",
     redirectUris: ["https://grafana.vpn.patinanetwork.org/login/azuread"],
     signInAudience: "AzureADMyOrg",
+    azureRoles: [],
+  },
+  // client-credentials identity for Grafana's Azure Monitor datasource (metrics + Log Analytics)
+  grafanaAzureMonitor: {
+    displayName: "Grafana (Azure Monitor)",
+    redirectUris: [],
+    signInAudience: "AzureADMyOrg",
+    azureRoles: ["reader", "logAnalyticsReader"],
   },
   artifactkeeper: {
     displayName: "Artifact Keeper",
@@ -43,6 +58,7 @@ export const OAUTH_APPS = {
       "https://pkg.vpn.patinanetwork.org/api/v1/auth/sso/oidc/callback",
     ],
     signInAudience: "AzureADMyOrg",
+    azureRoles: [],
   },
   // powers middleware level oidc auth via traefik in k8s
   azureOidcStaging: {
@@ -50,6 +66,7 @@ export const OAUTH_APPS = {
     // all redirectUris follow `<hostname>/oauth2/callback`
     redirectUris: [],
     signInAudience: "AzureADMyOrg",
+    azureRoles: [],
   },
   // powers middleware level oidc auth via traefik in k8s
   azureOidcProduction: {
@@ -57,6 +74,7 @@ export const OAUTH_APPS = {
     // all redirectUris follow `<hostname>/oauth2/callback`
     redirectUris: ["https://docs.patinanetwork.org/oauth2/callback"],
     signInAudience: "AzureADMyOrg",
+    azureRoles: [],
   },
 } as const satisfies Record<string, OAuthApp>;
 
