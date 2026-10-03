@@ -71,16 +71,16 @@ export const CLUSTERS = {
       },
     ],
     userPools: [
-      // {
-      //   name: "prodpoolv1",
-      //   count: 1,
-      //   osDiskSizeGB: 32,
-      //   osDiskType: "Managed",
-      //   vmSize: "Standard_B2pls_v2",
-      //   osSku: "AzureLinux3",
-      //   nodeTaints: ["workload=production:NoSchedule"],
-      //   spot: null,
-      // },
+      {
+        name: "prodpoolv1",
+        count: 1,
+        osDiskSizeGB: 32,
+        osDiskType: "Managed",
+        vmSize: "Standard_B2pls_v2",
+        osSku: "AzureLinux3",
+        nodeTaints: ["workload=production:NoSchedule"],
+        spot: null,
+      },
       {
         name: "stgpoolv1",
         count: 1,
