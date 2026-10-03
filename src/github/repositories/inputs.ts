@@ -319,7 +319,11 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context: "Build staging image for codebloom-standup-bot",
+            context: "Build staging image for codebloom-standup-bot (amd64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build staging image for codebloom-standup-bot (arm64)",
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
