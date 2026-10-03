@@ -315,7 +315,11 @@ export const REPOSITORIES = {
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context: "Build staging image",
+            context: "Build staging image (amd64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build staging image (arm64)",
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
