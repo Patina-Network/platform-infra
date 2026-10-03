@@ -1,8 +1,14 @@
+import * as azure from "@pulumi/azure-native";
 import * as azuread from "@pulumi/azuread";
 import * as pulumi from "@pulumi/pulumi";
 
 import { OAUTH_APPS } from "@/azure/apps/inputs";
-import { azureadProvider as provider } from "@/azure/provider";
+import {
+  provider as azureProvider,
+  azureadProvider as provider,
+} from "@/azure/provider";
+import { AZURE_RBAC_GLOBAL_ROLES } from "@/azure/users/rbac/const";
+import { env } from "@/env";
 
 // TODO: migrate this to `./inputs.ts` one day
 export const platformInfraPulumiSp = azuread.getServicePrincipalOutput(
@@ -22,6 +28,14 @@ const getOAuthAppServicePrincipalResourceName = (appName: string) =>
 
 const getOAuthAppPasswordResourceName = (appName: string) =>
   `azure-oauth-app-password-${appName}`;
+
+const getOAuthAppRoleAssignmentResourceName = (
+  appName: string,
+  roleName: string,
+) => `azure-role-assignment-oauth-app-${appName}-global-${roleName}`;
+
+const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
+  `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
 export const azureOAuthApps = Object.fromEntries(
   Object.entries(OAUTH_APPS).map(
@@ -73,6 +87,30 @@ export const azureOAuthAppPasswords = Object.fromEntries(
           { provider },
         ),
       ] as const,
+  ),
+);
+
+export const azureOAuthAppRoleAssignments = Object.fromEntries(
+  Object.entries(OAUTH_APPS).flatMap(([appKey, app]) =>
+    app.azureRoles.map(
+      (roleName) =>
+        [
+          `${appKey}-${roleName}`,
+          new azure.authorization.RoleAssignment(
+            getOAuthAppRoleAssignmentResourceName(appKey, roleName),
+            {
+              principalId: azureOAuthServicePrincipals[appKey].objectId,
+              principalType: azure.authorization.PrincipalType.ServicePrincipal,
+              roleDefinitionId: getRoleDefinitionId(
+                env.azure.subscriptionId,
+                AZURE_RBAC_GLOBAL_ROLES[roleName],
+              ),
+              scope: `/subscriptions/${env.azure.subscriptionId}`,
+            },
+            { provider: azureProvider },
+          ),
+        ] as const,
+    ),
   ),
 );
 
