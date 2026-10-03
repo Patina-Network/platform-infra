@@ -8,19 +8,37 @@ import type { AzureResourceGroupName } from "@/azure/groups/inputs";
 
 import { DEFAULT_REGION } from "@/azure/inputs";
 
-export type VmSize = "Standard_DC2as_v5";
+export type VmSize =
+  | "Standard_DC2as_v5"
+  // Arm64, burstable, no local disk (must bring managed OS disk)
+  | "Standard_B2pls_v2"
+  // Arm64, 75 GiB local disk (supports ephemeral OS disk)
+  | "Standard_D2plds_v5";
 
 type PoolName = string;
 
 export type OsSku = keyof typeof azure.containerservice.OSSKU;
 
+export type OsDiskType = keyof typeof azure.containerservice.OSDiskType;
+
+type SpotSettings = {
+  // -1 = pay up to the on-demand price; never evicted for price, only for capacity.
+  maxPrice: number;
+};
+
 export type Pool = {
   name: PoolName;
   count: number;
   osDiskSizeGB: number;
+  osDiskType: OsDiskType;
   vmSize: VmSize;
   osSku: OsSku;
+  nodeTaints: readonly string[];
+  spot: SpotSettings | null;
 };
+
+// AKS does not allow spot system pools.
+type SystemPool = Pool & { spot: null };
 
 export type Cluster = {
   resourceGroup: AzureResourceGroupName;
@@ -29,7 +47,7 @@ export type Cluster = {
   azureDiskSupport: boolean;
   azureFileSupport: boolean;
   azureSnapshotSupport: boolean;
-  systemPools: readonly Pool[];
+  systemPools: readonly SystemPool[];
   userPools: readonly Pool[];
 };
 
@@ -45,11 +63,38 @@ export const CLUSTERS = {
         name: "syspoolv3",
         count: 1,
         osDiskSizeGB: 64,
+        osDiskType: "Managed",
         vmSize: "Standard_DC2as_v5",
         osSku: "AzureLinux3",
+        nodeTaints: [],
+        spot: null,
       },
     ],
-    userPools: [] as Pool[],
+    userPools: [
+      // {
+      //   name: "prodpoolv1",
+      //   count: 1,
+      //   osDiskSizeGB: 32,
+      //   osDiskType: "Managed",
+      //   vmSize: "Standard_B2pls_v2",
+      //   osSku: "AzureLinux3",
+      //   nodeTaints: ["workload=production:NoSchedule"],
+      //   spot: null,
+      // },
+      {
+        name: "stgpoolv1",
+        count: 1,
+        osDiskSizeGB: 48,
+        osDiskType: "Ephemeral",
+        vmSize: "Standard_D2plds_v5",
+        osSku: "AzureLinux3",
+        nodeTaints: [
+          // AKS adds this taint to every spot node; declared here so Pulumi doesn't diff it away.
+          "kubernetes.azure.com/scalesetpriority=spot:NoSchedule",
+        ],
+        spot: { maxPrice: -1 },
+      },
+    ],
     azureDiskSupport: true,
     azureFileSupport: false,
     azureSnapshotSupport: false,
@@ -62,7 +107,7 @@ type SinglePool = NonNullable<
 
 export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<
   SinglePool,
-  "mode" | "name" | "osSKU"
+  "mode" | "name" | "osSKU" | "osDiskType"
 > = {
   enableAutoScaling: false,
   enableEncryptionAtHost: false,
@@ -71,7 +116,6 @@ export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<
   enableUltraSSD: false,
   kubeletDiskType: azure.containerservice.KubeletDiskType.OS,
   maxPods: 250,
-  osDiskType: azure.containerservice.OSDiskType.Managed,
   osType: azure.containerservice.OSType.Linux,
   scaleDownMode: azure.containerservice.ScaleDownMode.Delete,
   type: azure.containerservice.AgentPoolType.VirtualMachineScaleSets,

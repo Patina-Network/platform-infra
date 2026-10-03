@@ -60,6 +60,7 @@ export const azureClusters = Object.fromEntries(
                   mode: azure.containerservice.AgentPoolMode.System,
                   count: clusterProps.systemPools[0].count,
                   osDiskSizeGB: clusterProps.systemPools[0].osDiskSizeGB,
+                  osDiskType: clusterProps.systemPools[0].osDiskType,
                   vmSize: clusterProps.systemPools[0].vmSize,
                 },
               ]
@@ -104,8 +105,26 @@ export const azureClusterAgentPools = Object.fromEntries(
               mode: pool.mode,
               count: pool.count,
               osDiskSizeGB: pool.osDiskSizeGB,
+              osDiskType: pool.osDiskType,
               osSKU: pool.osSku,
               vmSize: pool.vmSize,
+              nodeTaints:
+                pool.nodeTaints.length > 0 ? [...pool.nodeTaints] : undefined,
+              ...(pool.spot ?
+                {
+                  scaleSetPriority:
+                    azure.containerservice.ScaleSetPriority.Spot,
+                  scaleSetEvictionPolicy:
+                    azure.containerservice.ScaleSetEvictionPolicy.Delete,
+                  spotMaxPrice: pool.spot.maxPrice,
+                  // AKS rejects maxSurge on spot pools.
+                  upgradeSettings: undefined,
+                  // Evicted nodes are deleted; the autoscaler recreates them back up to `count`.
+                  enableAutoScaling: true,
+                  minCount: pool.count,
+                  maxCount: pool.count,
+                }
+              : {}),
             },
             {
               provider,
