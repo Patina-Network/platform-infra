@@ -168,7 +168,21 @@ export const REPOSITORIES = {
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Lint & validate Kubernetes manifests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context:
+              "Check if PR is only bumping a staging version & prompt for /merge if it is",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
     mainBranchProtectionBypass: [
       {
         team: "@Patina-Network/infra",
