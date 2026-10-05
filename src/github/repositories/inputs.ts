@@ -156,6 +156,81 @@ export const REPOSITORIES = {
       },
     ],
   },
+  "hello-world-client-go": {
+    description: "Hello World gRPC Go client for Patina Network",
+    url: undefined,
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/codebloom",
+      },
+    ],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
+  "hello-world-client-rust": {
+    description: "Hello World gRPC Rust client for Patina Network",
+    url: undefined,
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/codebloom",
+      },
+    ],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
+  "hello-world-client-java": {
+    description: "Hello World gRPC Java client for Patina Network",
+    url: undefined,
+    bootstrap: false,
+    oldName: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/codebloom",
+      },
+    ],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/codebloom",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
   "k8s-manifests": {
     description:
       "Kubernetes manifests for Patina Network services and infrastructure.",
