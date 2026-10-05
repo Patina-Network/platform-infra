@@ -21,4 +21,8 @@ declare global {
       entries: T,
     ): { [K in T[number] as K[0]]: K[1] };
   }
+
+  interface String {
+    toLowerCase<const T extends string>(this: T): Lowercase<T>;
+  }
 }
