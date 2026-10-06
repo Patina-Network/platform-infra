@@ -67,6 +67,7 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
         {
           name: repositoryName,
           visibility: repositoryConfig.visibility,
+          archived: repositoryConfig.archived,
           description: repositoryConfig.description,
           homepageUrl: repositoryConfig.url,
           // forks inherit the upstream history, so there is nothing to initialize.
