@@ -1,5 +1,6 @@
 import type { RepositoryArgs } from "@pulumi/github";
 import type { RepositoryRulesetRules } from "@pulumi/github/types/input";
+import type { LiteralUnion } from "type-fest";
 
 import type { GITHUB_OWNER } from "@/github/inputs";
 
@@ -34,11 +35,32 @@ type MainBranchRequiredReviewer = {
   minimumApprovals: number;
 };
 
-type GithubRepository = {
+/**
+ * `owner/repository`
+ * Repositories managed in this file are suggested via intellisense but any plain old `owner/repository` passes typecheck.
+ */
+export type GithubRepositorySource<TRepositoryName extends string = string> =
+  LiteralUnion<
+    `${typeof GITHUB_OWNER}/${TRepositoryName}`,
+    `${string}/${string}`
+  >;
+const defineRepositories = <
+  const T extends Record<
+    RepositoryName,
+    GithubRepository<Extract<keyof T, string>>
+  >,
+>(
+  repositories: T,
+) => repositories;
+
+// TRepositoryName is a clever trick to get our types back recursively, used for intellisense.
+type GithubRepository<TRepositoryName extends string = string> = {
   /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
   bootstrap: boolean;
   /** The actual GitHub repository name. Defaults to the config key when omitted. You should only use this when renaming a repository without having it being deleted. */
   oldName?: string;
+  /** Upstream repository (`owner/repository`) to fork from when the repository is created. Leave `undefined` for a regular (non-fork) repository. */
+  fork?: GithubRepositorySource<TRepositoryName>;
   /** Can read, clone, and push to this repository. They can also manage issues, pull requests, and some repository settings. */
   maintain: readonly GithubTeamReference[];
   /** Can read, clone, and push to this repository. Can also manage issues and pull requests. */
@@ -112,13 +134,14 @@ const docsProjectPages = (project: string, negate = false): string[] => {
   return negate ? files.map((file) => `!${file}`) : files;
 };
 
-export const REPOSITORIES = {
+export const REPOSITORIES = defineRepositories({
   "hello-world-clients": {
     description:
       "Hello World clients that call hello-world-grpc-service for an end-to-end Patina Network example",
     url: undefined,
     bootstrap: false,
     oldName: "hello-world-dashboard",
+    fork: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -140,6 +163,7 @@ export const REPOSITORIES = {
     url: undefined,
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -164,6 +188,7 @@ export const REPOSITORIES = {
         url: undefined,
         bootstrap: false,
         oldName: undefined,
+        fork: undefined,
         visibility: "public",
         maintain: ["@Patina-Network/admin"],
         monorepo: false,
@@ -192,6 +217,7 @@ export const REPOSITORIES = {
     url: undefined,
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "public",
     monorepo: false,
     maintain: ["@Patina-Network/admin"],
@@ -255,6 +281,7 @@ export const REPOSITORIES = {
     bootstrap: false,
     visibility: "public",
     oldName: undefined,
+    fork: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
     push: ALL_GITHUB_TEAMS,
@@ -295,6 +322,7 @@ export const REPOSITORIES = {
     bootstrap: false,
     visibility: "public",
     oldName: undefined,
+    fork: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
     push: ALL_GITHUB_TEAMS,
@@ -316,6 +344,7 @@ export const REPOSITORIES = {
     url: "https://patchats.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -337,6 +366,7 @@ export const REPOSITORIES = {
     url: "https://codebloom.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: true,
@@ -407,6 +437,7 @@ export const REPOSITORIES = {
     url: undefined,
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -437,6 +468,7 @@ export const REPOSITORIES = {
     url: "https://docs.patinanetwork.org",
     bootstrap: false,
     oldName: undefined,
+    fork: undefined,
     visibility: "private",
     maintain: ["@Patina-Network/admin"],
     // private repo, can't run sonar in here.
@@ -481,7 +513,7 @@ export const REPOSITORIES = {
       },
     ],
   },
-} as const satisfies Record<RepositoryName, GithubRepository>;
+});
 
 export type GithubRepositoryName = keyof typeof REPOSITORIES;
 export type { GithubTeamReference };
