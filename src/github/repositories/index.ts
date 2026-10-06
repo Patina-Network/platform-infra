@@ -12,6 +12,7 @@ import {
   DEFAULT_MAIN_BRANCH_PROTECTIONS,
   DEFAULT_REPOSITORY_SETTINGS,
   REPOSITORIES,
+  type GithubRepositorySource,
   type GithubRepositoryName,
   type GithubTeamReference,
   type MainBranchProtectionBypassActor,
@@ -27,6 +28,14 @@ function getTeamName(teamReference: GithubTeamReference) {
     `@${GITHUB_OWNER}/`,
     "",
   ) as keyof typeof githubTeams;
+}
+
+function parseForkSource(source: GithubRepositorySource) {
+  const separatorIndex = source.indexOf("/");
+  return {
+    owner: source.slice(0, separatorIndex),
+    repository: source.slice(separatorIndex + 1),
+  };
 }
 
 const getRepositoryResourceName = (repositoryName: string) =>
@@ -47,6 +56,10 @@ const getAllOtherBranchRulesetResourceName = (repositoryName: string) =>
 
 export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
   Object.entries(REPOSITORIES).map(([repositoryName, repositoryConfig]) => {
+    const forkSource = repositoryConfig.fork as
+      GithubRepositorySource | undefined;
+    const fork = forkSource ? parseForkSource(forkSource) : undefined;
+
     return [
       repositoryName,
       new github.Repository(
@@ -56,7 +69,11 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           visibility: repositoryConfig.visibility,
           description: repositoryConfig.description,
           homepageUrl: repositoryConfig.url,
-          autoInit: true,
+          // forks inherit the upstream history, so there is nothing to initialize.
+          autoInit: !fork,
+          fork: fork ? "true" : undefined,
+          sourceOwner: fork?.owner,
+          sourceRepo: fork?.repository,
           ...mergeWithConcatArrays(
             DEFAULT_REPOSITORY_SETTINGS,
             repositoryConfig.repositorySettingOverrides,
