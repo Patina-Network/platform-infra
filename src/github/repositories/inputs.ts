@@ -243,11 +243,7 @@ export const REPOSITORIES = defineRepositories({
             ],
           },
         },
-        mainBranchProtectionBypass: [
-          {
-            team: "@Patina-Network/codebloom",
-          },
-        ],
+        mainBranchProtectionBypass: [],
         mainBranchRequiredReviewers: [
           {
             team: "@Patina-Network/codebloom",
