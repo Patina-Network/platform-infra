@@ -78,6 +78,8 @@ type GithubRepository<TRepositoryName extends string = string> = {
   mainBranchRequiredReviewers: readonly MainBranchRequiredReviewer[];
   /** if set to `true`, will exclude default `SonarCloud Code Analysis` status check. You are expected to register your own multi-scanner status checks instead. */
   monorepo: boolean;
+  /** Specifies if the repository should be archived. **NOTE** the GitHub API does not support unarchiving via this provider. */
+  archived: boolean;
 };
 
 type RepositoryName = string;
@@ -145,6 +147,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: true,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -167,10 +170,32 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Run Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build and upload beta gRPC clients",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build and upload staging gRPC server (amd64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build and upload staging gRPC server (arm64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
       {
@@ -192,10 +217,32 @@ export const REPOSITORIES = defineRepositories({
         visibility: "public",
         maintain: ["@Patina-Network/admin"],
         monorepo: false,
+        archived: false,
         push: ALL_GITHUB_TEAMS,
         triage: [],
         repositorySettingOverrides: {},
-        mainBranchProtectionOverrides: {},
+        mainBranchProtectionOverrides: {
+          requiredStatusChecks: {
+            requiredChecks: [
+              {
+                context: "Backend tests",
+                integrationId: GITHUB_APP_ID.githubActions,
+              },
+              {
+                context: "Build staging image (amd64)",
+                integrationId: GITHUB_APP_ID.githubActions,
+              },
+              {
+                context: "Build staging image (arm64)",
+                integrationId: GITHUB_APP_ID.githubActions,
+              },
+              {
+                context: "Deploy to staging",
+                integrationId: GITHUB_APP_ID.githubActions,
+              },
+            ],
+          },
+        },
         mainBranchProtectionBypass: [
           {
             team: "@Patina-Network/codebloom",
@@ -220,6 +267,7 @@ export const REPOSITORIES = defineRepositories({
     fork: undefined,
     visibility: "public",
     monorepo: false,
+    archived: false,
     maintain: ["@Patina-Network/admin"],
     push: ALL_GITHUB_TEAMS,
     triage: [],
@@ -284,6 +332,7 @@ export const REPOSITORIES = defineRepositories({
     fork: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {
@@ -325,6 +374,7 @@ export const REPOSITORIES = defineRepositories({
     fork: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -348,6 +398,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -370,6 +421,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: true,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -441,6 +493,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
@@ -473,6 +526,7 @@ export const REPOSITORIES = defineRepositories({
     maintain: ["@Patina-Network/admin"],
     // private repo, can't run sonar in here.
     monorepo: true,
+    archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
