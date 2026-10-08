@@ -2,10 +2,7 @@ import type { Split } from "type-fest";
 
 import _ from "lodash";
 
-export function split<A extends string, B extends string>(
-  str: A,
-  separator: B,
-): Split<A, B> {
+export function split<A extends string, B extends string>(str: A, separator: B): Split<A, B> {
   return str.split(separator) as Split<A, B>;
 }
 

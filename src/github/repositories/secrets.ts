@@ -5,10 +5,7 @@ import { basename, join } from "node:path";
 
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
-import {
-  REPOSITORIES,
-  type GithubRepositoryName,
-} from "@/github/repositories/inputs";
+import { REPOSITORIES, type GithubRepositoryName } from "@/github/repositories/inputs";
 
 const SECRETS_DIR = join(import.meta.dir, "secrets");
 
@@ -16,14 +13,10 @@ const envClient = EnvClient.create(EnvClientStrategy.SOPS, {
   skipMasking: true,
 });
 
-const getRepositoryActionsSecretResourceName = (
-  repositoryName: string,
-  secretName: string,
-) =>
+const getRepositoryActionsSecretResourceName = (repositoryName: string, secretName: string) =>
   `${GITHUB_OWNER}-repository-${repositoryName}-actions-secret-${secretName}`;
 
-const isRepositoryName = (name: string): name is GithubRepositoryName =>
-  name in REPOSITORIES;
+const isRepositoryName = (name: string): name is GithubRepositoryName => name in REPOSITORIES;
 
 const secretFiles = readdirSync(SECRETS_DIR).filter((f) => f.endsWith(".yaml"));
 

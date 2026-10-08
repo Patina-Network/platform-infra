@@ -11,9 +11,7 @@ globalThis.Temporal ??= Temporal;
 declare global {
   // generic overrides, from `codebloom`
   interface ObjectConstructor {
-    entries<const T extends Record<PropertyKey, unknown>>(
-      obj: T,
-    ): Array<Tuple<T>>;
+    entries<const T extends Record<PropertyKey, unknown>>(obj: T): Array<Tuple<T>>;
 
     keys<const T extends Record<PropertyKey, unknown>>(obj: T): Array<keyof T>;
 

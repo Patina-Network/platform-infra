@@ -1,33 +1,18 @@
 {
   "name": "@patina-network/platform-infra",
-  "module": "index.ts",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "module": "index.ts",
   "scripts": {
-    "prettier-package-json": "prettier --write package.json",
+    "fmt-package-json": "oxfmt --write package.json",
     "typecheck": "tsc --noEmit",
     "test": "bun run typecheck && bun run fmt && bun run lint",
-    "fmt": "bun run prettier",
-    "lint": "bun run eslint",
-    "eslint": "eslint .",
-    "eslint:fix": "eslint . --fix",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
+    "fix": "bun run lint:fix && bun run fmt:fix",
+    "lint": "oxlint --disable-nested-config .",
+    "lint:fix": "oxlint --disable-nested-config . --fix",
+    "fmt": "oxfmt --check .",
+    "fmt:fix": "oxfmt --write .",
     "vt": "vitest run"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@types/bun": "latest",
-    "@types/lodash": "^4.17.24",
-    "eslint": "^10.8.0",
-    "eslint-plugin-perfectionist": "^5.10.0",
-    "globals": "^17.8.0",
-    "jiti": "^2.7.0",
-    "prettier": "^3.9.6",
-    "type-fest": "github:tahminator/type-fest",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.65.0",
-    "vitest": "^4.1.10"
   },
   "dependencies": {
     "@js-temporal/polyfill": "^0.5.1",
@@ -35,12 +20,23 @@
     "@pulumi/azuread": "^6.10.0",
     "@pulumi/digitalocean": "^4.76.1",
     "@pulumi/github": "^6.14.1",
+    "@pulumi/headscale": "file:sdks/headscale",
     "@pulumi/postgresql": "^3.18.0",
     "@pulumi/pulumi": "^3.255.0",
     "@pulumi/random": "^4.21.1",
-    "@tahminator/pipeline": "^1.0.69",
-    "lodash": "^4.18.1",
-    "@pulumi/headscale": "file:sdks/headscale"
+    "@tahminator/pipeline": "^1.0.96",
+    "lodash": "^4.18.1"
+  },
+  "devDependencies": {
+    "@Patina-Network/cicd-config": "github:Patina-Network/cicd-config#a54b3e5d8b373be5254ce1cec44cfabdec1d5189",
+    "@types/bun": "latest",
+    "@types/lodash": "^4.17.24",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
+    "oxlint-tsgolint": "^7.0.2003",
+    "type-fest": "github:tahminator/type-fest",
+    "typescript": "7",
+    "vitest": "^4.1.10"
   },
   "trustedDependencies": [
     "@pulumi/headscale"

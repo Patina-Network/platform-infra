@@ -3,10 +3,7 @@ import * as azuread from "@pulumi/azuread";
 import * as pulumi from "@pulumi/pulumi";
 
 import { OAUTH_APPS } from "@/azure/apps/inputs";
-import {
-  provider as azureProvider,
-  azureadProvider as provider,
-} from "@/azure/provider";
+import { provider as azureProvider, azureadProvider as provider } from "@/azure/provider";
 import { AZURE_RBAC_GLOBAL_ROLES } from "@/azure/users/rbac/const";
 import { env } from "@/env";
 
@@ -20,19 +17,15 @@ export const platformInfraPulumiSp = azuread.getServicePrincipalOutput(
   },
 );
 
-const getOAuthAppResourceName = (appName: string) =>
-  `azure-oauth-app-${appName}`;
+const getOAuthAppResourceName = (appName: string) => `azure-oauth-app-${appName}`;
 
 const getOAuthAppServicePrincipalResourceName = (appName: string) =>
   `azure-oauth-app-service-principal-${appName}`;
 
-const getOAuthAppPasswordResourceName = (appName: string) =>
-  `azure-oauth-app-password-${appName}`;
+const getOAuthAppPasswordResourceName = (appName: string) => `azure-oauth-app-password-${appName}`;
 
-const getOAuthAppRoleAssignmentResourceName = (
-  appName: string,
-  roleName: string,
-) => `azure-role-assignment-oauth-app-${appName}-global-${roleName}`;
+const getOAuthAppRoleAssignmentResourceName = (appName: string, roleName: string) =>
+  `azure-role-assignment-oauth-app-${appName}-global-${roleName}`;
 
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
@@ -117,9 +110,6 @@ export const azureOAuthAppRoleAssignments = Object.fromEntries(
 // so we can read output in pulumi state
 export const azureOAuthAppSecretsPlaintext = pulumi.secret(
   Object.fromEntries(
-    Object.entries(OAUTH_APPS).map(([appKey]) => [
-      appKey,
-      azureOAuthAppPasswords[appKey].value,
-    ]),
+    Object.entries(OAUTH_APPS).map(([appKey]) => [appKey, azureOAuthAppPasswords[appKey].value]),
   ),
 );

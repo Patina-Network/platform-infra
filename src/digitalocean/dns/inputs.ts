@@ -67,8 +67,7 @@ export const RECORDS = {
         bootstrapId: undefined,
         // Google Search Console domain verification
         name: ROOT,
-        value:
-          "google-site-verification=pdlc7KgCKoujU77ylEWBIBfAgVCM1XKUIYfAJEV-94w",
+        value: "google-site-verification=pdlc7KgCKoujU77ylEWBIBfAgVCM1XKUIYfAJEV-94w",
         ttl: 3600,
       },
       {
@@ -90,8 +89,7 @@ export const RECORDS = {
         bootstrapId: undefined,
         // Google Search Console domain verification
         name: ROOT,
-        value:
-          "google-site-verification=WyezXUc1re_sfrSpxapoWirIfM-PESmOPQNNgK5twD8",
+        value: "google-site-verification=WyezXUc1re_sfrSpxapoWirIfM-PESmOPQNNgK5twD8",
         ttl: 3600,
       },
       {
@@ -111,7 +109,4 @@ export const RECORDS = {
       },
     ],
   },
-} as const satisfies Record<
-  string,
-  Partial<Record<DnsType, readonly DnsRecordInput[]>>
->;
+} as const satisfies Record<string, Partial<Record<DnsType, readonly DnsRecordInput[]>>>;

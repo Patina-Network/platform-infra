@@ -5,10 +5,8 @@ import { PRE_AUTH_KEYS } from "@/headscale/preAuthKeys/inputs";
 import { provider } from "@/headscale/provider";
 import { headscaleMachineUsers } from "@/headscale/users";
 
-const getHeadscalePreAuthKeyResourceName = (
-  keyName: string,
-  generation: number,
-) => `headscale-preauth-key-${keyName}-v${generation}`;
+const getHeadscalePreAuthKeyResourceName = (keyName: string, generation: number) =>
+  `headscale-preauth-key-${keyName}-v${generation}`;
 
 export const headscalePreAuthKeys = Object.fromEntries(
   Object.entries(PRE_AUTH_KEYS).map(
@@ -31,9 +29,6 @@ export const headscalePreAuthKeys = Object.fromEntries(
 // so we can read output in pulumi state
 export const headscalePreAuthKeysPlaintext = pulumi.secret(
   Object.fromEntries(
-    Object.entries(PRE_AUTH_KEYS).map(([keyName]) => [
-      keyName,
-      headscalePreAuthKeys[keyName].key,
-    ]),
+    Object.entries(PRE_AUTH_KEYS).map(([keyName]) => [keyName, headscalePreAuthKeys[keyName].key]),
   ),
 );

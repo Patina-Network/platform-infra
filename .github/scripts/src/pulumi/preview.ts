@@ -23,18 +23,13 @@ const { prId } = await yargs(hideBin(process.argv))
 
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
-  const {
-    pulumiBackendUrl,
-    githubAppAppId,
-    githubAppInstallationId,
-    githubAppPrivateKey,
-    env,
-  } = parseCiEnv(
-    _.merge(
-      await envClient.readFromEnv("secrets.yaml"),
-      await envClient.readFromEnv("secrets.administrator.yaml"),
-    ),
-  );
+  const { pulumiBackendUrl, githubAppAppId, githubAppInstallationId, githubAppPrivateKey, env } =
+    parseCiEnv(
+      _.merge(
+        await envClient.readFromEnv("secrets.yaml"),
+        await envClient.readFromEnv("secrets.administrator.yaml"),
+      ),
+    );
   const githubClient = await GitHubClient.createWithGithubAppToken({
     appId: githubAppAppId,
     privateKey: githubAppPrivateKey,

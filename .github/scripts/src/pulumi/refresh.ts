@@ -33,9 +33,7 @@ export async function main() {
   console.log(`Pulumi has finished refreshing!`);
   if (res.summary.resourceChanges) {
     console.log("Summary:");
-    console.log(
-      PulumiClient.parseChangeSumaryToPrettyTable(res.summary.resourceChanges),
-    );
+    console.log(PulumiClient.parseChangeSumaryToPrettyTable(res.summary.resourceChanges));
   }
   console.log("Stdout:");
   console.log(res.stdout);

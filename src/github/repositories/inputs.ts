@@ -39,21 +39,18 @@ type MainBranchRequiredReviewer = {
  * `owner/repository`
  * Repositories managed in this file are suggested via intellisense but any plain old `owner/repository` passes typecheck.
  */
-export type GithubRepositorySource<TRepositoryName extends string = string> =
-  LiteralUnion<
-    `${typeof GITHUB_OWNER}/${TRepositoryName}`,
-    `${string}/${string}`
-  >;
+export type GithubRepositorySource<TRepositoryName extends string = string> = LiteralUnion<
+  `${typeof GITHUB_OWNER}/${TRepositoryName}`,
+  `${string}/${string}`
+>;
 
 type TemplateRepositoryName<T> = Extract<
   {
-    [K in keyof T]: T[K] extends (
-      {
-        isTemplate: true;
-      }
-    ) ?
-      K
-    : never;
+    [K in keyof T]: T[K] extends {
+      isTemplate: true;
+    }
+      ? K
+      : never;
   }[keyof T],
   string
 >;
@@ -61,10 +58,9 @@ type TemplateRepositoryName<T> = Extract<
 const defineRepositories = <
   const T extends Record<RepositoryName, Partial<RepositoryArgs>>,
 >(repositories: {
-  [K in keyof T]: GithubRepository<
-    Extract<keyof T, string>,
-    TemplateRepositoryName<T>
-  > & { repositorySettingOverrides: T[K] };
+  [K in keyof T]: GithubRepository<Extract<keyof T, string>, TemplateRepositoryName<T>> & {
+    repositorySettingOverrides: T[K];
+  };
 }) => repositories;
 
 // TRepositoryName is a clever trick to get our types back recursively, used for intellisense.
@@ -136,9 +132,7 @@ export const DEFAULT_MAIN_BRANCH_PROTECTIONS: RepositoryRulesetRules = {
   },
 };
 
-const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(
-  ([k]) => `@Patina-Network/${k}` as const,
-);
+const ALL_GITHUB_TEAMS = Object.entries(TEAMS).map(([k]) => `@Patina-Network/${k}` as const);
 
 const k8sAppManifests = (app: string, negate = false): string[] => {
   const files = [
@@ -326,8 +320,7 @@ export const REPOSITORIES = defineRepositories({
     ]),
   ),
   "k8s-manifests": {
-    description:
-      "Kubernetes manifests for Patina Network services and infrastructure.",
+    description: "Kubernetes manifests for Patina Network services and infrastructure.",
     url: undefined,
     bootstrap: false,
     oldName: undefined,
@@ -348,8 +341,7 @@ export const REPOSITORIES = defineRepositories({
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context:
-              "Check if PR is only bumping a staging version & prompt for /merge if it is",
+            context: "Check if PR is only bumping a staging version & prompt for /merge if it is",
             integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
@@ -391,8 +383,7 @@ export const REPOSITORIES = defineRepositories({
     ],
   },
   "platform-infra": {
-    description:
-      "Managed infrastructure for Patina Network, powered by Pulumi.",
+    description: "Managed infrastructure for Patina Network, powered by Pulumi.",
     url: undefined,
     bootstrap: false,
     visibility: "public",
@@ -590,8 +581,7 @@ export const REPOSITORIES = defineRepositories({
     ],
   },
   "cicd-config": {
-    description:
-      "Shared CI/CD script configuration files (linting, formating, tsc, etc.)",
+    description: "Shared CI/CD script configuration files (linting, formating, tsc, etc.)",
     url: undefined,
     bootstrap: false,
     oldName: undefined,
@@ -641,8 +631,7 @@ export const REPOSITORIES = defineRepositories({
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context:
-              "Check if PR only touches docs/ & prompt for /merge if it is",
+            context: "Check if PR only touches docs/ & prompt for /merge if it is",
             integrationId: GITHUB_APP_ID.githubActions,
           },
         ],
