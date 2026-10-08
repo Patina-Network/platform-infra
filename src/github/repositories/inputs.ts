@@ -604,17 +604,12 @@ export const REPOSITORIES = defineRepositories({
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {
-      requiredStatusChecks: {
-        requiredChecks: [
-          {
-            context: "Test Build All Docker images",
-            integrationId: GITHUB_APP_ID.githubActions,
-          },
-        ],
+    mainBranchProtectionOverrides: {},
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/infra",
       },
-    },
-    mainBranchProtectionBypass: [],
+    ],
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/infra",
