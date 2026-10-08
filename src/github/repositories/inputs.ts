@@ -44,23 +44,42 @@ export type GithubRepositorySource<TRepositoryName extends string = string> =
     `${typeof GITHUB_OWNER}/${TRepositoryName}`,
     `${string}/${string}`
   >;
+
+type TemplateRepositoryName<T> = Extract<
+  {
+    [K in keyof T]: T[K] extends (
+      {
+        isTemplate: true;
+      }
+    ) ?
+      K
+    : never;
+  }[keyof T],
+  string
+>;
+
 const defineRepositories = <
-  const T extends Record<
-    RepositoryName,
-    GithubRepository<Extract<keyof T, string>>
-  >,
->(
-  repositories: T,
-) => repositories;
+  const T extends Record<RepositoryName, Partial<RepositoryArgs>>,
+>(repositories: {
+  [K in keyof T]: GithubRepository<
+    Extract<keyof T, string>,
+    TemplateRepositoryName<T>
+  > & { repositorySettingOverrides: T[K] };
+}) => repositories;
 
 // TRepositoryName is a clever trick to get our types back recursively, used for intellisense.
-type GithubRepository<TRepositoryName extends string = string> = {
+type GithubRepository<
+  TRepositoryName extends string = string,
+  TTemplateRepositoryName extends string = string,
+> = {
   /** set to `true` when repository has not been seen by Pulumi yet. Set to `false` after Pulumi has successfully reconciled state __AFTER MERGING SAID CHANGE__. */
   bootstrap: boolean;
   /** The actual GitHub repository name. Defaults to the config key when omitted. You should only use this when renaming a repository without having it being deleted. */
   oldName?: string;
   /** Upstream repository (`owner/repository`) to fork from when the repository is created. Leave `undefined` for a regular (non-fork) repository. */
   fork?: GithubRepositorySource<TRepositoryName>;
+  /** Template repository (`owner/repository`) to create from instead of forking. Suggestions include managed repositories with `repositorySettingOverrides.isTemplate: true`. */
+  templatedFrom?: GithubRepositorySource<TTemplateRepositoryName>;
   /** Can read, clone, and push to this repository. They can also manage issues, pull requests, and some repository settings. */
   maintain: readonly GithubTeamReference[];
   /** Can read, clone, and push to this repository. Can also manage issues and pull requests. */
@@ -144,6 +163,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: "hello-world-dashboard",
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -167,13 +187,16 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
     archived: false,
     push: ALL_GITHUB_TEAMS,
     triage: [],
-    repositorySettingOverrides: {},
+    repositorySettingOverrides: {
+      isTemplate: true,
+    },
     mainBranchProtectionOverrides: {
       requiredStatusChecks: {
         requiredChecks: [
@@ -214,13 +237,16 @@ export const REPOSITORIES = defineRepositories({
         bootstrap: false,
         oldName: undefined,
         fork: undefined,
+        templatedFrom: undefined,
         visibility: "public",
         maintain: ["@Patina-Network/admin"],
         monorepo: false,
         archived: false,
         push: ALL_GITHUB_TEAMS,
         triage: [],
-        repositorySettingOverrides: {},
+        repositorySettingOverrides: {
+          isTemplate: true,
+        },
         mainBranchProtectionOverrides: {
           requiredStatusChecks: {
             requiredChecks: [
@@ -261,6 +287,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     monorepo: false,
     archived: false,
@@ -326,6 +353,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
     archived: false,
@@ -368,6 +396,7 @@ export const REPOSITORIES = defineRepositories({
     visibility: "public",
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
     archived: false,
@@ -391,6 +420,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -414,6 +444,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: true,
@@ -486,6 +517,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "public",
     maintain: ["@Patina-Network/admin"],
     monorepo: false,
@@ -518,6 +550,7 @@ export const REPOSITORIES = defineRepositories({
     bootstrap: false,
     oldName: undefined,
     fork: undefined,
+    templatedFrom: undefined,
     visibility: "private",
     maintain: ["@Patina-Network/admin"],
     // private repo, can't run sonar in here.
