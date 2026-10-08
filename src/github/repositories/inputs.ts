@@ -589,6 +589,40 @@ export const REPOSITORIES = defineRepositories({
       },
     ],
   },
+  "cicd-config": {
+    description:
+      "Shared CI/CD script configuration files (linting, formating, tsc, etc.)",
+    url: undefined,
+    bootstrap: false,
+    oldName: undefined,
+    fork: undefined,
+    templatedFrom: undefined,
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    archived: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Test Build All Docker images",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
+    mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/infra",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
   docs: {
     description: "Documentation site for all things Patina Network",
     url: "https://docs.patinanetwork.org",
