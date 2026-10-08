@@ -29,13 +29,10 @@ export const azureInitPws = Object.fromEntries(
     .map(([{ firstName, lastName }, user]) => {
       const pw = (() => {
         if (user.newUser) {
-          return new random.RandomPassword(
-            `azure-user-init-pw-${firstName}-${lastName}`,
-            {
-              length: 20,
-              special: true,
-            },
-          );
+          return new random.RandomPassword(`azure-user-init-pw-${firstName}-${lastName}`, {
+            length: 20,
+            special: true,
+          });
         }
 
         return null;
@@ -48,10 +45,7 @@ export const azureInitPws = Object.fromEntries(
 // so we can read output in pulumi state
 export const azureInitPwsPlaintext = pulumi.secret(
   Object.fromEntries(
-    Object.entries(AZURE_USERS).map(([_, user]) => [
-      user.mail,
-      azureInitPws[user.mail]?.result,
-    ]),
+    Object.entries(AZURE_USERS).map(([_, user]) => [user.mail, azureInitPws[user.mail]?.result]),
   ),
 );
 

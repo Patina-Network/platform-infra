@@ -54,9 +54,7 @@ export const OAUTH_APPS = {
   },
   artifactkeeper: {
     displayName: "Artifact Keeper",
-    redirectUris: [
-      "https://pkg.vpn.patinanetwork.org/api/v1/auth/sso/oidc/callback",
-    ],
+    redirectUris: ["https://pkg.vpn.patinanetwork.org/api/v1/auth/sso/oidc/callback"],
     signInAudience: "AzureADMyOrg",
     azureRoles: [],
   },

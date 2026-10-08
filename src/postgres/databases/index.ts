@@ -182,22 +182,20 @@ export const pgDatabaseRoGrantsMap = Object.fromEntries(
 );
 
 export const pgDatabaseExtensionsMap = Object.fromEntries(
-  Object.entries(DATABASES).map(
-    ([databaseName, { extensions: databaseExtensions }]) => [
-      databaseName,
-      Object.fromEntries(
-        databaseExtensions.map((extension) => [
-          extension,
-          new pg.Extension(
-            `pg-db-${databaseName}-ext-${extension}`,
-            {
-              name: extension,
-              database: pgDatabasesMap[databaseName].name,
-            },
-            { provider },
-          ),
-        ]),
-      ),
-    ],
-  ),
+  Object.entries(DATABASES).map(([databaseName, { extensions: databaseExtensions }]) => [
+    databaseName,
+    Object.fromEntries(
+      databaseExtensions.map((extension) => [
+        extension,
+        new pg.Extension(
+          `pg-db-${databaseName}-ext-${extension}`,
+          {
+            name: extension,
+            database: pgDatabasesMap[databaseName].name,
+          },
+          { provider },
+        ),
+      ]),
+    ),
+  ]),
 );

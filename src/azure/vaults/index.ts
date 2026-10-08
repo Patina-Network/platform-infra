@@ -6,13 +6,10 @@ import { provider } from "@/azure/provider";
 import { VAULTS } from "@/azure/vaults/inputs";
 import { env } from "@/env";
 
-const getKeyVaultResourceName = (
-  resourceGroupName: string,
-  vaultName: string,
-) => `azure-resource-group-${resourceGroupName}-key-vault-${vaultName}`;
+const getKeyVaultResourceName = (resourceGroupName: string, vaultName: string) =>
+  `azure-resource-group-${resourceGroupName}-key-vault-${vaultName}`;
 
-const getKeyVaultKeyResourceName = (keyName: string) =>
-  `azure-keyvault-${keyName}`;
+const getKeyVaultKeyResourceName = (keyName: string) => `azure-keyvault-${keyName}`;
 
 export const azureVaults = Object.fromEntries(
   Object.entries(VAULTS).map(

@@ -1,13 +1,9 @@
 import "@/github/repositories/secrets";
-
 import * as github from "@pulumi/github";
 
 import { GITHUB_OWNER } from "@/github/inputs";
 import { provider } from "@/github/provider";
-import {
-  DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
-  GITHUB_APP_ID,
-} from "@/github/repositories/const";
+import { DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME, GITHUB_APP_ID } from "@/github/repositories/const";
 import {
   DEFAULT_MAIN_BRANCH_PROTECTIONS,
   DEFAULT_REPOSITORY_SETTINGS,
@@ -24,10 +20,7 @@ type GithubRepositoryMap = Record<GithubRepositoryName, github.Repository>;
 type GithubTeamPermission = "maintain" | "push" | "triage";
 
 function getTeamName(teamReference: GithubTeamReference) {
-  return teamReference.replace(
-    `@${GITHUB_OWNER}/`,
-    "",
-  ) as keyof typeof githubTeams;
+  return teamReference.replace(`@${GITHUB_OWNER}/`, "") as keyof typeof githubTeams;
 }
 
 function parseRepositorySource(source: GithubRepositorySource) {
@@ -45,8 +38,7 @@ const getRepositoryTeamAccessResourceName = (
   repositoryName: string,
   teamName: string,
   permission: GithubTeamPermission,
-) =>
-  `${GITHUB_OWNER}-repository-${repositoryName}-team-${teamName}-${permission}`;
+) => `${GITHUB_OWNER}-repository-${repositoryName}-team-${teamName}-${permission}`;
 
 const getDefaultBranchRulesetResourceName = (repositoryName: string) =>
   `${GITHUB_OWNER}-repository-${repositoryName}-default-branch-ruleset`;
@@ -59,13 +51,10 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
     const forkSource = repositoryConfig.fork;
     const fork = forkSource ? parseRepositorySource(forkSource) : undefined;
     const templateSource = repositoryConfig.templatedFrom;
-    const template =
-      templateSource ? parseRepositorySource(templateSource) : undefined;
+    const template = templateSource ? parseRepositorySource(templateSource) : undefined;
 
     if (fork && template) {
-      throw new Error(
-        `${repositoryName} cannot specify both fork and templatedFrom.`,
-      );
+      throw new Error(`${repositoryName} cannot specify both fork and templatedFrom.`);
     }
 
     return [
@@ -91,9 +80,8 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
         {
           provider,
           import: repositoryConfig.bootstrap ? repositoryName : undefined,
-          aliases:
-            repositoryConfig.oldName ?
-              [
+          aliases: repositoryConfig.oldName
+            ? [
                 {
                   name: getRepositoryResourceName(repositoryConfig.oldName),
                 },
@@ -115,11 +103,7 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
         const teamName = getTeamName(teamReference);
 
         return new github.TeamRepository(
-          getRepositoryTeamAccessResourceName(
-            repositoryName,
-            String(teamName),
-            permission,
-          ),
+          getRepositoryTeamAccessResourceName(repositoryName, String(teamName), permission),
           {
             permission,
             repository: githubRepositories[repositoryName].name,
@@ -127,9 +111,8 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
           },
           {
             provider,
-            aliases:
-              repositoryConfig.oldName ?
-                [
+            aliases: repositoryConfig.oldName
+              ? [
                   {
                     name: getRepositoryTeamAccessResourceName(
                       repositoryConfig.oldName,
@@ -151,135 +134,125 @@ export const githubRepositoryTeamAccess = Object.entries(REPOSITORIES).flatMap(
   },
 );
 
-export const githubRepositoryDefaultBranchRulesets = Object.entries(
-  REPOSITORIES,
-).map(([repositoryName, repositoryConfig]) => {
-  const repository = githubRepositories[repositoryName];
+export const githubRepositoryDefaultBranchRulesets = Object.entries(REPOSITORIES).map(
+  ([repositoryName, repositoryConfig]) => {
+    const repository = githubRepositories[repositoryName];
 
-  const branchProtections = (() => {
-    const protections = mergeWithConcatArrays(
-      DEFAULT_MAIN_BRANCH_PROTECTIONS,
-      repositoryConfig.mainBranchProtectionOverrides,
-    ) as github.types.output.RepositoryRulesetRules;
+    const branchProtections = (() => {
+      const protections = mergeWithConcatArrays(
+        DEFAULT_MAIN_BRANCH_PROTECTIONS,
+        repositoryConfig.mainBranchProtectionOverrides,
+      ) as github.types.output.RepositoryRulesetRules;
 
-    if (repositoryConfig.monorepo) {
-      if (protections.requiredStatusChecks) {
-        const requiredChecks =
-          protections.requiredStatusChecks.requiredChecks.filter(
+      if (repositoryConfig.monorepo) {
+        if (protections.requiredStatusChecks) {
+          const requiredChecks = protections.requiredStatusChecks.requiredChecks.filter(
             ({ context }) => context !== DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME,
           );
 
-        protections.requiredStatusChecks =
-          requiredChecks.length ?
-            {
-              ...protections.requiredStatusChecks,
-              requiredChecks,
-            }
-          : undefined;
-      }
-    }
-
-    return protections;
-  })();
-
-  const requiredReviewers = repositoryConfig.mainBranchRequiredReviewers.map(
-    ({ filePatterns, team, minimumApprovals }) => ({
-      filePatterns: [...filePatterns],
-      minimumApprovals,
-      reviewer: {
-        id: githubTeams[getTeamName(team)].id.apply(Number),
-        type: "Team",
-      },
-    }),
-  ) satisfies github.types.input.RepositoryRulesetRulesPullRequestRequiredReviewer[];
-
-  return [
-    new github.RepositoryRuleset(
-      getDefaultBranchRulesetResourceName(repositoryName),
-      {
-        name: "default-branch",
-        enforcement: "active",
-        target: "branch",
-        bypassActors:
-          repositoryConfig.mainBranchProtectionBypass.length ?
-            repositoryConfig.mainBranchProtectionBypass.map((actor) => {
-              const a = actor as MainBranchProtectionBypassActor;
-              if ("team" in a) {
-                const teamName = getTeamName(a.team);
-                return {
-                  actorType: "Team",
-                  actorId: githubTeams[teamName].id.apply(Number),
-                  bypassMode: "pull_request",
-                };
+          protections.requiredStatusChecks = requiredChecks.length
+            ? {
+                ...protections.requiredStatusChecks,
+                requiredChecks,
               }
+            : undefined;
+        }
+      }
 
-              return {
-                actorType: "Integration",
-                actorId: GITHUB_APP_ID[a.app],
-                bypassMode: "always",
-              };
-            })
-          : undefined,
-        repository: repository.name,
-        conditions: {
-          refName: {
-            includes: ["~DEFAULT_BRANCH"],
-            excludes: [],
+      return protections;
+    })();
+
+    const requiredReviewers = repositoryConfig.mainBranchRequiredReviewers.map(
+      ({ filePatterns, team, minimumApprovals }) => ({
+        filePatterns: [...filePatterns],
+        minimumApprovals,
+        reviewer: {
+          id: githubTeams[getTeamName(team)].id.apply(Number),
+          type: "Team",
+        },
+      }),
+    ) satisfies github.types.input.RepositoryRulesetRulesPullRequestRequiredReviewer[];
+
+    return [
+      new github.RepositoryRuleset(
+        getDefaultBranchRulesetResourceName(repositoryName),
+        {
+          name: "default-branch",
+          enforcement: "active",
+          target: "branch",
+          bypassActors: repositoryConfig.mainBranchProtectionBypass.length
+            ? repositoryConfig.mainBranchProtectionBypass.map((actor) => {
+                const a = actor as MainBranchProtectionBypassActor;
+                if ("team" in a) {
+                  const teamName = getTeamName(a.team);
+                  return {
+                    actorType: "Team",
+                    actorId: githubTeams[teamName].id.apply(Number),
+                    bypassMode: "pull_request",
+                  };
+                }
+
+                return {
+                  actorType: "Integration",
+                  actorId: GITHUB_APP_ID[a.app],
+                  bypassMode: "always",
+                };
+              })
+            : undefined,
+          repository: repository.name,
+          conditions: {
+            refName: {
+              includes: ["~DEFAULT_BRANCH"],
+              excludes: [],
+            },
+          },
+          rules: {
+            ...branchProtections,
+            pullRequest: {
+              ...(branchProtections.pullRequest ?? {}),
+              requiredReviewers: requiredReviewers.length ? requiredReviewers : undefined,
+            },
           },
         },
-        rules: {
-          ...branchProtections,
-          pullRequest: {
-            ...(branchProtections.pullRequest ?? {}),
-            requiredReviewers:
-              requiredReviewers.length ? requiredReviewers : undefined,
+        {
+          provider,
+          aliases: repositoryConfig.oldName
+            ? [
+                {
+                  name: getDefaultBranchRulesetResourceName(repositoryConfig.oldName),
+                },
+              ]
+            : undefined,
+        },
+      ),
+      new github.RepositoryRuleset(
+        getAllOtherBranchRulesetResourceName(repositoryName),
+        {
+          name: "all-other-branch",
+          enforcement: "active",
+          target: "branch",
+          repository: repository.name,
+          conditions: {
+            refName: {
+              includes: ["~ALL"],
+              excludes: ["~DEFAULT_BRANCH"],
+            },
+          },
+          rules: {
+            requiredLinearHistory: true,
           },
         },
-      },
-      {
-        provider,
-        aliases:
-          repositoryConfig.oldName ?
-            [
-              {
-                name: getDefaultBranchRulesetResourceName(
-                  repositoryConfig.oldName,
-                ),
-              },
-            ]
-          : undefined,
-      },
-    ),
-    new github.RepositoryRuleset(
-      getAllOtherBranchRulesetResourceName(repositoryName),
-      {
-        name: "all-other-branch",
-        enforcement: "active",
-        target: "branch",
-        repository: repository.name,
-        conditions: {
-          refName: {
-            includes: ["~ALL"],
-            excludes: ["~DEFAULT_BRANCH"],
-          },
+        {
+          provider,
+          aliases: repositoryConfig.oldName
+            ? [
+                {
+                  name: getAllOtherBranchRulesetResourceName(repositoryConfig.oldName),
+                },
+              ]
+            : undefined,
         },
-        rules: {
-          requiredLinearHistory: true,
-        },
-      },
-      {
-        provider,
-        aliases:
-          repositoryConfig.oldName ?
-            [
-              {
-                name: getAllOtherBranchRulesetResourceName(
-                  repositoryConfig.oldName,
-                ),
-              },
-            ]
-          : undefined,
-      },
-    ),
-  ];
-});
+      ),
+    ];
+  },
+);

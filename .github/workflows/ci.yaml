@@ -25,9 +25,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pipeline
-        uses: tahminator/pipeline/actions/setup@4ee08420b0e0e291761d9c7d5e3983f5b3abbd39 #1.0.88
+        uses: tahminator/pipeline/actions/setup@52eb2a0451daba94989db6a6fa232e689144aa50 # 1.0.96
         with:
           LINT_CI: true
+          GITHUB_SCRIPTS_DIR: ./.github/scripts
+          INSTALL_PULUMI: true
           INSTALL_JUST: true
           INSTALL_SOPS: true
 
@@ -61,9 +63,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pipeline
-        uses: tahminator/pipeline/actions/setup@4ee08420b0e0e291761d9c7d5e3983f5b3abbd39 #1.0.88
+        uses: tahminator/pipeline/actions/setup@52eb2a0451daba94989db6a6fa232e689144aa50 # 1.0.96
         with:
           LINT_CI: true
+          GITHUB_SCRIPTS_DIR: ./.github/scripts
+          INSTALL_PULUMI: true
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
@@ -100,9 +104,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pipeline
-        uses: tahminator/pipeline/actions/setup@4ee08420b0e0e291761d9c7d5e3983f5b3abbd39 #1.0.88
+        uses: tahminator/pipeline/actions/setup@52eb2a0451daba94989db6a6fa232e689144aa50 # 1.0.96
         with:
           LINT_CI: true
+          GITHUB_SCRIPTS_DIR: ./.github/scripts
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

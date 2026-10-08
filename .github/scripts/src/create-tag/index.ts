@@ -2,13 +2,15 @@ import {
   EnvClient,
   EnvClientStrategy,
   GitHubClient,
-  Utils,
+  VersioningClient,
+  VersionUpdatingStrategy,
 } from "@tahminator/pipeline";
 
 export async function main() {
   const envClient = EnvClient.create(EnvClientStrategy.SOPS);
-  const { githubAppAppId, githubAppInstallationId, githubAppPrivateKey } =
-    parseCiEnv(await envClient.readFromEnv("secrets.yaml"));
+  const { githubAppAppId, githubAppInstallationId, githubAppPrivateKey } = parseCiEnv(
+    await envClient.readFromEnv("secrets.yaml"),
+  );
 
   const ghClient = await GitHubClient.createWithGithubAppToken({
     appId: githubAppAppId,
@@ -16,9 +18,12 @@ export async function main() {
     privateKey: githubAppPrivateKey,
   });
 
+  const versioningClient = new VersioningClient(ghClient, VersionUpdatingStrategy.JSTS);
+
   await ghClient.createTag({
+    nextTag: await versioningClient.next(),
     onPreTagCreate: async (tag) => {
-      await Utils.updateAllPackageJsonsWithVersion(tag);
+      await versioningClient.update(tag);
     },
   });
 }

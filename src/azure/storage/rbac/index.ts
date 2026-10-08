@@ -5,10 +5,7 @@ import { AZURE_IDENTITIES } from "@/azure/identities";
 import { azureadProvider, provider } from "@/azure/provider";
 import { azureStorageAccounts } from "@/azure/storage";
 import { AZURE_STORAGE_RBAC_ROLE_IDS } from "@/azure/storage/rbac/const";
-import {
-  STORAGE_ACCOUNT_READERS,
-  STORAGE_ACCOUNT_WRITERS,
-} from "@/azure/storage/rbac/inputs";
+import { STORAGE_ACCOUNT_READERS, STORAGE_ACCOUNT_WRITERS } from "@/azure/storage/rbac/inputs";
 import { env } from "@/env";
 
 type StorageAccessLevel = "readers" | "writers";
@@ -16,16 +13,13 @@ type StorageAccessLevel = "readers" | "writers";
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
-const getStorageAccessGroupName = (
-  storageAccountName: string,
-  accessLevel: StorageAccessLevel,
-) => `${storageAccountName}-${accessLevel}`;
+const getStorageAccessGroupName = (storageAccountName: string, accessLevel: StorageAccessLevel) =>
+  `${storageAccountName}-${accessLevel}`;
 
 const getStorageAccessGroupResourceName = (
   storageAccountName: string,
   accessLevel: StorageAccessLevel,
-) =>
-  `azure-group-${getStorageAccessGroupName(storageAccountName, accessLevel)}`;
+) => `azure-group-${getStorageAccessGroupName(storageAccountName, accessLevel)}`;
 
 const getStorageAccessGroupMemberResourceName = (
   storageAccountName: string,
@@ -57,26 +51,24 @@ export const azureStorageReaderGroups = Object.fromEntries(
 );
 
 export const azureStorageReaderGroupMembers = Object.fromEntries(
-  Object.entries(STORAGE_ACCOUNT_READERS).flatMap(
-    ([storageAccountName, principals]) =>
-      principals.map((principal) => {
-        return [
-          `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
-          new azuread.GroupMember(
-            getStorageAccessGroupMemberResourceName(
-              storageAccountName,
-              "readers",
-              AZURE_IDENTITIES[principal].name,
-            ),
-            {
-              groupObjectId:
-                azureStorageReaderGroups[storageAccountName].objectId,
-              memberObjectId: AZURE_IDENTITIES[principal].objectId,
-            },
-            { provider: azureadProvider },
+  Object.entries(STORAGE_ACCOUNT_READERS).flatMap(([storageAccountName, principals]) =>
+    principals.map((principal) => {
+      return [
+        `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
+        new azuread.GroupMember(
+          getStorageAccessGroupMemberResourceName(
+            storageAccountName,
+            "readers",
+            AZURE_IDENTITIES[principal].name,
           ),
-        ];
-      }),
+          {
+            groupObjectId: azureStorageReaderGroups[storageAccountName].objectId,
+            memberObjectId: AZURE_IDENTITIES[principal].objectId,
+          },
+          { provider: azureadProvider },
+        ),
+      ];
+    }),
   ),
 );
 
@@ -84,10 +76,7 @@ export const azureStorageReaderRoleAssignments = Object.fromEntries(
   Object.keys(STORAGE_ACCOUNT_READERS).map((storageAccountName) => [
     storageAccountName,
     new azure.authorization.RoleAssignment(
-      getStorageBlobRoleAssignmentResourceName(
-        storageAccountName,
-        "blob-data-reader",
-      ),
+      getStorageBlobRoleAssignmentResourceName(storageAccountName, "blob-data-reader"),
       {
         principalId: azureStorageReaderGroups[storageAccountName].objectId,
         principalType: azure.authorization.PrincipalType.Group,
@@ -120,26 +109,24 @@ export const azureStorageWriterGroups = Object.fromEntries(
 );
 
 export const azureStorageWriterGroupMembers = Object.fromEntries(
-  Object.entries(STORAGE_ACCOUNT_WRITERS).flatMap(
-    ([storageAccountName, principals]) =>
-      principals.map((principal) => {
-        return [
-          `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
-          new azuread.GroupMember(
-            getStorageAccessGroupMemberResourceName(
-              storageAccountName,
-              "writers",
-              AZURE_IDENTITIES[principal].name,
-            ),
-            {
-              groupObjectId:
-                azureStorageWriterGroups[storageAccountName].objectId,
-              memberObjectId: AZURE_IDENTITIES[principal].objectId,
-            },
-            { provider: azureadProvider },
+  Object.entries(STORAGE_ACCOUNT_WRITERS).flatMap(([storageAccountName, principals]) =>
+    principals.map((principal) => {
+      return [
+        `${storageAccountName}-${AZURE_IDENTITIES[principal].name}`,
+        new azuread.GroupMember(
+          getStorageAccessGroupMemberResourceName(
+            storageAccountName,
+            "writers",
+            AZURE_IDENTITIES[principal].name,
           ),
-        ];
-      }),
+          {
+            groupObjectId: azureStorageWriterGroups[storageAccountName].objectId,
+            memberObjectId: AZURE_IDENTITIES[principal].objectId,
+          },
+          { provider: azureadProvider },
+        ),
+      ];
+    }),
   ),
 );
 
@@ -147,10 +134,7 @@ export const azureStorageWriterRoleAssignments = Object.fromEntries(
   Object.keys(STORAGE_ACCOUNT_WRITERS).map((storageAccountName) => [
     storageAccountName,
     new azure.authorization.RoleAssignment(
-      getStorageBlobRoleAssignmentResourceName(
-        storageAccountName,
-        "blob-data-contributor",
-      ),
+      getStorageBlobRoleAssignmentResourceName(storageAccountName, "blob-data-contributor"),
       {
         principalId: azureStorageWriterGroups[storageAccountName].objectId,
         principalType: azure.authorization.PrincipalType.Group,

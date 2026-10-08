@@ -9,10 +9,8 @@ import { env } from "@/env.ts";
 const getRoleDefinitionId = (subscriptionId: string, roleId: string) =>
   `/subscriptions/${subscriptionId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`;
 
-const getUserRoleAssignmentResourceName = (
-  principalName: string,
-  roleName: string,
-) => `azure-role-assignment-${principalName}-global-${roleName}`;
+const getUserRoleAssignmentResourceName = (principalName: string, roleName: string) =>
+  `azure-role-assignment-${principalName}-global-${roleName}`;
 
 /**
  * Creates global roles in Azure Resource Manager (ARM) to manage all Azure resources in the root subscription.

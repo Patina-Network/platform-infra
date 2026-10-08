@@ -101,9 +101,7 @@ export const CLUSTERS = {
   },
 } as const satisfies Record<ClusterName, Cluster>;
 
-type SinglePool = NonNullable<
-  Unwrap<ManagedClusterArgs["agentPoolProfiles"]>
->[number];
+type SinglePool = NonNullable<Unwrap<ManagedClusterArgs["agentPoolProfiles"]>>[number];
 
 export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<
   SinglePool,
@@ -122,15 +120,11 @@ export const DEFAULT_CLUSTER_POOL_SETTINGS: Omit<
   upgradeSettings: {
     maxSurge: "10%",
     maxUnavailable: "0",
-    undrainableNodeBehavior:
-      azure.containerservice.UndrainableNodeBehavior.Schedule,
+    undrainableNodeBehavior: azure.containerservice.UndrainableNodeBehavior.Schedule,
   },
 };
 
-export const DEFAULT_CLUSTER_SETTINGS: Omit<
-  ManagedClusterArgs,
-  "resourceGroupName"
-> = {
+export const DEFAULT_CLUSTER_SETTINGS: Omit<ManagedClusterArgs, "resourceGroupName"> = {
   location: DEFAULT_REGION,
   disableLocalAccounts: true,
   enableRBAC: true,
