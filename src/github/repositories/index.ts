@@ -30,7 +30,7 @@ function getTeamName(teamReference: GithubTeamReference) {
   ) as keyof typeof githubTeams;
 }
 
-function parseForkSource(source: GithubRepositorySource) {
+function parseRepositorySource(source: GithubRepositorySource) {
   const separatorIndex = source.indexOf("/");
   return {
     owner: source.slice(0, separatorIndex),
@@ -56,9 +56,17 @@ const getAllOtherBranchRulesetResourceName = (repositoryName: string) =>
 
 export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
   Object.entries(REPOSITORIES).map(([repositoryName, repositoryConfig]) => {
-    const forkSource = repositoryConfig.fork as
-      GithubRepositorySource | undefined;
-    const fork = forkSource ? parseForkSource(forkSource) : undefined;
+    const forkSource = repositoryConfig.fork;
+    const fork = forkSource ? parseRepositorySource(forkSource) : undefined;
+    const templateSource = repositoryConfig.templatedFrom;
+    const template =
+      templateSource ? parseRepositorySource(templateSource) : undefined;
+
+    if (fork && template) {
+      throw new Error(
+        `${repositoryName} cannot specify both fork and templatedFrom.`,
+      );
+    }
 
     return [
       repositoryName,
@@ -70,11 +78,11 @@ export const githubRepositories: GithubRepositoryMap = Object.fromEntries(
           archived: repositoryConfig.archived,
           description: repositoryConfig.description,
           homepageUrl: repositoryConfig.url,
-          // forks inherit the upstream history, so there is nothing to initialize.
-          autoInit: !fork,
+          autoInit: !fork && !template,
           fork: fork ? "true" : undefined,
           sourceOwner: fork?.owner,
           sourceRepo: fork?.repository,
+          template,
           ...mergeWithConcatArrays(
             DEFAULT_REPOSITORY_SETTINGS,
             repositoryConfig.repositorySettingOverrides,
