@@ -79,5 +79,11 @@ export const VAULT_ACCESS = {
       identity: "app",
       roles: KEY_VAULT_CRYPTO_USER_ROLE,
     },
+    {
+      kind: "direct",
+      label: "flux-kustomize",
+      identity: "kustomize-controller",
+      roles: KEY_VAULT_CRYPTO_USER_ROLE,
+    },
   ],
 } as const satisfies Record<VaultName, readonly VaultAccess[]>;
