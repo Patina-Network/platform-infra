@@ -44,7 +44,7 @@ export const TEAMS = {
       { username: "angelayu0530", role: "member" },
       { username: "naanci", role: "member" },
       { username: "ThisRyanZhou", role: "member" },
-      { username: "", role: "member" },
+      { username: "schen25", role: "member" },
     ],
   },
   patchats: {
