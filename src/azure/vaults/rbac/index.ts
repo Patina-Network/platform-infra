@@ -21,8 +21,7 @@ const getVaultRoleAssignmentResourceName = (
   principalName: string,
   roleName: string,
   vaultName: string,
-) =>
-  `azure-role-assignment-${principalName}-key-vault-${vaultName}-${roleName}`;
+) => `azure-role-assignment-${principalName}-key-vault-${vaultName}-${roleName}`;
 
 // TODO: Remove after fixing Pulumi naming structre
 const KEY_VAULT_ROLE_RESOURCE_NAMES = {
@@ -35,9 +34,7 @@ const KEY_VAULT_ROLE_RESOURCE_NAMES = {
 
 const getVaultRoleResourceName = (roleId: string) => {
   const roleName =
-    KEY_VAULT_ROLE_RESOURCE_NAMES[
-      roleId as keyof typeof KEY_VAULT_ROLE_RESOURCE_NAMES
-    ];
+    KEY_VAULT_ROLE_RESOURCE_NAMES[roleId as keyof typeof KEY_VAULT_ROLE_RESOURCE_NAMES];
   if (!roleName) {
     throw new Error(`Unknown Key Vault role ID for resource naming: ${roleId}`);
   }
@@ -77,10 +74,7 @@ export const vaultGroupMembers = Object.fromEntries(
               [
                 userName,
                 new azuread.GroupMember(
-                  getGroupMemberResourceName(
-                    access.name,
-                    AZURE_IDENTITIES[userName].name,
-                  ),
+                  getGroupMemberResourceName(access.name, AZURE_IDENTITIES[userName].name),
                   {
                     groupObjectId: vaultGroups[access.name].objectId,
                     memberObjectId: AZURE_IDENTITIES[userName].objectId,
@@ -101,17 +95,17 @@ export const vaultRoleAssignments = Object.fromEntries(
 
     return accessList.flatMap((access) => {
       const principal =
-        access.kind === "group" ?
-          {
-            name: access.name,
-            id: vaultGroups[access.name].objectId,
-            type: azure.authorization.PrincipalType.Group,
-          }
-        : {
-            name: access.label,
-            id: AZURE_IDENTITIES[access.identity].objectId,
-            type: AZURE_IDENTITIES[access.identity].principalType,
-          };
+        access.kind === "group"
+          ? {
+              name: access.name,
+              id: vaultGroups[access.name].objectId,
+              type: azure.authorization.PrincipalType.Group,
+            }
+          : {
+              name: access.label,
+              id: AZURE_IDENTITIES[access.identity].objectId,
+              type: AZURE_IDENTITIES[access.identity].principalType,
+            };
 
       return access.roles.map((roleId) => {
         const resourceName = getVaultRoleAssignmentResourceName(
@@ -127,10 +121,7 @@ export const vaultRoleAssignments = Object.fromEntries(
             {
               principalId: principal.id,
               principalType: principal.type,
-              roleDefinitionId: getRoleDefinitionId(
-                env.azure.subscriptionId,
-                roleId,
-              ),
+              roleDefinitionId: getRoleDefinitionId(env.azure.subscriptionId, roleId),
               scope: vaultScopeId,
             },
             { provider },

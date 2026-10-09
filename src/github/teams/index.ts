@@ -25,21 +25,20 @@ export const githubTeams: GithubTeamMap = Object.fromEntries(
   ),
 );
 
-export const githubTeamMemberships = Object.entries(TEAMS).flatMap(
-  ([teamName, teamConfig]) =>
-    teamConfig.members.map(
-      (member) =>
-        new github.TeamMembership(
-          `${GITHUB_OWNER}-team-${teamName}-member-${member.username}`,
-          {
-            role: member.role,
-            teamId: githubTeams[teamName].id,
-            username: member.username,
-          },
-          {
-            dependsOn: [githubMembershipMap[member.username]],
-            provider,
-          },
-        ),
-    ),
+export const githubTeamMemberships = Object.entries(TEAMS).flatMap(([teamName, teamConfig]) =>
+  teamConfig.members.map(
+    (member) =>
+      new github.TeamMembership(
+        `${GITHUB_OWNER}-team-${teamName}-member-${member.username}`,
+        {
+          role: member.role,
+          teamId: githubTeams[teamName].id,
+          username: member.username,
+        },
+        {
+          dependsOn: [githubMembershipMap[member.username]],
+          provider,
+        },
+      ),
+  ),
 );

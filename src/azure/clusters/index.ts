@@ -10,15 +10,11 @@ import {
 import { azureResourceGroups } from "@/azure/groups";
 import { provider } from "@/azure/provider";
 
-const getManagedClusterResourceName = (
-  resourceGroupName: string,
-  clusterName: string,
-) => `azure-resource-group-${resourceGroupName}-managed-cluster-${clusterName}`;
+const getManagedClusterResourceName = (resourceGroupName: string, clusterName: string) =>
+  `azure-resource-group-${resourceGroupName}-managed-cluster-${clusterName}`;
 
-const getManagedClusterPublicIpResourceName = (
-  clusterName: string,
-  publicIpName: string,
-) => `azure-managed-cluster-${clusterName}-public-ip-${publicIpName}`;
+const getManagedClusterPublicIpResourceName = (clusterName: string, publicIpName: string) =>
+  `azure-managed-cluster-${clusterName}-public-ip-${publicIpName}`;
 
 const getAgentPoolResourceName = (clusterName: string, poolName: string) =>
   `azure-managed-cluster-${clusterName}-agent-pool-${poolName}`;
@@ -33,8 +29,7 @@ export const azureClusters = Object.fromEntries(
           ...DEFAULT_CLUSTER_SETTINGS,
           resourceName: clusterName,
           dnsPrefix: `${clusterName}-dns`,
-          resourceGroupName:
-            azureResourceGroups[clusterProps.resourceGroup].name,
+          resourceGroupName: azureResourceGroups[clusterProps.resourceGroup].name,
           kubernetesVersion: clusterProps.kubernetesVersion,
           storageProfile: {
             diskCSIDriver: {
@@ -52,19 +47,19 @@ export const azureClusters = Object.fromEntries(
             // this angent pool array is required for init,
             // but after init, its literally ignored.
             // hence the bootstrapping.
-            clusterProps.bootstrap ?
-              [
-                {
-                  ...DEFAULT_CLUSTER_POOL_SETTINGS,
-                  name: clusterProps.systemPools[0].name,
-                  mode: azure.containerservice.AgentPoolMode.System,
-                  count: clusterProps.systemPools[0].count,
-                  osDiskSizeGB: clusterProps.systemPools[0].osDiskSizeGB,
-                  osDiskType: clusterProps.systemPools[0].osDiskType,
-                  vmSize: clusterProps.systemPools[0].vmSize,
-                },
-              ]
-            : [],
+            clusterProps.bootstrap
+              ? [
+                  {
+                    ...DEFAULT_CLUSTER_POOL_SETTINGS,
+                    name: clusterProps.systemPools[0].name,
+                    mode: azure.containerservice.AgentPoolMode.System,
+                    count: clusterProps.systemPools[0].count,
+                    osDiskSizeGB: clusterProps.systemPools[0].osDiskSizeGB,
+                    osDiskType: clusterProps.systemPools[0].osDiskType,
+                    vmSize: clusterProps.systemPools[0].vmSize,
+                  },
+                ]
+              : [],
         },
         { provider },
       ),
@@ -74,9 +69,8 @@ export const azureClusters = Object.fromEntries(
 
 export const azureClusterAgentPools = Object.fromEntries(
   Object.entries(CLUSTERS).flatMap(([clusterName, clusterProps]) => {
-    const systemPools =
-      clusterProps.bootstrap ?
-        (clusterProps.systemPools as readonly Pool[]).slice(1)
+    const systemPools = clusterProps.bootstrap
+      ? (clusterProps.systemPools as readonly Pool[]).slice(1)
       : clusterProps.systemPools;
 
     const pools = [
@@ -98,8 +92,7 @@ export const azureClusterAgentPools = Object.fromEntries(
             getAgentPoolResourceName(clusterName, pool.name),
             {
               ...DEFAULT_CLUSTER_POOL_SETTINGS,
-              resourceGroupName:
-                azureResourceGroups[clusterProps.resourceGroup].name,
+              resourceGroupName: azureResourceGroups[clusterProps.resourceGroup].name,
               resourceName: azureClusters[clusterName].name,
               agentPoolName: pool.name,
               mode: pool.mode,
@@ -108,23 +101,20 @@ export const azureClusterAgentPools = Object.fromEntries(
               osDiskType: pool.osDiskType,
               osSKU: pool.osSku,
               vmSize: pool.vmSize,
-              nodeTaints:
-                pool.nodeTaints.length > 0 ? [...pool.nodeTaints] : undefined,
-              ...(pool.spot ?
-                {
-                  scaleSetPriority:
-                    azure.containerservice.ScaleSetPriority.Spot,
-                  scaleSetEvictionPolicy:
-                    azure.containerservice.ScaleSetEvictionPolicy.Delete,
-                  spotMaxPrice: pool.spot.maxPrice,
-                  // AKS rejects maxSurge on spot pools.
-                  upgradeSettings: undefined,
-                  // Evicted nodes are deleted; the autoscaler recreates them back up to `count`.
-                  enableAutoScaling: true,
-                  minCount: pool.count,
-                  maxCount: pool.count,
-                }
-              : {}),
+              nodeTaints: pool.nodeTaints.length > 0 ? [...pool.nodeTaints] : undefined,
+              ...(pool.spot
+                ? {
+                    scaleSetPriority: azure.containerservice.ScaleSetPriority.Spot,
+                    scaleSetEvictionPolicy: azure.containerservice.ScaleSetEvictionPolicy.Delete,
+                    spotMaxPrice: pool.spot.maxPrice,
+                    // AKS rejects maxSurge on spot pools.
+                    upgradeSettings: undefined,
+                    // Evicted nodes are deleted; the autoscaler recreates them back up to `count`.
+                    enableAutoScaling: true,
+                    minCount: pool.count,
+                    maxCount: pool.count,
+                  }
+                : {}),
             },
             {
               provider,

@@ -1,7 +1,4 @@
-import type {
-  BlobContainerArgs,
-  StorageAccountArgs,
-} from "@pulumi/azure-native/storage";
+import type { BlobContainerArgs, StorageAccountArgs } from "@pulumi/azure-native/storage";
 
 import * as azure from "@pulumi/azure-native";
 
@@ -52,15 +49,12 @@ export type AzureStorageAccountNameWithTtl = {
   [K in keyof typeof STORAGE_ACCOUNTS]: Exclude<
     (typeof STORAGE_ACCOUNTS)[K]["blobs"][number]["ttl"],
     undefined
-  > extends never ?
-    never
-  : K;
+  > extends never
+    ? never
+    : K;
 }[keyof typeof STORAGE_ACCOUNTS];
 
-export const DEFAULT_STORAGE_ACCOUNT_SETTINGS: Omit<
-  StorageAccountArgs,
-  "resourceGroupName"
-> = {
+export const DEFAULT_STORAGE_ACCOUNT_SETTINGS: Omit<StorageAccountArgs, "resourceGroupName"> = {
   location: DEFAULT_REGION,
   kind: azure.storage.Kind.StorageV2,
   sku: {

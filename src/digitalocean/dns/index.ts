@@ -8,17 +8,14 @@ import { provider } from "@/digitalocean/provider";
 
 // TODO: @tahminator - clean this up
 
-type Fqdn<TDomain extends string, THostname extends string> =
-  THostname extends typeof ROOT ? TDomain : `${THostname}.${TDomain}`;
+type Fqdn<TDomain extends string, THostname extends string> = THostname extends typeof ROOT
+  ? TDomain
+  : `${THostname}.${TDomain}`;
 
 const getFqdn = <TDomain extends string, THostname extends string>(
   domain: TDomain,
   hostname: THostname,
-) =>
-  (hostname === ROOT ? domain : `${hostname}.${domain}`) as Fqdn<
-    TDomain,
-    THostname
-  >;
+) => (hostname === ROOT ? domain : `${hostname}.${domain}`) as Fqdn<TDomain, THostname>;
 
 const toKebabCase = <TString extends string>(value: TString) =>
   value.replaceAll(".", "-") as Replace<TString, ".", "-", { all: true }>;
@@ -50,46 +47,33 @@ const getDnsRecordResourceName = <
 ) => `${toKebabCase(getFqdn(domain, hostname))}-${type}` as const;
 
 export const digitaloceanDnsRecordMap = (() => {
-  const groupedRecordsArray = Object.entries(RECORDS).flatMap(
-    ([domain, recordsMap]) => {
-      return Object.entries(recordsMap).flatMap(([type, records]) => {
-        return records.map((record) => {
-          const resourceName = getDnsRecordResourceName(
+  const groupedRecordsArray = Object.entries(RECORDS).flatMap(([domain, recordsMap]) => {
+    return Object.entries(recordsMap).flatMap(([type, records]) => {
+      return records.map((record) => {
+        const resourceName = getDnsRecordResourceName(domain, record.name, type);
+        const discriminator = getDnsRecordDiscriminator(record.name, record.value);
+
+        const dnsRecord = new digitalocean.DnsRecord(
+          `${resourceName}-${discriminator}`,
+          {
             domain,
-            record.name,
+            name: record.name,
+            ttl: record.ttl,
             type,
-          );
-          const discriminator = getDnsRecordDiscriminator(
-            record.name,
-            record.value,
-          );
+            value:
+              type === "CNAME" && !record.value.endsWith(".") ? `${record.value}.` : record.value,
+          },
+          {
+            provider,
+            import:
+              record.bootstrapId === undefined ? undefined : `${domain},${record.bootstrapId}`,
+          },
+        );
 
-          const dnsRecord = new digitalocean.DnsRecord(
-            `${resourceName}-${discriminator}`,
-            {
-              domain,
-              name: record.name,
-              ttl: record.ttl,
-              type,
-              value:
-                type === "CNAME" && !record.value.endsWith(".") ?
-                  `${record.value}.`
-                : record.value,
-            },
-            {
-              provider,
-              import:
-                record.bootstrapId === undefined ?
-                  undefined
-                : `${domain},${record.bootstrapId}`,
-            },
-          );
-
-          return { resourceName, dnsRecord };
-        });
+        return { resourceName, dnsRecord };
       });
-    },
-  );
+    });
+  });
 
   // Record<ResourceName, { resourceName: ResourceName; dnsRecord: DnsRecord }[]>
   const groupedRecords = Object.groupBy(groupedRecordsArray, (item) => {
@@ -107,9 +91,6 @@ export const digitaloceanDnsRecordMap = (() => {
       // we can correctly get TypeScript to focus on a specific section of the type
       // and avoid `DnsRecord[] | undefined` from the final type.
       .filter((entry) => isDefinedEntry(entry))
-      .map(([resourceName, objs]) => [
-        resourceName,
-        objs.map((o) => o.dnsRecord),
-      ]),
+      .map(([resourceName, objs]) => [resourceName, objs.map((o) => o.dnsRecord)]),
   );
 })();

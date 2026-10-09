@@ -9,7 +9,6 @@ export const GITHUB_APP_ID = {
   patAgent: 3239387,
 } as const;
 
-export const DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME =
-  "SonarCloud Code Analysis" as const;
+export const DEFAULT_SONARCLOUD_ANALYSIS_JOB_NAME = "SonarCloud Code Analysis" as const;
 
 export type GithubAppIdName = keyof typeof GITHUB_APP_ID;
