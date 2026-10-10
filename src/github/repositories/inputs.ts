@@ -169,7 +169,7 @@ export const REPOSITORIES = defineRepositories({
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
@@ -216,7 +216,7 @@ export const REPOSITORIES = defineRepositories({
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
@@ -261,7 +261,7 @@ export const REPOSITORIES = defineRepositories({
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
@@ -311,7 +311,7 @@ export const REPOSITORIES = defineRepositories({
         mainBranchProtectionBypass: [],
         mainBranchRequiredReviewers: [
           {
-            team: "@Patina-Network/codebloom",
+            team: "@Patina-Network/dino",
             filePatterns: ["**/*"],
             minimumApprovals: 1,
           },
@@ -368,7 +368,7 @@ export const REPOSITORIES = defineRepositories({
         minimumApprovals: 1,
       },
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: [
           ...k8sAppManifests("codebloom"),
           ...k8sAppManifests("codebloom-standup-bot"),
@@ -540,7 +540,7 @@ export const REPOSITORIES = defineRepositories({
     },
     mainBranchRequiredReviewers: [
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: ["**/*"],
         minimumApprovals: 1,
       },
@@ -653,7 +653,7 @@ export const REPOSITORIES = defineRepositories({
         minimumApprovals: 1,
       },
       {
-        team: "@Patina-Network/codebloom",
+        team: "@Patina-Network/dino",
         filePatterns: docsProjectPages("codebloom"),
         minimumApprovals: 1,
       },
