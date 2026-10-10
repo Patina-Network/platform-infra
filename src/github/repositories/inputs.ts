@@ -524,10 +524,6 @@ export const REPOSITORIES = defineRepositories({
             integrationId: GITHUB_APP_ID.githubActions,
           },
           {
-            context: "Run verification checks on the PR",
-            integrationId: GITHUB_APP_ID.githubActions,
-          },
-          {
             context: "[codebloom_backend] SonarCloud Code Analysis",
             integrationId: GITHUB_APP_ID.sonarCloud,
           },
