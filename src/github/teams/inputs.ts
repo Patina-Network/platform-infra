@@ -31,9 +31,9 @@ export const TEAMS = {
       role === "admin" ? { username, role: "maintainer" as const } : { username, role },
     ),
   },
-  codebloom: {
+  dino: {
     privacy: "closed",
-    description: "Active team members for the Codebloom project",
+    description: "Active members on the DINO team",
     members: [
       { username: "tahminator", role: "maintainer" },
       { username: "angelayu0530", role: "member" },
