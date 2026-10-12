@@ -163,7 +163,7 @@ export const AZURE_USERS = {
     userPrincipalName: "ryan.min@patinanetwork.onmicrosoft.com",
   },
   "Brian Calle": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "brian.calle@patinanetwork.onmicrosoft.com",
@@ -171,7 +171,7 @@ export const AZURE_USERS = {
     userPrincipalName: "brian.calle@patinanetwork.onmicrosoft.com",
   },
   "Fahim Rashid": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "fahim.rashid@patinanetwork.onmicrosoft.com",
@@ -179,7 +179,7 @@ export const AZURE_USERS = {
     userPrincipalName: "fahim.rashid@patinanetwork.onmicrosoft.com",
   },
   "Sam Lee": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "sam.lee@patinanetwork.onmicrosoft.com",
@@ -187,7 +187,7 @@ export const AZURE_USERS = {
     userPrincipalName: "sam.lee@patinanetwork.onmicrosoft.com",
   },
   "Stacey Chen": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "stacey.chen@patinanetwork.onmicrosoft.com",
@@ -195,7 +195,7 @@ export const AZURE_USERS = {
     userPrincipalName: "stacey.chen@patinanetwork.onmicrosoft.com",
   },
   "Ryan Zhou": {
-    newUser: true,
+    newUser: false,
     entraRoles: ["globalReader"],
     azureRoles: ["reader"],
     mail: "ryan.zhou@patinanetwork.onmicrosoft.com",
