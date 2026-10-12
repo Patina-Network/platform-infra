@@ -9,6 +9,7 @@ import type { AzureGlobalRbacRoleName } from "@/azure/users/rbac/const";
  * 2. Create & merge PR.
  * 3. After state is reconciled, you can run `just get-init-pwd {fullEmail}` to get their initial password.
  *    Provide their `fullEmail` and this password to them so they can login & change their password when prompted.
+ * 4. Once you are done, please make a new PR to set `newUser` to `false`.
  *
  * __Note__: If you need a password reset, please reach out to a user with `globalAdministrator` or `userAdministrator` role.
  */
@@ -184,6 +185,22 @@ export const AZURE_USERS = {
     mail: "sam.lee@patinanetwork.onmicrosoft.com",
     mailNickname: "sam.lee",
     userPrincipalName: "sam.lee@patinanetwork.onmicrosoft.com",
+  },
+  "Stacey Chen": {
+    newUser: true,
+    entraRoles: ["globalReader"],
+    azureRoles: ["reader"],
+    mail: "stacey.chen@patinanetwork.onmicrosoft.com",
+    mailNickname: "stacey.chen",
+    userPrincipalName: "stacey.chen@patinanetwork.onmicrosoft.com",
+  },
+  "Ryan Zhou": {
+    newUser: true,
+    entraRoles: ["globalReader"],
+    azureRoles: ["reader"],
+    mail: "ryan.zhou@patinanetwork.onmicrosoft.com",
+    mailNickname: "ryan.zhou",
+    userPrincipalName: "ryan.zhou@patinanetwork.onmicrosoft.com",
   },
 } as const satisfies Record<AzureUserFullName, AzureUser>;
 
