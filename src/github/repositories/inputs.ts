@@ -464,7 +464,28 @@ export const REPOSITORIES = defineRepositories({
     push: ALL_GITHUB_TEAMS,
     triage: [],
     repositorySettingOverrides: {},
-    mainBranchProtectionOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "frontend-pretest",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "backend-pretest",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Frontend Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Backend Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
     mainBranchProtectionBypass: [],
     mainBranchRequiredReviewers: [
       {
