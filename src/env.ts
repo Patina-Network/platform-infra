@@ -56,6 +56,8 @@ export const env = {
       "members-prod-sa": required("PG_ROLE_members-prod-sa"),
       "members-stg-app": required("PG_ROLE_members-stg-app"),
       "members-prod-app": required("PG_ROLE_members-prod-app"),
+      "members-stg-ro": required("PG_ROLE_members-stg-ro"),
+      "members-prod-ro": required("PG_ROLE_members-prod-ro"),
     },
   },
 } as const;
