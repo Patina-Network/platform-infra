@@ -69,4 +69,18 @@ export const DATABASES = {
     dml: [],
     ro: [],
   },
+  "members-stg": {
+    connectionLimit: 18,
+    owner: "members-stg-sa",
+    extensions: ["pgcrypto"],
+    dml: ["members-stg-app"],
+    ro: ["members-stg-ro"],
+  },
+  "members-prod": {
+    connectionLimit: 18,
+    owner: "members-prod-sa",
+    extensions: ["pgcrypto"],
+    dml: ["members-prod-app"],
+    ro: ["members-prod-ro"],
+  },
 } as const satisfies Record<DatabaseName, PgDatabase>;

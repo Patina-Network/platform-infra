@@ -52,6 +52,12 @@ export const env = {
       "grafana-all-ro-sa": required("PG_ROLE_grafana-all-ro-sa"),
       "headscale-sa": required("PG_ROLE_headscale-sa"),
       "artifactkeeper-sa": required("PG_ROLE_artifactkeeper-sa"),
+      "members-stg-sa": required("PG_ROLE_members-stg-sa"),
+      "members-prod-sa": required("PG_ROLE_members-prod-sa"),
+      "members-stg-app": required("PG_ROLE_members-stg-app"),
+      "members-prod-app": required("PG_ROLE_members-prod-app"),
+      "members-stg-ro": required("PG_ROLE_members-stg-ro"),
+      "members-prod-ro": required("PG_ROLE_members-prod-ro"),
     },
   },
 } as const;
