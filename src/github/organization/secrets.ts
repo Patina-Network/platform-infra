@@ -11,12 +11,30 @@ const envClient = EnvClient.create(EnvClientStrategy.SOPS, {
 const getOrgActionsSecretResourceName = (secretName: string) =>
   `${GITHUB_OWNER}-organization-actions-secret-${secretName}`;
 
-export const githubOrganizationActionsSecrets = Object.entries(
+const getOrgDependabotSecretResourceName = (secretName: string) =>
+  `${GITHUB_OWNER}-organization-dependabot-secret-${secretName}`;
+
+const secrets = Object.entries(
   await envClient.readFromEnv("secrets.yaml", { baseDir: import.meta.dir }),
-).map(
+);
+
+export const githubOrganizationActionsSecrets = secrets.map(
   ([secretName, value]) =>
     new github.ActionsOrganizationSecret(
       getOrgActionsSecretResourceName(secretName),
+      {
+        secretName,
+        value,
+        visibility: "all",
+      },
+      { provider },
+    ),
+);
+
+export const githubOrganizationDependabotSecrets = secrets.map(
+  ([secretName, value]) =>
+    new github.DependabotOrganizationSecret(
+      getOrgDependabotSecretResourceName(secretName),
       {
         secretName,
         value,
