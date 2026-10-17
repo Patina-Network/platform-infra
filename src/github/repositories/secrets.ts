@@ -16,11 +16,14 @@ const envClient = EnvClient.create(EnvClientStrategy.SOPS, {
 const getRepositoryActionsSecretResourceName = (repositoryName: string, secretName: string) =>
   `${GITHUB_OWNER}-repository-${repositoryName}-actions-secret-${secretName}`;
 
+const getRepositoryDependabotSecretResourceName = (repositoryName: string, secretName: string) =>
+  `${GITHUB_OWNER}-repository-${repositoryName}-dependabot-secret-${secretName}`;
+
 const isRepositoryName = (name: string): name is GithubRepositoryName => name in REPOSITORIES;
 
 const secretFiles = readdirSync(SECRETS_DIR).filter((f) => f.endsWith(".yaml"));
 
-export const githubRepositoryActionsSecrets = (
+const repositorySecrets = (
   await Promise.all(
     secretFiles.map(async (filename) => {
       const repositoryName = basename(filename, ".yaml");
@@ -34,20 +37,41 @@ export const githubRepositoryActionsSecrets = (
         baseDir: SECRETS_DIR,
       });
 
-      return Object.entries(secrets).map(
-        ([secretName, value]) =>
-          new github.ActionsSecret(
-            getRepositoryActionsSecretResourceName(repositoryName, secretName),
-            {
-              repository: repositoryName,
-              secretName,
-              value,
-            },
-            {
-              provider,
-            },
-          ),
-      );
+      return Object.entries(secrets).map(([secretName, value]) => ({
+        repositoryName,
+        secretName,
+        value,
+      }));
     }),
   )
 ).flat();
+
+export const githubRepositoryActionsSecrets = repositorySecrets.map(
+  ({ repositoryName, secretName, value }) =>
+    new github.ActionsSecret(
+      getRepositoryActionsSecretResourceName(repositoryName, secretName),
+      {
+        repository: repositoryName,
+        secretName,
+        value,
+      },
+      {
+        provider,
+      },
+    ),
+);
+
+export const githubRepositoryDependabotSecrets = repositorySecrets.map(
+  ({ repositoryName, secretName, value }) =>
+    new github.DependabotSecret(
+      getRepositoryDependabotSecretResourceName(repositoryName, secretName),
+      {
+        repository: repositoryName,
+        secretName,
+        value,
+      },
+      {
+        provider,
+      },
+    ),
+);
