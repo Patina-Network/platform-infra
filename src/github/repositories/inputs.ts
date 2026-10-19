@@ -213,7 +213,11 @@ export const REPOSITORIES = defineRepositories({
         ],
       },
     },
-    mainBranchProtectionBypass: [],
+    mainBranchProtectionBypass: [
+      {
+        team: "@Patina-Network/dino",
+      },
+    ],
     mainBranchRequiredReviewers: [
       {
         team: "@Patina-Network/dino",
@@ -308,7 +312,11 @@ export const REPOSITORIES = defineRepositories({
             ],
           },
         },
-        mainBranchProtectionBypass: [],
+        mainBranchProtectionBypass: [
+          {
+            team: "@Patina-Network/dino",
+          },
+        ],
         mainBranchRequiredReviewers: [
           {
             team: "@Patina-Network/dino",
