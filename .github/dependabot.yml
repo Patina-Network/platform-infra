@@ -1,9 +1,10 @@
 version: 2
 
 multi-ecosystem-groups:
-  main:
-    schedule: { interval: weekly }
-    commit-message: { prefix: "deps(main)" }
+  # cannot enable until the bun `/` entry below is enabled
+  # main:
+  #   schedule: { interval: weekly }
+  #   commit-message: { prefix: "deps(main)" }
   cicd:
     schedule: { interval: weekly }
     commit-message: { prefix: "deps(ci)" }
@@ -14,11 +15,13 @@ multi-ecosystem-groups:
 
 updates:
   # main
-  - package-ecosystem: bun
-    directory: /
-    patterns: ["*"]
-    cooldown: { default-days: 7 }
-    multi-ecosystem-group: main
+  # cannot enable: @pulumi/headscale is `file:sdks/headscale`, an SDK Pulumi generates from Pulumi.yaml `packages:`.
+  # sdks/ is gitignored, so Dependabot's checkout can't `bun install` anything ("Could not find folder file:sdks/headscale").
+  # - package-ecosystem: bun
+  #   directory: /
+  #   patterns: ["*"]
+  #   cooldown: { default-days: 7 }
+  #   multi-ecosystem-group: main
   # cicd
   - package-ecosystem: github-actions
     directories:
