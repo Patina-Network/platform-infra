@@ -271,6 +271,51 @@ export const REPOSITORIES = defineRepositories({
       },
     ],
   },
+  "members-admin-dashboard": {
+    description: "Members admin dashboard for Patina Network",
+    url: undefined,
+    bootstrap: false,
+    oldName: undefined,
+    fork: undefined,
+    templatedFrom: "Patina-Network/hello-world-grpc-client-rust",
+    visibility: "public",
+    maintain: ["@Patina-Network/admin"],
+    monorepo: false,
+    archived: false,
+    push: ALL_GITHUB_TEAMS,
+    triage: [],
+    repositorySettingOverrides: {},
+    mainBranchProtectionOverrides: {
+      requiredStatusChecks: {
+        requiredChecks: [
+          {
+            context: "Backend tests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build staging image (amd64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Build staging image (arm64)",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+          {
+            context: "Deploy to staging",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
+        ],
+      },
+    },
+    mainBranchProtectionBypass: [],
+    mainBranchRequiredReviewers: [
+      {
+        team: "@Patina-Network/dino",
+        filePatterns: ["**/*"],
+        minimumApprovals: 1,
+      },
+    ],
+  },
   ...Object.fromEntries(
     (["Java", "Rust", "Go"] as const).map((lang) => [
       `hello-world-grpc-client-${lang.toLowerCase()}` as const,
