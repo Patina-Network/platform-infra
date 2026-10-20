@@ -61,7 +61,7 @@ export const azureClusters = Object.fromEntries(
                 ]
               : [],
         },
-        { provider },
+        { provider, ignoreChanges: ["agentPoolProfiles"] },
       ),
     ];
   }),
