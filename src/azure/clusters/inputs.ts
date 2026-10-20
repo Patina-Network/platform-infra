@@ -144,10 +144,10 @@ export const DEFAULT_CLUSTER_SETTINGS: Omit<ManagedClusterArgs, "resourceGroupNa
       },
     },
     loadBalancerSku: "standard",
-    networkDataplane: azure.containerservice.NetworkDataplane.Azure,
+    networkDataplane: azure.containerservice.NetworkDataplane.Cilium,
     networkPlugin: azure.containerservice.NetworkPlugin.Azure,
     networkPluginMode: azure.containerservice.NetworkPluginMode.Overlay,
-    networkPolicy: azure.containerservice.NetworkPolicy.None,
+    networkPolicy: azure.containerservice.NetworkPolicy.Cilium,
     outboundType: azure.containerservice.OutboundType.LoadBalancer,
   },
   oidcIssuerProfile: {
