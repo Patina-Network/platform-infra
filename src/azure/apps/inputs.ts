@@ -74,6 +74,22 @@ export const OAUTH_APPS = {
     signInAudience: "AzureADMyOrg",
     azureRoles: [],
   },
+  membersAdminDashboardStaging: {
+    displayName: "Members Admin Dashboard (Staging)",
+    redirectUris: [
+      "https://stg.members-admin-dashboard.vpn.patinanetwork.org/oauth2/callback",
+      "http://localhost:8080/oauth2/callback",
+      "http://localhost:5173/oauth2/callback",
+    ],
+    signInAudience: "AzureADMyOrg",
+    azureRoles: [],
+  },
+  membersAdminDashboardProduction: {
+    displayName: "Members Admin Dashboard (Production)",
+    redirectUris: ["https://members-admin-dashboard.vpn.patinanetwork.org/oauth2/callback"],
+    signInAudience: "AzureADMyOrg",
+    azureRoles: [],
+  },
 } as const satisfies Record<string, OAuthApp>;
 
 export type OAuthAppName = keyof typeof OAUTH_APPS;
