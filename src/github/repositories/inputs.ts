@@ -304,6 +304,10 @@ export const REPOSITORIES = defineRepositories({
             context: "Deploy to staging",
             integrationId: GITHUB_APP_ID.githubActions,
           },
+          {
+            context: "Frontend Tests",
+            integrationId: GITHUB_APP_ID.githubActions,
+          },
         ],
       },
     },
