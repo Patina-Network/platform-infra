@@ -78,6 +78,7 @@ export const OAUTH_APPS = {
     displayName: "Members Admin Dashboard (Staging)",
     redirectUris: [
       "https://stg.members-admin-dashboard.vpn.patinanetwork.org/oauth2/callback",
+      "https://stg.mad.vpn.patinanetwork.org/oauth2/callback",
       "http://localhost:8080/oauth2/callback",
       "http://localhost:5173/oauth2/callback",
     ],
@@ -86,7 +87,10 @@ export const OAUTH_APPS = {
   },
   membersAdminDashboardProduction: {
     displayName: "Members Admin Dashboard (Production)",
-    redirectUris: ["https://members-admin-dashboard.vpn.patinanetwork.org/oauth2/callback"],
+    redirectUris: [
+      "https://members-admin-dashboard.vpn.patinanetwork.org/oauth2/callback",
+      "https://mad.vpn.patinanetwork.org/oauth2/callback",
+    ],
     signInAudience: "AzureADMyOrg",
     azureRoles: [],
   },
