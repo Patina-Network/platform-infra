@@ -30,6 +30,7 @@ export const MEMBERS = [
   { username: "ThisRyanZhou", role: "member" },
   { username: "schen25", role: "member" },
   { username: "Pendoof", role: "member" },
+  { username: "h3len4h", role: "member" },
 ] as const satisfies readonly GithubMember[];
 
 export type GithubUsername = (typeof MEMBERS)[number]["username"];
