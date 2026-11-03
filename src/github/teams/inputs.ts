@@ -61,6 +61,7 @@ export const TEAMS = {
       { username: "14c4", role: "member" },
       { username: "brian10101", role: "member" },
       { username: "helpful-sam", role: "member" },
+      { username: "h3len4h", role: "member" },
     ],
   },
   infra: {
