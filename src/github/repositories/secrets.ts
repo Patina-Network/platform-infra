@@ -26,7 +26,10 @@ const secretFiles = readdirSync(SECRETS_DIR).filter((f) => f.endsWith(".yaml"));
 const repositorySecrets = (
   await Promise.all(
     secretFiles.map(async (filename) => {
-      const repositoryName = basename(filename, ".yaml");
+      const repositoryName = basename(
+        filename,
+        filename.endsWith(".administrator.yaml") ? ".administrator.yaml" : ".yaml",
+      );
       if (!isRepositoryName(repositoryName)) {
         throw new Error(
           `src/github/repositories/secrets/${filename} does not match any repository in REPOSITORIES.`,
