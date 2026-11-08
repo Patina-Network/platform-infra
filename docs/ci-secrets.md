@@ -71,12 +71,29 @@ Repo secrets are visible to exactly one repo. The file name must match the repos
 
 3. CI's preview job will show a new `ActionsSecret` in the diff. CD applies it on merge + tag.
 
+## Sensitive repo secrets (administrators only)
+
+Secrets that only administrators should be able to read go in `src/github/repositories/secrets/<repo-name>.administrator.yaml`. `.sops.yaml` encrypts these with the `sops-administrators` key vault instead of `sops-master`. Pulumi merges them with `<repo-name>.yaml`, and both end up as `ActionsSecret`s on the same repo.
+
+```bash
+touch src/github/repositories/secrets/<repo-name>.administrator.yaml
+# add a key, e.g. `PRODUCTION_DATABASE_PASSWORD: the-value`
+just encrypt src/github/repositories/secrets/<repo-name>.administrator.yaml
+
+# later edits
+just edit src/github/repositories/secrets/<repo-name>.administrator.yaml
+```
+
+> [!NOTE]
+> Put each key in only one of the two files. If a key appears in both, Pulumi fails with a duplicate resource name error.
+
 # What ends up on GitHub
 
-| File                                          | GitHub resource                    | Visibility                    |
-| --------------------------------------------- | ---------------------------------- | ----------------------------- |
-| `src/github/organization/secrets.yaml`        | `github.ActionsOrganizationSecret` | `all` (every repo in the org) |
-| `src/github/repositories/secrets/<repo>.yaml` | `github.ActionsSecret`             | Only that repo                |
+| File                                                        | GitHub resource                    | Visibility                                             |
+| ----------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------ |
+| `src/github/organization/secrets.yaml`                      | `github.ActionsOrganizationSecret` | `all` (every repo in the org)                          |
+| `src/github/repositories/secrets/<repo>.yaml`               | `github.ActionsSecret`             | Only that repo                                         |
+| `src/github/repositories/secrets/<repo>.administrator.yaml` | `github.ActionsSecret`             | Only that repo (encrypted with the administrators key) |
 
 Values are pushed to GitHub via libsodium sealed-box encryption. Pulumi marks the plaintext as sensitive, so it does not appear in `pulumi preview` diffs or the PR preview comment.
 
