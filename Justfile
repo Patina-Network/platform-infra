@@ -68,8 +68,12 @@ edit file *args:
 install-pre-scripts:
   just install-pre-commit && just install-pre-push
 
+# In a worktree, `.git` is a file (`gitdir: <main>/.git/worktrees/<name>`) and hooks are shared
+# from the main checkout's `.git/hooks`. `commondir` inside the worktree gitdir points back to it.
+git_common_dir := `if [ -f .git ]; then cd "$(sed -n 's/^gitdir: //p' .git)" && cd "$(cat commondir)" && pwd; else echo .git; fi`
+
 install-pre-commit:
-  cp pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+  cp pre-commit {{ quote(git_common_dir / "hooks/pre-commit") }} && chmod +x {{ quote(git_common_dir / "hooks/pre-commit") }}
 
 install-pre-push:
-  cp pre-commit .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+  cp pre-commit {{ quote(git_common_dir / "hooks/pre-push") }} && chmod +x {{ quote(git_common_dir / "hooks/pre-push") }}
