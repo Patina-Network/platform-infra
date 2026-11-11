@@ -16,7 +16,7 @@
     "fmt:fix": "oxfmt --write ."
   },
   "dependencies": {
-    "@tahminator/pipeline": "^1.0.96",
+    "@tahminator/pipeline": "1.0.101-beta.gc00cf1fd",
     "lodash": "^4.18.1",
     "yargs": "^18.0.0"
   },
