@@ -27,7 +27,9 @@ export async function main() {
 
   console.log("Pulumi refresh beginning...");
   console.time("pulumi refresh");
-  const res = await pulumiClient.refresh();
+  const res = await pulumiClient.refresh({
+    runProgram: true,
+  });
   console.timeEnd("pulumi refresh");
 
   console.log(`Pulumi has finished refreshing!`);
