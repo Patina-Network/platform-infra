@@ -73,7 +73,7 @@ export const DATABASES = {
     connectionLimit: 18,
     owner: "members-stg-sa",
     extensions: ["pgcrypto"],
-    dml: ["members-stg-app"],
+    dml: ["members-stg-app", "members-stg-rw"],
     ro: ["members-stg-ro"],
   },
   "members-prod": {
